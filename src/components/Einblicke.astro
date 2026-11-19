@@ -1,0 +1,85 @@
+---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// Screenshots später unter src/assets/einblicke/ ablegen: admin-laptop, admin-handy, ui-laptop, ui-handy (PNG/JPG).
+// Fehlt ein Bild, bleibt der Platzhalter. Nur Testdaten auf den Screenshots, keine echten Namen, Mails oder Firmen.
+const bilder = import.meta.glob<{ default: ImageMetadata }>('../assets/einblicke/*.{png,jpg,jpeg,PNG,JPG,JPEG}', { eager: true });
+const finde = (name: string): ImageMetadata | undefined => {
+  const treffer = Object.entries(bilder).find(([pfad]) => /\/([^/]+)\.[a-z]+$/i.exec(pfad)?.[1].toLowerCase() === name);
+  return treffer?.[1].default;
+};
+
+type Geraet = 'laptop' | 'handy';
+const eintraege: { id: string; geraet: Geraet; titel: string; text: string; alt: string }[] = [
+  { id: 'admin-laptop', geraet: 'laptop', titel: 'Verwaltung am Laptop', text: 'Kandidaten, Mandate und Verträge im Verwaltungsbereich, übersichtlich am großen Bildschirm.', alt: 'Screenshot: Verwaltungsbereich von Talmiro am Laptop (Testdaten)' },
+  { id: 'admin-handy', geraet: 'handy', titel: 'Verwaltung am Handy', text: 'Dieselben Daten unterwegs nachschlagen.', alt: 'Screenshot: Verwaltungsbereich von Talmiro am Handy (Testdaten)' },
+  { id: 'ui-laptop', geraet: 'laptop', titel: 'Oberfläche am Laptop', text: 'Die Weboberfläche von Talmiro am Schreibtisch.', alt: 'Screenshot: Weboberfläche von Talmiro am Laptop (Testdaten)' },
+  { id: 'ui-handy', geraet: 'handy', titel: 'Oberfläche am Handy', text: 'Die Weboberfläche von Talmiro am Handy.', alt: 'Screenshot: Weboberfläche von Talmiro am Handy (Testdaten)' },
+];
+const gross = '(min-width: 1200px) 1100px, 94vw';
+const klein = {
+  laptop: { widths: [480, 800, 1200], sizes: '(min-width: 1248px) 760px, (min-width: 721px) 60vw, 92vw' },
+  handy: { widths: [260, 520, 780], sizes: '260px' },
+};
+---
+<section id="einblicke" class="einblicke" aria-labelledby="einblicke-titel">
+  <div class="wrap">
+    <div class="kopfzeile kopfzeile-breit" data-reveal>
+      <h2 id="einblicke-titel" class="titel-verlauf">Einblicke</h2>
+      <p class="einleitung">So sieht Talmiro aus: die Verwaltung und die Oberfläche, am Laptop und am Handy.</p>
+    </div>
+    <div class="raster-einblicke">
+      {eintraege.map((e) => {
+        const bild = finde(e.id);
+        const rahmen = e.geraet === 'laptop' ? 'laptop' : 'telefon';
+        const schirm = e.geraet === 'laptop' ? 'laptop-inner' : 'telefon-schirm';
+        const inhalt = bild ? (
+          <a class={`${schirm} einblick-link`} href={bild.src} data-einblick aria-label={`Bild vergrößern: ${e.titel}`}>
+            <Picture src={bild} alt={e.alt} formats={['avif', 'webp']} widths={klein[e.geraet].widths} sizes={klein[e.geraet].sizes} loading="lazy" decoding="async" pictureAttributes={{ class: 'einblick-bild' }} />
+          </a>
+        ) : (
+          <div class={`${schirm} platzhalter`}>
+            <span class="platzhalter-titel">{e.titel}</span>
+            <span class="platzhalter-text">Bild folgt</span>
+          </div>
+        );
+        return (
+          <figure class={`einblick einblick-${e.geraet}`} data-reveal>
+            <div class={rahmen}>
+              {e.geraet === 'laptop' ? <div class="laptop-rahmen">{inhalt}</div> : inhalt}
+              {e.geraet === 'laptop' && <div class="laptop-fuss" aria-hidden="true"></div>}
+            </div>
+            <figcaption><strong>{e.titel}.</strong> {e.text}</figcaption>
+            {bild && (
+              <dialog class="einblick-dialog" aria-label={e.titel}>
+                <button type="button" class="dialog-zu" aria-label="Schließen">
+                  <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+                </button>
+                <Picture src={bild} alt={e.alt} formats={['avif', 'webp']} widths={[800, 1200, 1800]} sizes={gross} loading="lazy" decoding="async" pictureAttributes={{ class: 'dialog-bild' }} />
+                <p class="dialog-unter">{e.titel}</p>
+              </dialog>
+            )}
+          </figure>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Klick auf ein Bild öffnet es groß im <dialog> (Esc und Schließen-Knopf; Fokus geht zurück). Ohne JavaScript öffnet der Link die Bilddatei.
+  document.querySelectorAll<HTMLAnchorElement>('[data-einblick]').forEach((link) => {
+    const dialog = link.closest('figure')?.querySelector<HTMLDialogElement>('dialog');
+    if (!dialog || typeof dialog.showModal !== 'function') return;
+    link.setAttribute('aria-haspopup', 'dialog');
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      dialog.showModal();
+    });
+    dialog.querySelector('.dialog-zu')?.addEventListener('click', () => dialog.close());
+    // Klick auf den Hintergrund (außerhalb des Inhalts) schließt ebenfalls
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => link.focus());
+  });
+</script>

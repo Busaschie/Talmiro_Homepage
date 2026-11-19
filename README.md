@@ -11,6 +11,7 @@ npm run dev        # lokale Entwicklung (http://localhost:4321); kontakt.php lä
 npm run build      # statischer Build nach dist/
 npm run preview    # dist/ lokal ansehen
 npm run assets     # Bildmarke und Favicons neu aus _entwurf/talmiro-logo.jpg erzeugen (nur bei neuem Logo)
+npm run video      # Demo-Video neu aufbereiten (braucht ffmpeg), siehe „Hero-Video“
 ```
 
 ## Aufbau
@@ -76,7 +77,7 @@ räumt auf. Es bricht ab, wenn schon eine `kontakt.config.php` im Projektordner 
 - Astro bündelt Skripte aus Komponenten zu Dateien (`vite.build.assetsInlineLimit: 0` verhindert das Einbetten kleiner Skripte). Ungebündelte Skripte liegen in `public/`: `js/reveal-init.js` (setzt die Klassen `js` und `js-reveal` im `<head>` ohne defer/async, mit 3-s-Notfall-Fallback) und `form-zeit.js`.
 - Ausnahme ohne Wirkung: Die JSON-LD-Blöcke (`<script type="application/ld+json">`) sind Daten, kein ausführbarer Code.
 - Prüfen nach jedem Build: `dist/**/*.html` darf kein `<script>` ohne `src` (außer JSON-LD) und kein `style=` enthalten.
-- Mobiles Menü (bis 640 px), Scroll-Spy und Kopfzeile: `src/components/Header.astro`. Ohne JavaScript bleibt die Navigation sichtbar.
+- Mobiles Menü (bis 1000 px, darüber passt die Navigation in eine Zeile), Scroll-Spy und Kopfzeile: `src/components/Header.astro`. Ohne JavaScript bleibt die Navigation sichtbar.
 - Scroll-Einblendung (`[data-reveal]`) und Rauch (`FluidBackground.astro`) kommen von Littlewebman bzw. sind daran angelehnt (Rauch: Pavel Dobryakov, MIT). Der Rauch ist aus bei reduzierter Bewegung und ohne WebGL2, läuft auf Touch-Geräten und schmalen Fenstern mit geringerer Auflösung und pausiert bei unsichtbarem Tab und nach 6 s Ruhe.
 
 ## Hell-/Dunkel-Modus
@@ -86,3 +87,26 @@ räumt auf. Es bricht ab, wenn schon eine `kontakt.config.php` im Projektordner 
 - `public/js/reveal-init.js` setzt `data-theme` vor dem ersten Rendern (gespeicherte Wahl in `localStorage` `talmiro-theme`, sonst Systemeinstellung; ohne Wahl folgt die Seite Änderungen der Systemeinstellung). Der Umschalter steht in `Header.astro` (Desktop: vor „Pilotplatz anfragen“, mobil neben dem Menü-Button). Kein Cookie, nur `localStorage`, nichts wird übertragen.
 - Rauch: hell `multiply`, dunkel `screen` (Variable `--rauch-blend`), Paletten und Intensität je Modus in `FluidBackground.astro`.
 - Neue Farben immer als Variable anlegen und in beiden Modi definieren; Kontrast prüfen (Text 4,5:1, Bedienelemente/Fokus 3:1).
+
+## Hero-Video (Handy-Rahmen)
+
+- Quelle: `_entwurf/demo-video.mp4` (bleibt lokal, nicht im Repository). Erzeugt werden in `public/media/`:
+  - `hero-vorschau.mp4` und `.webm`: stumme Vorschau, Breite 540 px, höchstens 3 MB (Schleife im Handy-Rahmen),
+  - `hero-voll.mp4`: Vollfassung mit Ton (AAC 112 kbit/s), Breite 720 px, höchstens 15 MB,
+  - `hero-poster.webp`: Standbild.
+- Neu erzeugen (braucht ffmpeg, z. B. `winget install Gyan.FFmpeg`): `npm run video -- <datei> [--teaser-start s] [--teaser-dauer s] [--poster s]`.
+  Ohne Angaben: Quelle `_entwurf/demo-video.mp4`, Vorschau ab Sekunde 5 für 20 Sekunden, Poster bei Sekunde 20. Alle Fassungen: H.264 (+faststart, `-preset veryfast`); der CRF steigt, bis die Größengrenze eingehalten ist.
+- Verhalten (`src/components/Hero.astro`): Die Vorschau spielt stumm in Schleife, nur wenn sie zu mehr als der Hälfte sichtbar ist und der Tab sichtbar ist; nicht bei `prefers-reduced-motion` (dann Poster). Der runde Knopf pausiert/setzt fort. Der Knopf „Mit Ton ansehen“ lädt erst jetzt die Vollfassung, startet sie mit Ton von vorn und zeigt die Steuerelemente des Browsers (Lautstärke, Zeitleiste, Vollbild). Beim Ende geht es zurück zur Vorschau. Die Vollfassung pausiert beim Herausscrollen nicht. Das Video ist vollständig sichtbar (`object-fit: contain`) auf der Farbe des Handy-Rahmens.
+- Ohne JavaScript zeigt die Seite die Vollfassung mit Steuerelementen und Poster; sie wird auch dann erst auf Klick geladen (`preload="none"`).
+- Untertitel: Platzhalterdatei `public/media/demo-video.de.vtt`. Der `<track>` wird erst ausgeliefert, wenn in `Hero.astro` `UNTERTITEL = true` steht (nach Eintragen der Texte).
+- Auf dem Server: `.htaccess` setzt `media-src 'self'`, MIME-Typen und 1 Tag Cache für `/media/` (feste Dateinamen, damit ein getauschtes Video bald erscheint). Das große Video wird per HTTP-Range gestreamt: Apache beantwortet Range-Anfragen von selbst, dafür ist nichts einzustellen.
+
+## Wasserzeichen im Hero
+
+- `src/assets/logo-2_gross.webp` liegt als dekoratives Hintergrundbild (CSS `.hero::before`, kein Inhalt für Screenreader) links hinter dem Text. Deckkraft über `--wz-deckkraft` (hell 0,05, dunkel 0,08); `.hero` hat `overflow: hidden`, deshalb entsteht kein seitliches Scrollen. Unter 640 px Breite ist es kleiner und höher platziert.
+
+## Einblicke (Screenshots)
+
+- Komponente `src/components/Einblicke.astro`, Raster 2×2 (Laptop breiter als Handy, am Handy untereinander).
+- Bilder (PNG oder JPG) unter `src/assets/einblicke/` ablegen: `admin-laptop`, `admin-handy`, `ui-laptop`, `ui-handy`. Fehlt ein Bild, bleibt der Platzhalter „Bild folgt“. Astro erzeugt AVIF/WebP in mehreren Größen (`loading="lazy"`); ein Klick öffnet das Bild groß in einem `<dialog>`.
+- Alt-Texte und Bildunterschriften stehen im Kopf der Komponente. **Nur Testdaten auf den Screenshots** (keine echten Namen, E-Mail-Adressen oder Firmen).

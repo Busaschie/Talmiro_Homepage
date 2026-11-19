@@ -1,0 +1,8 @@
+WEBVTT
+
+NOTE
+Platzhalter: noch keine Untertitel. Der Track wird in src/components/Hero.astro erst
+mit UNTERTITEL = true eingebunden, wenn hier fertige Zeilen stehen, z. B.:
+
+00:00:01.000 --> 00:00:04.000
+Beispieltext

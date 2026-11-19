@@ -37,7 +37,7 @@ ErrorDocument 404 /404.html
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
   # Alles lokal (Schriften, Bilder, Skripte); Formular nur an die eigene Domain.
   # Keine Inline-Skripte und keine Inline-Styles: script-src und style-src bleiben bei 'self'.
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
   Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
 </IfModule>
 
@@ -49,7 +49,28 @@ ErrorDocument 404 /404.html
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/avif "access plus 1 year"
   ExpiresByType image/png "access plus 1 month"
+  ExpiresByType video/mp4 "access plus 1 month"
+  ExpiresByType video/webm "access plus 1 month"
+</IfModule>
+
+# MIME-Typen für Video und moderne Bildformate (falls der Server sie nicht kennt)
+<IfModule mod_mime.c>
+  AddType video/mp4 .mp4 .m4v
+  AddType video/webm .webm
+  AddType text/vtt .vtt
+  AddType image/webp .webp
+  AddType image/avif .avif
+</IfModule>
+
+# Dateien unter /media/ (Hero-Video, Poster) haben feste Namen und werden später getauscht: nur 1 Tag cachen.
+# Die Dateinamen unter /_astro/ enthalten einen Hash und dürfen lange gecacht werden.
+<IfModule mod_rewrite.c>
+  RewriteRule ^media/ - [E=MEDIA_KURZ:1]
+</IfModule>
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=86400" env=MEDIA_KURZ
 </IfModule>
 
 <IfModule mod_deflate.c>

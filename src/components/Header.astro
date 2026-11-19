@@ -1,14 +1,14 @@
 ---
 import logo from '../assets/logo-mark.webp';
-// Bildmarke bleibt in 2-facher Auflösung (184x160) und wird auf 46x40 px angezeigt.
+// Bildmarke (200x159) wird auf 50x40 px angezeigt.
 ---
 <header class="kopf">
   <div class="kopf-innen">
     <a href="/" class="marke" aria-label="Talmiro – zur Startseite">
-      <img src={logo.src} alt="" width="46" height="40" class="marke-bild" />
+      <img src={logo.src} alt="" width="50" height="40" class="marke-bild" />
       <span class="wortmarke">TALMIRO</span>
     </a>
-    <!-- Mobil (bis 640 px): Design-Umschalter und Menü-Button. Beide nur mit JavaScript sichtbar, sonst bleibt die Navigation offen. -->
+    <!-- Mobil (bis 1000 px): Design-Umschalter und Menü-Button. Beide nur mit JavaScript sichtbar, sonst bleibt die Navigation offen. -->
     <div class="kopf-aktionen">
       <button type="button" class="theme-knopf" aria-label="Dunkles Design einschalten" aria-pressed="false">
         <svg class="ic-mond" aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
@@ -23,6 +23,7 @@ import logo from '../assets/logo-mark.webp';
     <nav aria-label="Hauptnavigation" class="nav" id="hauptnavigation">
       <a href="/#funktionen">Funktionen</a>
       <a href="/#ablauf">So funktioniert es</a>
+      <a href="/#einblicke">Einblicke</a>
       <a href="/#kontrolle">Kontrolle</a>
       <a href="/#faq">FAQ</a>
       <!-- Desktop: Design-Umschalter rechts vor dem Pilot-Button -->
@@ -48,13 +49,13 @@ import logo from '../assets/logo-mark.webp';
     addEventListener('resize', setzeHoehe);
   }
 
-  // Mobiles Menü (<= 640 px): Panel unter der Kopfzeile. Ohne JavaScript bleibt die Navigation sichtbar.
+  // Mobiles Menü (<= 1000 px): Panel unter der Kopfzeile. Ohne JavaScript bleibt die Navigation sichtbar.
   const knopf = document.getElementById('menue-knopf') as HTMLButtonElement | null;
   const text = document.getElementById('menue-text');
   const nav = document.getElementById('hauptnavigation');
   if (kopf && knopf && text && nav) {
     (window as any).__menue = true;
-    const schmal = matchMedia('(max-width: 640px)');
+    const schmal = matchMedia('(max-width: 1000px)');
     const setze = (offen: boolean, fokus = false) => {
       kopf.classList.toggle('is-offen', offen);
       knopf.setAttribute('aria-expanded', String(offen));
@@ -73,7 +74,7 @@ import logo from '../assets/logo-mark.webp';
     document.addEventListener('click', (e) => {
       if (knopf.getAttribute('aria-expanded') === 'true' && !kopf.contains(e.target as Node)) setze(false);
     });
-    // Wechsel auf > 640 px
+    // Wechsel auf > 1000 px
     schmal.addEventListener('change', () => { if (!schmal.matches) setze(false); });
   }
 

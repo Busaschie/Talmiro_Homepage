@@ -1,3 +1,15 @@
+---
+// Demo-Video im Handy-Rahmen. Dateien in public/media/ (erzeugt mit npm run video, siehe README):
+//   hero-vorschau.webm|mp4  stumme Vorschau (Schleife, nur bei Sichtbarkeit)
+//   hero-voll.mp4           Vollfassung mit Ton (wird erst bei Klick auf „Mit Ton ansehen“ geladen)
+//   hero-poster.webp        Standbild
+const VORSCHAU = '/media/hero-vorschau';
+const VOLL = '/media/hero-voll.mp4';
+const POSTER = '/media/hero-poster.webp';
+// Untertitel: erst auf true setzen, wenn public/media/demo-video.de.vtt fertige Texte enthält (siehe PLATZHALTER.md).
+const UNTERTITEL = false;
+const UNTERTITEL_DATEI = '/media/demo-video.de.vtt';
+---
 <section id="top" class="hero" aria-labelledby="hero-titel">
   <div class="wrap">
     <div class="hero-text" data-reveal>
@@ -11,22 +23,140 @@
       <p class="hero-hinweis">Pilotphase · begrenzte Plätze · persönliche Einrichtung</p>
     </div>
     <div class="hero-bild" data-reveal>
-      <div class="telefon" role="img" aria-label="Beispiel: Sprachbefehl am Handy und Antwort von Talmiro">
-        <div class="telefon-innen">
-          <div class="telefon-kopf">
-            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"></rect><path d="M5 10a7 7 0 0 0 14 0"></path><line x1="12" y1="17" x2="12" y2="22"></line></svg>
-            <span>Sprachmodus</span>
-          </div>
-          <div class="blase blase-ich">„Neuer CV von Clara Meier im Postfach – bitte anlegen und für das Mandat Vertriebsleitung vormerken.“</div>
-          <div class="blase blase-ai">Profil angelegt: 3 Stationen, 9 Kompetenzen. Clara Meier steht im Mandat „Vertriebsleitung“ auf „Identifiziert“.</div>
-          <div class="blase blase-ich">„Schick ihr Profil an den Kunden.“</div>
-          <div class="blase blase-ai">Vorschau ist bereit. Für den Versand an den Kunden brauche ich Ihre Zustimmung. Soll ich weitermachen?</div>
-          <div class="telefon-aktionen">
-            <span class="ta-ja">Ja, senden</span>
-            <span class="ta-vorschau">Vorschau</span>
+      <div class="telefon">
+        <div
+          class="telefon-schirm mit-video"
+          data-video-schirm
+          data-vorschau={VORSCHAU}
+          data-voll={VOLL}
+        >
+          <!-- Ohne JavaScript: Vollfassung mit eigenen Steuerelementen und Poster, nichts wird vorab geladen (preload="none").
+               Mit JavaScript wechselt das Script auf die stumme Vorschau; die Vollfassung wird erst bei Klick geladen. -->
+          <video
+            class="hero-video"
+            controls
+            playsinline
+            preload="none"
+            width="902"
+            height="1152"
+            poster={POSTER}
+            aria-label="Demo-Video: Kandidatenabfrage per Sprache in Talmiro"
+          >
+            <source src={VOLL} type="video/mp4" />
+            {UNTERTITEL && <track kind="captions" srclang="de" label="Deutsch" src={UNTERTITEL_DATEI} />}
+            <a href={VOLL}>Demo-Video herunterladen (MP4)</a>
+          </video>
+          <div class="video-leiste" hidden>
+            <button type="button" class="ton-knopf">
+              <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z" fill="currentColor"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+              <span>Mit Ton ansehen</span>
+            </button>
+            <button type="button" class="video-knopf" aria-label="Vorschau abspielen">
+              <svg class="ic-play" aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"></path></svg>
+              <svg class="ic-pause" aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4.5" height="14" rx="1"></rect><rect x="13.5" y="5" width="4.5" height="14" rx="1"></rect></svg>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  // Hero-Video. Zwei Fassungen: stumme Vorschau (Schleife, spielt nur bei Sichtbarkeit, nicht bei reduzierter Bewegung)
+  // und Vollfassung mit Ton (erst bei Klick geladen, native Steuerelemente, endet zurück in der Vorschau).
+  const schirm = document.querySelector<HTMLElement>('[data-video-schirm]');
+  const video = schirm?.querySelector<HTMLVideoElement>('video');
+  const leiste = schirm?.querySelector<HTMLElement>('.video-leiste');
+  const tonKnopf = schirm?.querySelector<HTMLButtonElement>('.ton-knopf');
+  const pauseKnopf = schirm?.querySelector<HTMLButtonElement>('.video-knopf');
+  if (schirm && video && leiste && tonKnopf && pauseKnopf) {
+    const vorschauPfad = schirm.dataset.vorschau!;
+    const vollPfad = schirm.dataset.voll!;
+    const reduziert = matchMedia('(prefers-reduced-motion: reduce)');
+    let modus: 'vorschau' | 'voll' = 'vorschau';
+    let sichtbar = false;
+    let nutzerPause = false; // Vorschau vom Nutzer angehalten: nicht von selbst fortsetzen
+
+    const quellen = (paare: [string, string][]) => {
+      video.querySelectorAll('source').forEach((s) => s.remove());
+      video.removeAttribute('src');
+      paare.forEach(([src, type]) => {
+        const s = document.createElement('source');
+        s.src = src;
+        s.type = type;
+        video.prepend(s);
+      });
+    };
+    const zeige = () => {
+      const spielt = !video.paused;
+      pauseKnopf.classList.toggle('spielt', spielt);
+      pauseKnopf.setAttribute('aria-label', spielt ? 'Vorschau pausieren' : 'Vorschau abspielen');
+    };
+    const spiele = () => { void video.play().catch(() => { /* Autoplay verweigert: Poster und Knöpfe bleiben */ }); };
+    const automatisch = () => {
+      if (modus === 'vorschau' && sichtbar && !nutzerPause && !reduziert.matches && !document.hidden) spiele();
+    };
+
+    const zurVorschau = () => {
+      modus = 'vorschau';
+      video.pause();
+      video.controls = false;
+      video.defaultMuted = true;
+      video.muted = true;
+      video.loop = true;
+      // Reihenfolge wichtig: erst die Quellen tauschen und neu laden, dann preload ändern. Sonst würde das Hochsetzen
+      // von preload="none" die noch wartende Vollfassung der ersten Quelle anfordern.
+      quellen([[`${vorschauPfad}.mp4`, 'video/mp4'], [`${vorschauPfad}.webm`, 'video/webm']]);
+      video.load(); // zeigt wieder das Poster
+      video.preload = 'metadata';
+      leiste.hidden = false;
+      zeige();
+      automatisch();
+    };
+    const zurVollfassung = () => {
+      modus = 'voll';
+      video.pause();
+      video.loop = false;
+      video.defaultMuted = false;
+      video.muted = false;
+      video.controls = true;
+      quellen([[vollPfad, 'video/mp4']]);
+      video.load();
+      video.preload = 'auto';
+      leiste.hidden = true;
+      video.focus();
+      spiele();
+    };
+
+    // Ohne JavaScript bleibt die Vollfassung (controls); mit JavaScript startet die stumme Vorschau.
+    zurVorschau();
+
+    tonKnopf.addEventListener('click', zurVollfassung);
+    pauseKnopf.addEventListener('click', () => {
+      if (video.paused) { nutzerPause = false; spiele(); }
+      else { nutzerPause = true; video.pause(); }
+    });
+    video.addEventListener('play', zeige);
+    video.addEventListener('pause', zeige);
+    video.addEventListener('ended', () => {
+      if (modus === 'voll') { zurVorschau(); tonKnopf.focus(); }
+    });
+
+    // Nur die Vorschau pausiert beim Herausscrollen oder im verborgenen Tab, die Vollfassung läuft weiter.
+    new IntersectionObserver(
+      (eintraege) => {
+        sichtbar = eintraege.some((e) => e.isIntersecting);
+        if (modus !== 'vorschau') return;
+        if (sichtbar) automatisch();
+        else video.pause();
+      },
+      { threshold: 0.5 },
+    ).observe(schirm);
+    document.addEventListener('visibilitychange', () => {
+      if (modus !== 'vorschau') return;
+      if (document.hidden) video.pause(); else automatisch();
+    });
+    reduziert.addEventListener('change', () => { if (modus === 'vorschau' && reduziert.matches) video.pause(); });
+  }
+</script>

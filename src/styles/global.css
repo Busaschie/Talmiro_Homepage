@@ -40,11 +40,7 @@
 
   /* Telefon-Mockup */
   --telefon-rahmen: #14305e;
-  --blase-ai: #f2ede6;
-  --blase-ich: #e8f2ee;
-  --blase-ich-text: #14305e;
-  --ta-ja-bg: #14305e;
-  --ta-ja-text: #ffffff;
+  --wz-deckkraft: 0.05; /* Logo-Wasserzeichen im Hero */
 
   /* Abschnitt „So funktioniert es“ und Footer */
   --ablauf-bg: #0f4747; /* nur „So funktioniert es“ */
@@ -75,6 +71,15 @@
   --meldung-bg: #fdecec;
   --meldung-rand: #c25b5b;
   --meldung-text: #6b1f1f;
+
+  /* Geräte-Rahmen (Handy-Schirm, Laptop), Video-Knopf, Bild-Dialog */
+  --geraet-rahmen: #2b2f36;
+  --geraet-schirm: #10151b;
+  --geraet-fuss: #c9ced6;
+  --geraet-kerbe: #aab1bb;
+  --video-knopf-bg: rgba(16, 21, 27, 0.66);
+  --video-knopf-text: #ffffff;
+  --dialog-backdrop: rgba(18, 14, 10, 0.72);
 
   /* Rauch */
   --rauch-blend: multiply;
@@ -113,17 +118,16 @@
   --knopf-rand-hover-bg: #f3ede5;
   --knopf-rand-hover-text: #17140f;
   --telefon-rahmen: #14305e;
-  --blase-ai: #332c25;
-  --blase-ich: #1e3a38;
-  --blase-ich-text: #e3f6f4;
-  --ta-ja-bg: #0f7c7c;
-  --ta-ja-text: #ffffff;
+  --wz-deckkraft: 0.08;
   --ablauf-bg: #1a2524;
   --sektion-linie: #6f908c;
   --footer-bg: #101a2b;
   --fokus: #4cc7c2;
   --grad-logo: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
   --grad-titel: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
+  --geraet-rahmen: #3a3f47;
+  --geraet-fuss: #4c515a;
+  --geraet-kerbe: #3a3f47;
   --rauch-blend: screen;
 }
 /* Ohne JavaScript (kein data-theme): dem System folgen */
@@ -155,18 +159,17 @@
     --knopf-rand-hover-bg: #f3ede5;
     --knopf-rand-hover-text: #17140f;
     --telefon-rahmen: #14305e;
-    --blase-ai: #332c25;
-    --blase-ich: #1e3a38;
-    --blase-ich-text: #e3f6f4;
-    --ta-ja-bg: #0f7c7c;
-    --ta-ja-text: #ffffff;
+  --wz-deckkraft: 0.08;
     --ablauf-bg: #1a2524;
     --sektion-linie: #6f908c;
     --footer-bg: #101a2b;
     --fokus: #4cc7c2;
     --grad-logo: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
     --grad-titel: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
-    --rauch-blend: screen;
+    --geraet-rahmen: #3a3f47;
+  --geraet-fuss: #4c515a;
+  --geraet-kerbe: #3a3f47;
+  --rauch-blend: screen;
   }
 }
 
@@ -218,7 +221,7 @@ h1, h2, h3 { font-family: var(--font-h); }
 :root[data-theme='dark'] .theme-knopf .ic-mond { display: none; }
 .kopf-aktionen { display: none; align-items: center; gap: 4px; }
 html.js .nav .theme-knopf { display: inline-flex; }
-@media (max-width: 640px) {
+@media (max-width: 1000px) {
   /* kompakte, feste Kopfzeile (Höhe ca. 64 px): Logo links, Design- und Menü-Button rechts */
   html.js .kopf .kopf-innen { flex-wrap: nowrap; padding: 9px 24px; }
   /* ohne JavaScript bleibt die umgebrochene Navigation sichtbar; dann nicht fest (wäre zu hoch) */
@@ -232,11 +235,11 @@ html.js .nav .theme-knopf { display: inline-flex; }
   html.js .kopf.is-offen .nav a:not(.knopf) { display: flex; align-items: center; min-height: 48px; font-size: 17px; border-bottom: 1px solid var(--linie); }
   html.js .kopf.is-offen .nav a.knopf { margin-top: 16px; text-align: center; padding: 14px 20px; }
 }
-@media (min-width: 641px) { .menue-knopf, .kopf-aktionen { display: none !important; } }
+@media (min-width: 1001px) { .menue-knopf, .kopf-aktionen { display: none !important; } }
 @media (prefers-reduced-motion: reduce) { .kopf { transition: none; } }
 .kopf-innen { max-width: var(--breite); margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
 .marke { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.marke-bild { display: block; width: 46px; height: 40px; border-radius: 8px; }
+.marke-bild { display: block; width: 50px; height: 40px; border-radius: 8px; }
 .wortmarke { font-family: var(--font-h); font-weight: 800; font-size: 22px; letter-spacing: 2px; color: var(--titel); background: var(--grad-logo); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; font-size: 15px; }
 .nav a { color: var(--text); text-decoration: none; padding: 6px 0; }
@@ -254,7 +257,16 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .knopf-rand:hover { background: var(--knopf-rand-hover-bg); color: var(--knopf-rand-hover-text); }
 
 /* Hero */
-.hero { background: var(--flaeche); }
+.hero { position: relative; overflow: hidden; background: var(--flaeche); }
+/* Wasserzeichen: dekoratives Logo links hinter dem Text; kein Inhalt, kein Einfluss auf Lesbarkeit */
+.hero::before {
+  content: ''; position: absolute; z-index: 0; pointer-events: none;
+  left: -6%; top: 50%; width: min(62vw, 760px); aspect-ratio: 1015 / 808; transform: translateY(-50%);
+  background: url('../assets/logo-2_gross.webp') center / contain no-repeat;
+  opacity: var(--wz-deckkraft);
+}
+.hero .wrap { position: relative; z-index: 1; }
+@media (max-width: 640px) { .hero::before { width: 90vw; left: -25%; top: 30%; } }
 /* Textblock und Handy-Mockup oben bündig (Oberkante Kicker = Oberkante Mockup) */
 .hero .wrap { padding: 88px 24px 96px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 56px; }
 .hero-text { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px; align-self: flex-start; }
@@ -263,18 +275,26 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .lead { margin: 0; font-size: 20px; line-height: 1.55; color: var(--text-2); max-width: 600px; }
 .hero-knoepfe { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; }
 .hero-hinweis { margin: 0; font-size: 14px; color: var(--text-3); }
+/* Handy-Rahmen (Hero-Video, Einblicke): Rahmen navy, Schirm im Seitenverhältnis 9:16 */
+.telefon-schirm { position: relative; display: block; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; background: var(--geraet-schirm); }
+.telefon-schirm.mit-video { background: var(--telefon-rahmen); }
+.hero-video { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: inherit; }
+.video-leiste { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; pointer-events: none; }
+.video-leiste[hidden] { display: none; }
+.video-leiste > * { pointer-events: auto; }
+.video-knopf { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: var(--video-knopf-bg); color: var(--video-knopf-text); cursor: pointer; }
+.ton-knopf { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px 0 14px; border: 0; border-radius: 999px; background: var(--knopf-bg); color: var(--knopf-text); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35); }
+.ton-knopf:hover { background: var(--knopf-hover); }
+.ton-knopf:focus-visible { outline: 3px solid var(--fokus-dunkel); outline-offset: 2px; }
+.ton-knopf[hidden] { display: none; }
+.video-knopf[hidden] { display: none; }
+.video-knopf:hover { background: var(--knopf-hover); }
+.video-knopf:focus-visible { outline: 3px solid var(--fokus-dunkel); outline-offset: 2px; }
+.video-knopf .ic-pause { display: none; }
+.video-knopf.spielt .ic-play { display: none; }
+.video-knopf.spielt .ic-pause { display: block; }
 .hero-bild { flex: 1 1 320px; display: flex; justify-content: center; align-self: flex-start; }
 .telefon { width: 100%; max-width: 320px; border-radius: 36px; background: var(--telefon-rahmen); padding: 14px; box-shadow: 0 24px 60px var(--schatten-gross); }
-.telefon-innen { border-radius: 26px; background: var(--karte); padding: 24px 18px; display: flex; flex-direction: column; gap: 14px; min-height: 520px; }
-.telefon-kopf { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-3); }
-.telefon-kopf svg { color: var(--icon); }
-.blase { padding: 12px 14px; font-size: 15px; line-height: 1.45; max-width: 250px; }
-.blase-ich { align-self: flex-end; background: var(--blase-ich); color: var(--blase-ich-text); border-radius: 16px 16px 4px 16px; max-width: 240px; }
-.blase-ai { align-self: flex-start; background: var(--blase-ai); color: var(--text); border-radius: 16px 16px 16px 4px; }
-.telefon-aktionen { display: flex; gap: 8px; margin-top: auto; }
-.telefon-aktionen span { flex: 1; text-align: center; padding: 12px; border-radius: 10px; font-weight: 600; font-size: 14px; }
-.ta-ja { background: var(--ta-ja-bg); color: var(--ta-ja-text); }
-.ta-vorschau { border: 1px solid var(--linie-stark); color: var(--titel); }
 
 /* Abschnitte */
 .kopfzeile { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
@@ -305,6 +325,44 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .funk-icon { display: flex; align-items: center; justify-content: center; flex: none; width: 44px; height: 44px; border-radius: 12px; background: var(--mint); color: var(--icon); }
 .funk h3 { margin: 0; font-size: 20px; color: var(--titel); }
 .funk ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.5; color: var(--text-2); }
+
+/* Einblicke: 2x2-Raster, Laptop breiter als Handy; am Handy untereinander */
+.einblicke .wrap { display: flex; flex-direction: column; gap: 40px; }
+.raster-einblicke { display: grid; grid-template-columns: 2fr 1fr; gap: 56px 48px; align-items: start; }
+.einblick { margin: 0; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.einblick-handy { align-items: center; }
+.einblick-handy .telefon { width: 100%; max-width: 260px; }
+.einblick figcaption { font-size: 15px; line-height: 1.55; color: var(--text-2); }
+.einblick figcaption strong { color: var(--titel); }
+.einblick-handy figcaption { max-width: 260px; }
+.einblick-link { cursor: zoom-in; color: inherit; text-decoration: none; }
+.einblick-link:focus-visible { outline-offset: 4px; }
+.einblick-bild, .einblick-bild img, .dialog-bild img { display: block; }
+.laptop-inner .einblick-bild, .telefon-schirm .einblick-bild { width: 100%; height: 100%; }
+.einblick-bild img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+/* Laptop-Rahmen (nur CSS) */
+.laptop { width: 100%; }
+.laptop-rahmen { background: var(--geraet-rahmen); border-radius: 14px 14px 3px 3px; padding: 10px 10px 12px; }
+.laptop-inner { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: 4px; overflow: hidden; background: var(--geraet-schirm); }
+.laptop-fuss { position: relative; height: 12px; margin: 0 -3%; background: var(--geraet-fuss); border-radius: 0 0 18px 18px; }
+.laptop-fuss::after { content: ''; position: absolute; left: 50%; top: 0; width: 16%; height: 5px; transform: translateX(-50%); background: var(--geraet-kerbe); border-radius: 0 0 8px 8px; }
+/* Platzhalter, solange das Bild fehlt */
+.platzhalter { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 16px; text-align: center; background: var(--flaeche); color: var(--text-2); border: 2px dashed var(--linie-stark); }
+.platzhalter-titel { font-family: var(--font-h); font-weight: 700; font-size: 17px; color: var(--titel); }
+.platzhalter-text { font-size: 14px; color: var(--text-3); }
+/* Bild groß */
+.einblick-dialog { border: 0; padding: 0; background: var(--karte); color: var(--text); border-radius: 16px; max-width: min(1200px, 94vw); max-height: 92vh; width: fit-content; overflow: auto; }
+.einblick-dialog::backdrop { background: var(--dialog-backdrop); }
+.dialog-bild { display: block; }
+.dialog-bild img { max-width: 100%; max-height: 80vh; width: auto; height: auto; object-fit: contain; }
+.dialog-unter { margin: 0; padding: 12px 56px 14px 16px; font-size: 15px; color: var(--text-2); }
+.dialog-zu { position: absolute; top: 8px; right: 8px; z-index: 2; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: var(--video-knopf-bg); color: var(--video-knopf-text); cursor: pointer; }
+.dialog-zu:hover { background: var(--knopf-hover); }
+.dialog-zu:focus-visible { outline: 3px solid var(--fokus-dunkel); outline-offset: 2px; }
+html:has(dialog[open]) { overflow: hidden; }
+@media (max-width: 720px) {
+  .raster-einblicke { grid-template-columns: 1fr; gap: 40px; }
+}
 
 .kontrolle { background: var(--flaeche); }
 .kontrolle .wrap { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; }

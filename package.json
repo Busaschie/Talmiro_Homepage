@@ -8,6 +8,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "assets": "node scripts/make-assets.mjs",
+    "video": "node scripts/make-video.mjs",
     "preview": "astro preview"
   },
   "dependencies": {

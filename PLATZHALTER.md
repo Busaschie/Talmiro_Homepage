@@ -28,6 +28,13 @@
 | `[STATUS: Import in Vorbereitung]` | `Faq.astro` („Kann ich meine bestehenden Kontakte übernehmen?“) |
 | `[KONTAKT: E-Mail-Adresse für den Fall, dass das Formular nicht funktioniert]` | `src/pages/fehler.astro` (nicht im Entwurf, ergänzt) |
 
+## Medien (Platzhalter)
+
+- **Hero-Video:** `public/media/hero-*` stammen aus `_entwurf/demo-video.mp4` (Bildschirmaufnahme, 2:30 min). Vor dem Livegang prüfen: nur Testdaten im Bild (keine echten Namen, Kontakte, Firmen), Ton und Inhalt freigegeben. Neues Video: `npm run video -- <datei>` (siehe README).
+- **Untertitel:** `public/media/demo-video.de.vtt` ist ein leerer Platzhalter. Der Text kommt von Niko bzw. aus dem Transkript; danach in `src/components/Hero.astro` `UNTERTITEL = true` setzen. Bis dahin wird der Track nicht ausgeliefert.
+- **Einblicke:** vier Bilder liefern und unter `src/assets/einblicke/` ablegen: `admin-laptop`, `admin-handy`, `ui-laptop`, `ui-handy` (PNG oder JPG). **Auf den Screenshots nur Testdaten, keine echten Namen, E-Mail-Adressen oder Firmen.** Bis dahin zeigt der Abschnitt Platzhalter „Bild folgt“.
+- Bildunterschriften und Alt-Texte der Einblicke (Kopf von `Einblicke.astro`) nach den echten Screenshots prüfen.
+
 ## Betrieb
 
 | Platzhalter | Ort |
