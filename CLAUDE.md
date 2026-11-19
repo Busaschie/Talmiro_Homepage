@@ -33,6 +33,7 @@ Eigenes Projekt, unabhängig von crm_agenten.
   Livegang rechtlich prüfen lassen.
 
 ## Arbeitsweise
+- `stand.md` ist das Sitzungsprotokoll des Planungs-Chats; nur oben ergänzen, nichts löschen.
 - Bestehenden, funktionierenden Code nicht neu aufbauen, nur ändern, was beauftragt ist.
 - Vor jedem Commit: `npm run build` fehlerfrei, `php -l public/kontakt.php`.
 - Commits mit klarer Nachricht; nicht pushen und nicht hochladen ohne ausdrücklichen Auftrag.
