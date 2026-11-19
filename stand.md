@@ -2,6 +2,22 @@
 
 > Sitzungsprotokoll des Planungs-Chats. Neue Einträge oben, alte nie überschreiben.
 
+## 2026-11-19 (Do) – Sitzung 2
+
+### Erledigt
+- `d04033d` (gepusht): Hero-Text oben bündig mit Mockup; Scroll-Reveal und Rauch-Effekt (WebGL2) von littlewebman.de übernommen, Rauch in Talmiro-Farben über dem Inhalt (multiply), INTENSITY 0.10; Hero, FAQ, Kontrolle dunkler (#E9EFF4), Kicker #0B6B6B für Kontrast; Header sticky, halbtransparent mit Blur; Scroll-Spy-Unterstreichung in der Navi; Footer-Link littlewebman mit `_blank`.
+- `949fba6` (noch nicht gepusht): mobiles Menü (Hamburger ≤ 640 px, sticky, barrierefrei); Inline-Script nach `public/js/reveal-init.js` ausgelagert, CSP-Hash entfernt (`script-src 'self'`); Rauch auch auf Touch mit reduzierter Auflösung (64/256/10), Pause bei unsichtbarem Tab; README-Kodierung repariert.
+- Prüfungen: Build, `php -l`, Lighthouse mobil 99–100 / Desktop 100, CLS 0, axe ohne Verstöße, CSP ohne Konsolenfehler.
+
+### Entscheidungen
+- Keine Inline-Skripte und keine Inline-Styles (CSP ohne Hash).
+- Rauch dezent, auf Desktop und Touch; aus bei reduzierter Bewegung und ohne WebGL2.
+- Kaputte README-Fassung in der Historie von `d04033d` bleibt, keine Historien-Umschreibung.
+
+### Offen
+- Test auf echtem Handy (Menü, Wischen/Scrollen mit Rauch), danach `949fba6` pushen.
+- Weiterhin: Platzhalter laut PLATZHALTER.md, SVG-Logo, DNS/Upload/Formular-Test bei febas, CRM-Import (B-171).
+
 ## 2026-11-19 (Do)
 
 ### Erledigt

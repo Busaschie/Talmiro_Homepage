@@ -1,151 +1,315 @@
-/* Talmiro – globale Styles. Farben und Maße als Variablen. */
+/* Talmiro – globale Styles. Alle Farben sind semantische Variablen (Markenfarben: --navy, --petrol).
+   Hell (warm) ist der Standard. Dunkel: [data-theme='dark'] auf <html> (gesetzt von public/js/reveal-init.js)
+   bzw. ohne JavaScript per prefers-color-scheme. Die beiden Dunkel-Blöcke unten MÜSSEN identisch bleiben. */
 :root {
+  color-scheme: light;
+
+  /* Marke */
   --navy: #14305e;
   --petrol: #0f7c7c;
-  --hell: #f5f8fa;
-  --hell-dunkel: #e9eff4; /* Hero, Kontrolle, FAQ */
-  --petrol-text: #0b6b6b; /* Petrol für kleinen Text auf --hell-dunkel (Kontrast >= 4.5:1) */
-  --kopf-h: 73px; /* Höhe der Kopfzeile, wird per Script genau gesetzt */
-  --text: #1b2433;
-  --text-2: #3d4a5c;
-  --text-3: #5a6778;
-  --linie: #e3e8ef;
-  --feld-rand: #7b8798;
-  --mint: #e7f3f2;
+
+  /* Flächen und Text (hell, warm) */
+  --seite: #fbf8f3;
+  --flaeche: #f1eae0; /* Hero, Kontrolle, FAQ, Problem-Karten, Formular */
+  --karte: #fffdf9; /* Karten, Felder, Telefon-Innenfläche */
+  --text: #2a241f;
+  --text-2: #4f463e;
+  --text-3: #6a6057;
+  --titel: #14305e; /* Überschriften und Markenakzente */
+  --linie: #e6ddd0;
+  --linie-stark: #cfc4b4;
+  --feld-rand: #857c72; /* >= 3:1 auf Feld und Formular */
+  --mint: #e8f2ee;
+  --icon: #0b6b6b;
+  --link: #0b6b6b; /* Petrol für kleinen Text, >= 4.5:1 auf --flaeche */
+  --link-hover: #14305e;
+
+  /* Kopfzeile, Schatten */
+  --kopf-bg: rgba(251, 248, 243, 0.78);
+  --kopf-bg-panel: rgba(251, 248, 243, 0.97);
+  --schatten: rgba(60, 40, 20, 0.12);
+  --schatten-gross: rgba(60, 40, 20, 0.22);
+
+  /* Knöpfe */
+  --knopf-bg: #0f7c7c;
+  --knopf-hover: #14305e;
+  --knopf-text: #ffffff;
+  --knopf-rand-text: #14305e;
+  --knopf-rand-hover-bg: #14305e;
+  --knopf-rand-hover-text: #ffffff;
+
+  /* Telefon-Mockup */
+  --telefon-rahmen: #14305e;
+  --blase-ai: #f2ede6;
+  --blase-ich: #e8f2ee;
+  --blase-ich-text: #14305e;
+  --ta-ja-bg: #14305e;
+  --ta-ja-text: #ffffff;
+
+  /* Abschnitt „So funktioniert es“ und Footer */
+  --sektion-bg: #14305e;
+  --sektion-titel: #ffffff;
+  --sektion-text: #d3dce8;
+  --sektion-linie: #3a5584;
+  --sektion-nr: #7fd3cf;
+  --footer-bg: #14305e;
+  --footer-text: #d3dce8;
+  --footer-link: #7fd3cf;
+  --footer-hover: #ffffff;
+
+  /* Fokus */
+  --fokus: #0b6b6b;
+  --fokus-dunkel: #7fd3cf; /* auf dunklen Abschnitten */
+  --skip-bg: #14305e;
+  --skip-text: #ffffff;
+
+  /* Logo-Schriftzug */
   --grad-logo: linear-gradient(90deg, #14305e 0%, #1f5c8a 45%, #1aa3a3 100%);
   --grad-footer: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
+
+  /* Hinweis- und Fehlerboxen (bleiben in beiden Modi hell) */
+  --hinweis-bg: #fff7e0;
+  --hinweis-rand: #e0b84a;
+  --hinweis-text: #5a4300;
+  --meldung-bg: #fdecec;
+  --meldung-rand: #c25b5b;
+  --meldung-text: #6b1f1f;
+
+  /* Rauch */
+  --rauch-blend: multiply;
+
+  --kopf-h: 73px; /* Höhe der Kopfzeile, wird per Script genau gesetzt */
   --font-h: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
   --font-t: Inter, system-ui, sans-serif;
   --breite: 1200px;
+}
+
+/* ---------- Dunkler Modus ---------- */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --seite: #17140f;
+  --flaeche: #201b16;
+  --karte: #28221c;
+  --text: #f3ede5;
+  --text-2: #d2c9bd;
+  --text-3: #a99f92;
+  --titel: #f3ede5;
+  --linie: #3a332b;
+  --linie-stark: #5a5047;
+  --feld-rand: #7a7168;
+  --mint: #1e3a38;
+  --icon: #4cc7c2;
+  --link: #4cc7c2;
+  --link-hover: #a9e3e0;
+  --kopf-bg: rgba(23, 20, 15, 0.78);
+  --kopf-bg-panel: rgba(23, 20, 15, 0.97);
+  --schatten: rgba(0, 0, 0, 0.45);
+  --schatten-gross: rgba(0, 0, 0, 0.5);
+  --knopf-bg: #0f7c7c;
+  --knopf-hover: #0a5f5f;
+  --knopf-text: #ffffff;
+  --knopf-rand-text: #f3ede5;
+  --knopf-rand-hover-bg: #f3ede5;
+  --knopf-rand-hover-text: #17140f;
+  --telefon-rahmen: #14305e;
+  --blase-ai: #332c25;
+  --blase-ich: #1e3a38;
+  --blase-ich-text: #e3f6f4;
+  --ta-ja-bg: #0f7c7c;
+  --ta-ja-text: #ffffff;
+  --sektion-bg: #1c2638;
+  --sektion-linie: #34425a;
+  --footer-bg: #101a2b;
+  --fokus: #4cc7c2;
+  --grad-logo: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
+  --rauch-blend: screen;
+}
+/* Ohne JavaScript (kein data-theme): dem System folgen */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --seite: #17140f;
+    --flaeche: #201b16;
+    --karte: #28221c;
+    --text: #f3ede5;
+    --text-2: #d2c9bd;
+    --text-3: #a99f92;
+    --titel: #f3ede5;
+    --linie: #3a332b;
+    --linie-stark: #5a5047;
+    --feld-rand: #7a7168;
+    --mint: #1e3a38;
+    --icon: #4cc7c2;
+    --link: #4cc7c2;
+    --link-hover: #a9e3e0;
+    --kopf-bg: rgba(23, 20, 15, 0.78);
+    --kopf-bg-panel: rgba(23, 20, 15, 0.97);
+    --schatten: rgba(0, 0, 0, 0.45);
+    --schatten-gross: rgba(0, 0, 0, 0.5);
+    --knopf-bg: #0f7c7c;
+    --knopf-hover: #0a5f5f;
+    --knopf-text: #ffffff;
+    --knopf-rand-text: #f3ede5;
+    --knopf-rand-hover-bg: #f3ede5;
+    --knopf-rand-hover-text: #17140f;
+    --telefon-rahmen: #14305e;
+    --blase-ai: #332c25;
+    --blase-ich: #1e3a38;
+    --blase-ich-text: #e3f6f4;
+    --ta-ja-bg: #0f7c7c;
+    --ta-ja-text: #ffffff;
+    --sektion-bg: #1c2638;
+    --sektion-linie: #34425a;
+    --footer-bg: #101a2b;
+    --fokus: #4cc7c2;
+    --grad-logo: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
+    --rauch-blend: screen;
+  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 [id] { scroll-margin-top: var(--kopf-h); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-body { margin: 0; font-family: var(--font-t); color: var(--text); background: #fff; -webkit-text-size-adjust: 100%; }
+body { margin: 0; font-family: var(--font-t); color: var(--text); background: var(--seite); -webkit-text-size-adjust: 100%; }
 img, svg { max-width: 100%; }
-a { color: var(--petrol); }
-a:hover { color: var(--navy); }
+a { color: var(--link); }
+a:hover { color: var(--link-hover); }
 h1, h2, h3 { font-family: var(--font-h); }
-:focus-visible { outline: 3px solid #1aa3a3; outline-offset: 3px; border-radius: 4px; }
-.sektion-dunkel :focus-visible, .footer :focus-visible { outline-color: #7fd3cf; }
+:focus-visible { outline: 3px solid var(--fokus); outline-offset: 3px; border-radius: 4px; }
+.sektion-dunkel :focus-visible, .footer :focus-visible { outline-color: var(--fokus-dunkel); }
 
-.skip { position: absolute; left: 12px; top: -64px; background: var(--navy); color: #fff; padding: 12px 18px; border-radius: 8px; z-index: 100; text-decoration: none; font-weight: 600; }
-.skip:focus { top: 12px; color: #fff; }
+/* Farbwechsel nur beim Umschalten (Klasse theme-wechsel, 250 ms), nicht beim Laden */
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-wechsel *, html.theme-wechsel *::before, html.theme-wechsel *::after {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, fill 0.2s ease, stroke 0.2s ease !important;
+  }
+}
+
+.skip { position: absolute; left: 12px; top: -64px; background: var(--skip-bg); color: var(--skip-text); padding: 12px 18px; border-radius: 8px; z-index: 100; text-decoration: none; font-weight: 600; }
+.skip:focus { top: 12px; color: var(--skip-text); }
 
 .wrap { max-width: var(--breite); margin: 0 auto; padding: 88px 24px; }
 .wrap-eng { max-width: 900px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* Kopf */
-.kopf { position: sticky; top: 0; z-index: 50; background: rgba(255, 255, 255, 0.75); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+.kopf { position: sticky; top: 0; z-index: 50; background: var(--kopf-bg); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color 0.2s; }
 .kopf.is-scrolled { border-bottom-color: var(--linie); }
-/* Menü-Button: erst mit JavaScript und nur auf dem Handy sichtbar */
-.menue-knopf { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 10px; background: transparent; color: var(--navy); cursor: pointer; }
-.menue-knopf:hover { background: var(--hell-dunkel); }
+/* Menü- und Design-Button: erst mit JavaScript sichtbar */
+.menue-knopf, .theme-knopf { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 10px; background: transparent; color: var(--titel); cursor: pointer; }
+.menue-knopf:hover, .theme-knopf:hover { background: var(--flaeche); }
 .menue-knopf .ic-zu, .menue-knopf[aria-expanded='true'] .ic-auf { display: none; }
 .menue-knopf[aria-expanded='true'] .ic-zu { display: block; }
+/* Design-Button: Mond im hellen Modus (wechselt zu dunkel), Sonne im dunklen */
+.theme-knopf .ic-sonne { display: none; }
+:root[data-theme='dark'] .theme-knopf .ic-sonne { display: block; }
+:root[data-theme='dark'] .theme-knopf .ic-mond { display: none; }
+.kopf-aktionen { display: none; align-items: center; gap: 4px; }
+html.js .nav .theme-knopf { display: inline-flex; }
 @media (max-width: 640px) {
-  /* kompakte, feste Kopfzeile (Höhe ca. 64 px): Logo links, Menü-Button rechts */
+  /* kompakte, feste Kopfzeile (Höhe ca. 64 px): Logo links, Design- und Menü-Button rechts */
   html.js .kopf .kopf-innen { flex-wrap: nowrap; padding: 9px 24px; }
   /* ohne JavaScript bleibt die umgebrochene Navigation sichtbar; dann nicht fest (wäre zu hoch) */
   html:not(.js) .kopf { position: static; }
-  html.js .kopf .menue-knopf { display: inline-flex; }
+  html.js .kopf .kopf-aktionen { display: flex; }
+  html.js .kopf .menue-knopf, html.js .kopf .kopf-aktionen .theme-knopf { display: inline-flex; }
+  html.js .nav .theme-knopf { display: none; }
   html.js .kopf .nav { display: none; }
   /* Panel unter der Kopfzeile */
-  html.js .kopf.is-offen .nav { display: flex; flex-direction: column; align-items: stretch; flex-wrap: nowrap; gap: 0; position: absolute; top: 100%; left: 0; right: 0; padding: 8px 24px 20px; background: rgba(255, 255, 255, 0.97); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--linie); box-shadow: 0 16px 32px rgba(20, 48, 94, 0.12); }
+  html.js .kopf.is-offen .nav { display: flex; flex-direction: column; align-items: stretch; flex-wrap: nowrap; gap: 0; position: absolute; top: 100%; left: 0; right: 0; padding: 8px 24px 20px; background: var(--kopf-bg-panel); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--linie); box-shadow: 0 16px 32px var(--schatten); }
   html.js .kopf.is-offen .nav a:not(.knopf) { display: flex; align-items: center; min-height: 48px; font-size: 17px; border-bottom: 1px solid var(--linie); }
   html.js .kopf.is-offen .nav a.knopf { margin-top: 16px; text-align: center; padding: 14px 20px; }
 }
-@media (min-width: 641px) { .menue-knopf { display: none !important; } }
+@media (min-width: 641px) { .menue-knopf, .kopf-aktionen { display: none !important; } }
 @media (prefers-reduced-motion: reduce) { .kopf { transition: none; } }
 .kopf-innen { max-width: var(--breite); margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
 .marke { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .marke-bild { display: block; width: 46px; height: 40px; border-radius: 8px; }
-.wortmarke { font-family: var(--font-h); font-weight: 800; font-size: 22px; letter-spacing: 2px; color: var(--navy); background: var(--grad-logo); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.wortmarke { font-family: var(--font-h); font-weight: 800; font-size: 22px; letter-spacing: 2px; color: var(--titel); background: var(--grad-logo); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; font-size: 15px; }
 .nav a { color: var(--text); text-decoration: none; padding: 6px 0; }
-.nav a:hover { color: var(--petrol); }
+.nav a:hover { color: var(--link); }
 /* aktiver Abschnitt (Scroll-Spy), Hover und Fokus: unterstrichen; nicht für den Button */
-.nav a:not(.knopf):is(:hover, :focus-visible, [aria-current='true']) { color: var(--navy); text-decoration: underline; text-decoration-color: var(--petrol); text-decoration-thickness: 2px; text-underline-offset: 6px; }
-.nav a.knopf { color: #fff; padding: 12px 20px; }
-.nav a.knopf:hover { color: #fff; background: var(--navy); }
+.nav a:not(.knopf):is(:hover, :focus-visible, [aria-current='true']) { color: var(--titel); text-decoration: underline; text-decoration-color: var(--link); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.nav a.knopf { color: var(--knopf-text); padding: 12px 20px; }
+.nav a.knopf:hover { color: var(--knopf-text); background: var(--knopf-hover); }
 
 /* Knöpfe */
-.knopf { display: inline-block; padding: 12px 20px; border-radius: 10px; background: var(--petrol); color: #fff; text-decoration: none; font-weight: 600; font-family: var(--font-t); border: 0; cursor: pointer; }
-.knopf:hover { background: var(--navy); color: #fff; }
+.knopf { display: inline-block; padding: 12px 20px; border-radius: 10px; background: var(--knopf-bg); color: var(--knopf-text); text-decoration: none; font-weight: 600; font-family: var(--font-t); border: 0; cursor: pointer; }
+.knopf:hover { background: var(--knopf-hover); color: var(--knopf-text); }
 .knopf-gross { padding: 16px 28px; border-radius: 12px; font-size: 17px; }
-.knopf-rand { background: transparent; border: 1px solid var(--navy); color: var(--navy); }
-.knopf-rand:hover { background: var(--navy); color: #fff; }
+.knopf-rand { background: transparent; border: 1px solid var(--knopf-rand-text); color: var(--knopf-rand-text); }
+.knopf-rand:hover { background: var(--knopf-rand-hover-bg); color: var(--knopf-rand-hover-text); }
 
 /* Hero */
-.hero { background: var(--hell-dunkel); }
+.hero { background: var(--flaeche); }
 /* Textblock und Handy-Mockup oben bündig (Oberkante Kicker = Oberkante Mockup) */
 .hero .wrap { padding: 88px 24px 96px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 56px; }
 .hero-text { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px; align-self: flex-start; }
-.eyebrow { margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--petrol-text); line-height: 1.2; }
-.hero h1 { margin: 0; font-size: clamp(40px, 8vw, 64px); line-height: 1.05; font-weight: 800; color: var(--navy); }
+.eyebrow { margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--link); line-height: 1.2; }
+.hero h1 { margin: 0; font-size: clamp(40px, 8vw, 64px); line-height: 1.05; font-weight: 800; color: var(--titel); }
 .lead { margin: 0; font-size: 20px; line-height: 1.55; color: var(--text-2); max-width: 600px; }
 .hero-knoepfe { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; }
 .hero-hinweis { margin: 0; font-size: 14px; color: var(--text-3); }
 .hero-bild { flex: 1 1 320px; display: flex; justify-content: center; align-self: flex-start; }
-.telefon { width: 100%; max-width: 320px; border-radius: 36px; background: var(--navy); padding: 14px; box-shadow: 0 24px 60px rgba(20, 48, 94, 0.25); }
-.telefon-innen { border-radius: 26px; background: #fff; padding: 24px 18px; display: flex; flex-direction: column; gap: 14px; min-height: 520px; }
+.telefon { width: 100%; max-width: 320px; border-radius: 36px; background: var(--telefon-rahmen); padding: 14px; box-shadow: 0 24px 60px var(--schatten-gross); }
+.telefon-innen { border-radius: 26px; background: var(--karte); padding: 24px 18px; display: flex; flex-direction: column; gap: 14px; min-height: 520px; }
 .telefon-kopf { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-3); }
+.telefon-kopf svg { color: var(--icon); }
 .blase { padding: 12px 14px; font-size: 15px; line-height: 1.45; max-width: 250px; }
-.blase-ich { align-self: flex-end; background: var(--mint); color: var(--navy); border-radius: 16px 16px 4px 16px; max-width: 240px; }
-.blase-ai { align-self: flex-start; background: #f2f4f7; color: var(--text); border-radius: 16px 16px 16px 4px; }
+.blase-ich { align-self: flex-end; background: var(--blase-ich); color: var(--blase-ich-text); border-radius: 16px 16px 4px 16px; max-width: 240px; }
+.blase-ai { align-self: flex-start; background: var(--blase-ai); color: var(--text); border-radius: 16px 16px 16px 4px; }
 .telefon-aktionen { display: flex; gap: 8px; margin-top: auto; }
 .telefon-aktionen span { flex: 1; text-align: center; padding: 12px; border-radius: 10px; font-weight: 600; font-size: 14px; }
-.ta-ja { background: var(--navy); color: #fff; }
-.ta-vorschau { border: 1px solid #c9d2de; color: var(--navy); }
+.ta-ja { background: var(--ta-ja-bg); color: var(--ta-ja-text); }
+.ta-vorschau { border: 1px solid var(--linie-stark); color: var(--titel); }
 
 /* Abschnitte */
 .kopfzeile { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
 .kopfzeile-breit { max-width: 760px; }
-.wrap h2 { margin: 0; font-size: clamp(30px, 5vw, 40px); line-height: 1.15; color: var(--navy); }
+.wrap h2 { margin: 0; font-size: clamp(30px, 5vw, 40px); line-height: 1.15; color: var(--titel); }
 .einleitung { margin: 0; font-size: 18px; line-height: 1.6; color: var(--text-2); }
 .spalten { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
 .sektion-flex { display: flex; flex-direction: column; gap: 40px; }
 
 .problem .wrap { display: flex; flex-direction: column; gap: 40px; }
-.karte-hell { background: var(--hell); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px; }
-.karte-hell h3 { margin: 0; font-size: 20px; color: var(--navy); }
+.karte-hell { background: var(--flaeche); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px; }
+.karte-hell h3 { margin: 0; font-size: 20px; color: var(--titel); }
 .karte-hell p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--text-2); }
 
-.sektion-dunkel { background: var(--navy); }
+.sektion-dunkel { background: var(--sektion-bg); }
 .sektion-dunkel .wrap { display: flex; flex-direction: column; gap: 40px; }
-.sektion-dunkel h2 { color: #fff; }
-.sektion-dunkel .einleitung { color: #d3dce8; }
-.schritt { border: 1px solid #3a5584; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 12px; }
-.schritt-nr { font-family: var(--font-h); font-weight: 800; font-size: 32px; color: #7fd3cf; }
-.schritt h3 { margin: 0; font-size: 22px; color: #fff; }
-.schritt p { margin: 0; font-size: 16px; line-height: 1.6; color: #d3dce8; }
+.sektion-dunkel h2 { color: var(--sektion-titel); }
+.sektion-dunkel .einleitung { color: var(--sektion-text); }
+.schritt { border: 1px solid var(--sektion-linie); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+.schritt-nr { font-family: var(--font-h); font-weight: 800; font-size: 32px; color: var(--sektion-nr); }
+.schritt h3 { margin: 0; font-size: 22px; color: var(--sektion-titel); }
+.schritt p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--sektion-text); }
 
 .funktionen .wrap { display: flex; flex-direction: column; gap: 40px; }
 .raster-funk { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); }
 .funk { border: 1px solid var(--linie); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 14px; }
 .funk-kopf { display: flex; align-items: center; gap: 12px; }
-.funk-icon { display: flex; align-items: center; justify-content: center; flex: none; width: 44px; height: 44px; border-radius: 12px; background: var(--mint); }
-.funk h3 { margin: 0; font-size: 20px; color: var(--navy); }
+.funk-icon { display: flex; align-items: center; justify-content: center; flex: none; width: 44px; height: 44px; border-radius: 12px; background: var(--mint); color: var(--icon); }
+.funk h3 { margin: 0; font-size: 20px; color: var(--titel); }
 .funk ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.5; color: var(--text-2); }
 
-.kontrolle { background: var(--hell-dunkel); }
+.kontrolle { background: var(--flaeche); }
 .kontrolle .wrap { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; }
 .kontrolle-kopf { flex: 1 1 360px; display: flex; flex-direction: column; gap: 16px; }
 .kontrolle-raster { flex: 999 1 560px; min-width: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); }
-.regel { background: #fff; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 8px; }
-.regel h3 { margin: 0; font-size: 18px; color: var(--navy); }
+.regel { background: var(--karte); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+.regel h3 { margin: 0; font-size: 18px; color: var(--titel); }
 .regel p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text-2); }
 
 .pilot .wrap { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; }
 .pilot-text { flex: 1 1 400px; display: flex; flex-direction: column; gap: 20px; }
 .pilot-text ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 17px; line-height: 1.5; color: var(--text); }
-.formular { flex: 1 1 420px; min-width: 0; background: var(--hell); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 18px; }
+.formular { flex: 1 1 420px; min-width: 0; background: var(--flaeche); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 18px; }
 .feld { display: flex; flex-direction: column; gap: 6px; }
 .feld label { font-size: 14px; font-weight: 600; color: var(--text); }
-.feld input, .feld textarea { padding: 14px; border-radius: 10px; border: 1px solid var(--feld-rand); font-size: 16px; font-family: var(--font-t); background: #fff; color: var(--text); width: 100%; }
+.feld input, .feld textarea { padding: 14px; border-radius: 10px; border: 1px solid var(--feld-rand); font-size: 16px; font-family: var(--font-t); background: var(--karte); color: var(--text); width: 100%; }
 .feld textarea { resize: vertical; }
 .feld-ds { display: flex; gap: 10px; align-items: flex-start; }
 .feld-ds input { width: 20px; height: 20px; margin-top: 2px; flex: none; }
@@ -154,32 +318,33 @@ h1, h2, h3 { font-family: var(--font-h); }
 /* Honigtopf: für Menschen unsichtbar, für Bots ein normales Feld */
 .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 
-.faq { background: var(--hell-dunkel); }
+.faq { background: var(--flaeche); }
 .faq .wrap { display: flex; flex-direction: column; gap: 24px; }
-.faq details { background: #fff; border-radius: 14px; padding: 20px 24px; }
-.faq summary { font-weight: 600; font-size: 18px; color: var(--navy); cursor: pointer; }
+.faq details { background: var(--karte); border-radius: 14px; padding: 20px 24px; }
+.faq summary { font-weight: 600; font-size: 18px; color: var(--titel); cursor: pointer; }
 .faq details p { margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--text-2); }
 
-.footer { background: var(--navy); }
+.footer { background: var(--footer-bg); }
 .footer-innen { max-width: var(--breite); margin: 0 auto; padding: 48px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
 .footer-marke { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .footer .wortmarke { font-size: 20px; background: var(--grad-footer); -webkit-background-clip: text; background-clip: text; }
-.footer-marke span:last-child { font-size: 14px; color: #d3dce8; }
-.footer a { color: #d3dce8; }
-.footer-marke a { color: #7fd3cf; }
-.footer a:hover { color: #fff; }
+.footer-marke span:last-child { font-size: 14px; color: var(--footer-text); }
+.footer a { color: var(--footer-text); }
+.footer-marke a { color: var(--footer-link); }
+.footer a:hover { color: var(--footer-hover); }
 .footer nav { display: flex; flex-wrap: wrap; gap: 24px; font-size: 14px; }
 
 /* Textseiten (Impressum, Datenschutz, Danke, 404, Fehler) */
 .text-seite .wrap { max-width: 800px; padding-top: 64px; padding-bottom: 96px; }
-.text-seite h1 { margin: 0 0 24px; font-size: clamp(30px, 6vw, 44px); color: var(--navy); line-height: 1.15; }
+.text-seite h1 { margin: 0 0 24px; font-size: clamp(30px, 6vw, 44px); color: var(--titel); line-height: 1.15; }
 .text-seite h2 { font-size: 24px; margin: 40px 0 12px; }
-.text-seite h3 { font-size: 18px; margin: 24px 0 8px; color: var(--navy); }
+.text-seite h3 { font-size: 18px; margin: 24px 0 8px; color: var(--titel); }
 .text-seite p, .text-seite li { font-size: 16px; line-height: 1.65; color: var(--text-2); }
 .text-seite ul { padding-left: 22px; }
-.hinweis-recht { background: #fff7e0; border: 1px solid #e0b84a; border-radius: 12px; padding: 16px 20px; color: #5a4300; margin: 0 0 32px; }
-.text-seite .hinweis-recht { color: #5a4300; }
-.meldung { background: #fdecec; border: 1px solid #c25b5b; border-radius: 12px; padding: 16px 20px; color: #6b1f1f; }
+.hinweis-recht { background: var(--hinweis-bg); border: 1px solid var(--hinweis-rand); border-radius: 12px; padding: 16px 20px; color: var(--hinweis-text); margin: 0 0 32px; }
+.text-seite .hinweis-recht { color: var(--hinweis-text); }
+.meldung { background: var(--meldung-bg); border: 1px solid var(--meldung-rand); border-radius: 12px; padding: 16px 20px; color: var(--meldung-text); }
+.text-seite .meldung { color: var(--meldung-text); }
 .msg { display: none; }
 .msg:target { display: block; }
 .fehler-seite:has(.msg:target) .msg-standard { display: none; }
@@ -207,7 +372,7 @@ h1, h2, h3 { font-family: var(--font-h); }
   height: 100%;
   z-index: 40; /* Kopfzeile: 50, Skip-Link: 100 */
   pointer-events: none;
-  mix-blend-mode: multiply;
-  opacity: 0.5;
+  mix-blend-mode: var(--rauch-blend); /* hell: multiply, dunkel: screen */
+  opacity: var(--rauch-deckkraft, 0.5);
 }
 @media (prefers-reduced-motion: reduce) { .fluid-bg { display: none; } }

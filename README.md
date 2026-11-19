@@ -78,3 +78,11 @@ räumt auf. Es bricht ab, wenn schon eine `kontakt.config.php` im Projektordner 
 - Prüfen nach jedem Build: `dist/**/*.html` darf kein `<script>` ohne `src` (außer JSON-LD) und kein `style=` enthalten.
 - Mobiles Menü (bis 640 px), Scroll-Spy und Kopfzeile: `src/components/Header.astro`. Ohne JavaScript bleibt die Navigation sichtbar.
 - Scroll-Einblendung (`[data-reveal]`) und Rauch (`FluidBackground.astro`) kommen von Littlewebman bzw. sind daran angelehnt (Rauch: Pavel Dobryakov, MIT). Der Rauch ist aus bei reduzierter Bewegung und ohne WebGL2, läuft auf Touch-Geräten und schmalen Fenstern mit geringerer Auflösung und pausiert bei unsichtbarem Tab und nach 6 s Ruhe.
+
+## Hell-/Dunkel-Modus
+
+- Alle Farben sind semantische CSS-Variablen in `src/styles/global.css` (`--seite`, `--flaeche`, `--karte`, `--text` …). Hell (warm) steht in `:root`, Dunkel überschreibt sie in `:root[data-theme='dark']`.
+  Ohne JavaScript gilt derselbe Dunkel-Block per `@media (prefers-color-scheme: dark)` (`:root:not([data-theme])`). **Beide Dunkel-Blöcke müssen identisch bleiben.**
+- `public/js/reveal-init.js` setzt `data-theme` vor dem ersten Rendern (gespeicherte Wahl in `localStorage` `talmiro-theme`, sonst Systemeinstellung; ohne Wahl folgt die Seite Änderungen der Systemeinstellung). Der Umschalter steht in `Header.astro` (Desktop: vor „Pilotplatz anfragen“, mobil neben dem Menü-Button). Kein Cookie, nur `localStorage`, nichts wird übertragen.
+- Rauch: hell `multiply`, dunkel `screen` (Variable `--rauch-blend`), Paletten und Intensität je Modus in `FluidBackground.astro`.
+- Neue Farben immer als Variable anlegen und in beiden Modi definieren; Kontrast prüfen (Text 4,5:1, Bedienelemente/Fokus 3:1).

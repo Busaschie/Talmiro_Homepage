@@ -8,17 +8,28 @@ import logo from '../assets/logo-mark.webp';
       <img src={logo.src} alt="" width="46" height="40" class="marke-bild" />
       <span class="wortmarke">TALMIRO</span>
     </a>
-    <!-- Menü-Button: nur mit JavaScript sichtbar (Klasse menue-js am Header), sonst bleibt die Navigation offen -->
-    <button type="button" class="menue-knopf" id="menue-knopf" aria-expanded="false" aria-controls="hauptnavigation">
-      <span class="sr-only" id="menue-text">Menü öffnen</span>
-      <svg class="ic-auf" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></svg>
-      <svg class="ic-zu" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
-    </button>
+    <!-- Mobil (bis 640 px): Design-Umschalter und Menü-Button. Beide nur mit JavaScript sichtbar, sonst bleibt die Navigation offen. -->
+    <div class="kopf-aktionen">
+      <button type="button" class="theme-knopf" aria-label="Dunkles Design einschalten" aria-pressed="false">
+        <svg class="ic-mond" aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+        <svg class="ic-sonne" aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"></line><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"></line><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"></line></svg>
+      </button>
+      <button type="button" class="menue-knopf" id="menue-knopf" aria-expanded="false" aria-controls="hauptnavigation">
+        <span class="sr-only" id="menue-text">Menü öffnen</span>
+        <svg class="ic-auf" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></svg>
+        <svg class="ic-zu" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+      </button>
+    </div>
     <nav aria-label="Hauptnavigation" class="nav" id="hauptnavigation">
       <a href="/#funktionen">Funktionen</a>
       <a href="/#ablauf">So funktioniert es</a>
       <a href="/#kontrolle">Kontrolle</a>
       <a href="/#faq">FAQ</a>
+      <!-- Desktop: Design-Umschalter rechts vor dem Pilot-Button -->
+      <button type="button" class="theme-knopf" aria-label="Dunkles Design einschalten" aria-pressed="false">
+        <svg class="ic-mond" aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+        <svg class="ic-sonne" aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"></line><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"></line><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"></line></svg>
+      </button>
       <a href="/#pilot" class="knopf">Pilotplatz anfragen</a>
     </nav>
   </div>
@@ -64,6 +75,33 @@ import logo from '../assets/logo-mark.webp';
     });
     // Wechsel auf > 640 px
     schmal.addEventListener('change', () => { if (!schmal.matches) setze(false); });
+  }
+
+  // Design-Umschalter (hell/dunkel). Startwert setzt public/js/reveal-init.js vor dem ersten Rendern.
+  const wurzel = document.documentElement;
+  const themeKnoepfe = document.querySelectorAll<HTMLButtonElement>('.theme-knopf');
+  if (themeKnoepfe.length) {
+    const zeige = () => {
+      const dunkel = wurzel.dataset.theme === 'dark';
+      themeKnoepfe.forEach((k) => {
+        k.setAttribute('aria-pressed', String(dunkel));
+        k.setAttribute('aria-label', dunkel ? 'Helles Design einschalten' : 'Dunkles Design einschalten');
+      });
+    };
+    zeige();
+    // reagiert auch auf Wechsel durch die Systemeinstellung (reveal-init.js) oder einen anderen Tab
+    new MutationObserver(zeige).observe(wurzel, { attributes: true, attributeFilter: ['data-theme'] });
+    let timer = 0;
+    themeKnoepfe.forEach((k) =>
+      k.addEventListener('click', () => {
+        const neu = wurzel.dataset.theme === 'dark' ? 'light' : 'dark';
+        wurzel.classList.add('theme-wechsel'); // kurze Farbübergänge nur beim Umschalten
+        wurzel.dataset.theme = neu;
+        try { localStorage.setItem('talmiro-theme', neu); } catch { /* Speicher gesperrt: Wahl gilt nur für diese Sitzung */ }
+        clearTimeout(timer);
+        timer = window.setTimeout(() => wurzel.classList.remove('theme-wechsel'), 300);
+      }),
+    );
   }
 
   const links = new Map<string, HTMLAnchorElement>();
