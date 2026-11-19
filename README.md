@@ -72,7 +72,9 @@ räumt auf. Es bricht ab, wenn schon eine `kontakt.config.php` im Projektordner 
 
 ## Skripte und CSP
 
-- Skripte werden nie inline eingebettet (`vite.build.assetsInlineLimit: 0`), au�er dem kleinen Block im `<head>` von `src/layouts/Base.astro` (Klasse `js-reveal` plus 3-s-Notfall-Fallback).
-  F�r diesen Block steht ein `sha256`-Hash in der CSP in `public/.htaccess`. **Wer das Script �ndert, muss den Hash neu berechnen:**
-  Inhalt zwischen `<script>` und `</script>` in `dist/index.html` mit SHA-256 hashen (Base64) und in `script-src` eintragen.
-- Scroll-Einblendung (`[data-reveal]`), Rauch (`FluidBackground.astro`, aus bei reduzierter Bewegung, ohne WebGL2 und auf Touch-Ger�ten) und Scroll-Spy der Navigation (`Header.astro`) kommen von Littlewebman bzw. sind daran angelehnt (Rauch: Pavel Dobryakov, MIT).
+- **Regel: keine Inline-Skripte und keine Inline-Styles** (`style="..."`, `<style>`, `<script>` ohne `src`). Die CSP in `public/.htaccess` erlaubt nur `'self'` für `script-src` und `style-src`; ein Hash ist nicht nötig.
+- Astro bündelt Skripte aus Komponenten zu Dateien (`vite.build.assetsInlineLimit: 0` verhindert das Einbetten kleiner Skripte). Ungebündelte Skripte liegen in `public/`: `js/reveal-init.js` (setzt die Klassen `js` und `js-reveal` im `<head>` ohne defer/async, mit 3-s-Notfall-Fallback) und `form-zeit.js`.
+- Ausnahme ohne Wirkung: Die JSON-LD-Blöcke (`<script type="application/ld+json">`) sind Daten, kein ausführbarer Code.
+- Prüfen nach jedem Build: `dist/**/*.html` darf kein `<script>` ohne `src` (außer JSON-LD) und kein `style=` enthalten.
+- Mobiles Menü (bis 640 px), Scroll-Spy und Kopfzeile: `src/components/Header.astro`. Ohne JavaScript bleibt die Navigation sichtbar.
+- Scroll-Einblendung (`[data-reveal]`) und Rauch (`FluidBackground.astro`) kommen von Littlewebman bzw. sind daran angelehnt (Rauch: Pavel Dobryakov, MIT). Der Rauch ist aus bei reduzierter Bewegung und ohne WebGL2, läuft auf Touch-Geräten und schmalen Fenstern mit geringerer Auflösung und pausiert bei unsichtbarem Tab und nach 6 s Ruhe.

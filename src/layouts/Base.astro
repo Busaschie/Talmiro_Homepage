@@ -59,12 +59,8 @@ const ld = [
     <link rel="preload" href={fontInter6} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={fontPjs8} as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#14305E" />
-    <!-- Scroll-Reveal aktivieren; Notfall: nach 3 s wieder sichtbar, falls das Script nicht lädt.
-         ACHTUNG: Ändert sich dieses Script, muss der sha256-Hash in der CSP der public/.htaccess angepasst werden. -->
-    <script is:inline>
-      document.documentElement.classList.add('js-reveal');
-      setTimeout(() => { if (!window.__reveal) document.documentElement.classList.remove('js-reveal'); }, 3000);
-    </script>
+    <!-- Scroll-Reveal aktivieren (ohne defer/async: js-reveal muss vor dem ersten Rendern gesetzt sein) -->
+    <script is:inline src="/js/reveal-init.js"></script>
 
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

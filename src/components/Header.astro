@@ -8,7 +8,13 @@ import logo from '../assets/logo-mark.webp';
       <img src={logo.src} alt="" width="46" height="40" class="marke-bild" />
       <span class="wortmarke">TALMIRO</span>
     </a>
-    <nav aria-label="Hauptnavigation" class="nav">
+    <!-- Menü-Button: nur mit JavaScript sichtbar (Klasse menue-js am Header), sonst bleibt die Navigation offen -->
+    <button type="button" class="menue-knopf" id="menue-knopf" aria-expanded="false" aria-controls="hauptnavigation">
+      <span class="sr-only" id="menue-text">Menü öffnen</span>
+      <svg class="ic-auf" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></svg>
+      <svg class="ic-zu" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+    </button>
+    <nav aria-label="Hauptnavigation" class="nav" id="hauptnavigation">
       <a href="/#funktionen">Funktionen</a>
       <a href="/#ablauf">So funktioniert es</a>
       <a href="/#kontrolle">Kontrolle</a>
@@ -29,6 +35,35 @@ import logo from '../assets/logo-mark.webp';
     setzeScroll();
     addEventListener('scroll', setzeScroll, { passive: true });
     addEventListener('resize', setzeHoehe);
+  }
+
+  // Mobiles Menü (<= 640 px): Panel unter der Kopfzeile. Ohne JavaScript bleibt die Navigation sichtbar.
+  const knopf = document.getElementById('menue-knopf') as HTMLButtonElement | null;
+  const text = document.getElementById('menue-text');
+  const nav = document.getElementById('hauptnavigation');
+  if (kopf && knopf && text && nav) {
+    (window as any).__menue = true;
+    const schmal = matchMedia('(max-width: 640px)');
+    const setze = (offen: boolean, fokus = false) => {
+      kopf.classList.toggle('is-offen', offen);
+      knopf.setAttribute('aria-expanded', String(offen));
+      text.textContent = offen ? 'Menü schließen' : 'Menü öffnen';
+      if (!offen && fokus) knopf.focus();
+      document.documentElement.style.setProperty('--kopf-h', `${kopf.offsetHeight}px`);
+    };
+    knopf.addEventListener('click', () => setze(knopf.getAttribute('aria-expanded') !== 'true'));
+    // Klick auf einen Link schließt das Menü
+    nav.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) setze(false); });
+    // Escape: schließen, Fokus zurück auf den Button
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && knopf.getAttribute('aria-expanded') === 'true') setze(false, true);
+    });
+    // Klick außerhalb
+    document.addEventListener('click', (e) => {
+      if (knopf.getAttribute('aria-expanded') === 'true' && !kopf.contains(e.target as Node)) setze(false);
+    });
+    // Wechsel auf > 640 px
+    schmal.addEventListener('change', () => { if (!schmal.matches) setze(false); });
   }
 
   const links = new Map<string, HTMLAnchorElement>();

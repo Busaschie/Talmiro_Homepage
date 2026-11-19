@@ -41,8 +41,24 @@ h1, h2, h3 { font-family: var(--font-h); }
 /* Kopf */
 .kopf { position: sticky; top: 0; z-index: 50; background: rgba(255, 255, 255, 0.75); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color 0.2s; }
 .kopf.is-scrolled { border-bottom-color: var(--linie); }
-/* Auf dem Handy wäre die umgebrochene Navigation zu hoch für eine feste Kopfzeile */
-@media (max-width: 640px) { .kopf { position: static; } }
+/* Menü-Button: erst mit JavaScript und nur auf dem Handy sichtbar */
+.menue-knopf { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 10px; background: transparent; color: var(--navy); cursor: pointer; }
+.menue-knopf:hover { background: var(--hell-dunkel); }
+.menue-knopf .ic-zu, .menue-knopf[aria-expanded='true'] .ic-auf { display: none; }
+.menue-knopf[aria-expanded='true'] .ic-zu { display: block; }
+@media (max-width: 640px) {
+  /* kompakte, feste Kopfzeile (Höhe ca. 64 px): Logo links, Menü-Button rechts */
+  html.js .kopf .kopf-innen { flex-wrap: nowrap; padding: 9px 24px; }
+  /* ohne JavaScript bleibt die umgebrochene Navigation sichtbar; dann nicht fest (wäre zu hoch) */
+  html:not(.js) .kopf { position: static; }
+  html.js .kopf .menue-knopf { display: inline-flex; }
+  html.js .kopf .nav { display: none; }
+  /* Panel unter der Kopfzeile */
+  html.js .kopf.is-offen .nav { display: flex; flex-direction: column; align-items: stretch; flex-wrap: nowrap; gap: 0; position: absolute; top: 100%; left: 0; right: 0; padding: 8px 24px 20px; background: rgba(255, 255, 255, 0.97); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--linie); box-shadow: 0 16px 32px rgba(20, 48, 94, 0.12); }
+  html.js .kopf.is-offen .nav a:not(.knopf) { display: flex; align-items: center; min-height: 48px; font-size: 17px; border-bottom: 1px solid var(--linie); }
+  html.js .kopf.is-offen .nav a.knopf { margin-top: 16px; text-align: center; padding: 14px 20px; }
+}
+@media (min-width: 641px) { .menue-knopf { display: none !important; } }
 @media (prefers-reduced-motion: reduce) { .kopf { transition: none; } }
 .kopf-innen { max-width: var(--breite); margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
 .marke { display: flex; align-items: center; gap: 12px; text-decoration: none; }
@@ -194,4 +210,4 @@ h1, h2, h3 { font-family: var(--font-h); }
   mix-blend-mode: multiply;
   opacity: 0.5;
 }
-@media (pointer: coarse), (prefers-reduced-motion: reduce) { .fluid-bg { display: none; } }
+@media (prefers-reduced-motion: reduce) { .fluid-bg { display: none; } }

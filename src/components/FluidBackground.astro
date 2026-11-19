@@ -28,7 +28,7 @@ const STRENGTH = { normal: { factor: 1 }, subtle: { factor: 0.45 } }[strength];
     SPLAT_RADIUS: 0.32, // Größe der Farbwolke
     SPLAT_FORCE: 4000, // Stärke des „Rührens“
     INTENSITY: 0.10, // Helligkeit der Farbe (dezent: 0.03–0.08, kräftig: 0.15+)
-    IDLE_STOP_MS: 6000, // Rechnen pausieren, wenn die Maus so lange ruht
+    IDLE_STOP_MS: 6000, // Rechnen pausieren, wenn Maus/Finger so lange ruhen
   };
   // Markenfarben Talmiro (RGB 0–1): Petrol #0F7C7C, Türkis #1AA3A3, Blau #1F5C8A, Navy #14305E
   const PALETTE: [number, number, number][] = [
@@ -42,7 +42,10 @@ const STRENGTH = { normal: { factor: 1 }, subtle: { factor: 0.45 } }[strength];
     const canvas = document.getElementById('fluid-bg') as HTMLCanvasElement | null;
     if (!canvas) return;
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (matchMedia('(pointer: coarse)').matches) return; // Touch: kein Rauch
+    // Touch-Geräte und schmale Fenster: geringere Auflösung = weniger Last
+    if (matchMedia('(pointer: coarse)').matches || innerWidth < 768) {
+      Object.assign(CONFIG, { SIM_RESOLUTION: 64, DYE_RESOLUTION: 256, PRESSURE_ITERATIONS: 10 });
+    }
 
     const gl = canvas.getContext('webgl2', {
       alpha: true, depth: false, stencil: false, antialias: false, premultipliedAlpha: true,
@@ -233,16 +236,30 @@ const STRENGTH = { normal: { factor: 1 }, subtle: { factor: 0.45 } }[strength];
     // ---------- Eingabe ----------
     const ptr = { x: 0, y: 0, lx: 0, ly: 0, moved: false, init: false };
     let lastMove = 0, color = PALETTE[0], colorTime = 0;
-    addEventListener('pointermove', (e) => {
-      const x = e.clientX / innerWidth, y = 1 - e.clientY / innerHeight;
+    const bewege = (cx: number, cy: number) => {
+      const x = cx / innerWidth, y = 1 - cy / innerHeight;
       if (!ptr.init) { ptr.lx = x; ptr.ly = y; ptr.init = true; }
       ptr.x = x; ptr.y = y; ptr.moved = true; lastMove = performance.now();
+    };
+    // Alle Listener sind passive: Scrollen wird nie blockiert, es gibt kein preventDefault.
+    addEventListener('pointermove', (e) => bewege(e.clientX, e.clientY), { passive: true });
+    // Beim Wischen/Scrollen auf Touch-Geräten bricht der Browser die Pointer-Events ab, touchmove läuft weiter.
+    addEventListener('touchstart', (e) => {
+      const t = e.touches[0];
+      if (!t) return;
+      ptr.lx = ptr.x = t.clientX / innerWidth; ptr.ly = ptr.y = 1 - t.clientY / innerHeight; ptr.init = true;
     }, { passive: true });
+    addEventListener('touchmove', (e) => { const t = e.touches[0]; if (t) bewege(t.clientX, t.clientY); }, { passive: true });
+
+    // Unsichtbarer Tab: nichts rechnen (zusätzlich zur Ruhe-Pause IDLE_STOP_MS)
+    let verborgen = document.hidden;
+    document.addEventListener('visibilitychange', () => { verborgen = document.hidden; last = performance.now(); });
 
     let last = performance.now();
     const frame = (now: number) => {
       requestAnimationFrame(frame);
       const dt = Math.min((now - last) / 1000, 1 / 60); last = now;
+      if (verborgen) return;
       if (now - lastMove > CONFIG.IDLE_STOP_MS) return; // Ruhe: nichts rechnen
       if (resize()) initFBOs();
       if (ptr.moved) {
