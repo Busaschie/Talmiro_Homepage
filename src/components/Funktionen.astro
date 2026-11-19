@@ -1,0 +1,107 @@
+---
+// Icons: Feather-Stil, wie im Entwurf (innerer SVG-Inhalt)
+const gruppen = [
+  {
+    titel: 'Kandidaten und Lebensläufe',
+    icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line>',
+    punkte: [
+      'CVs aus Postfach oder Ordner einlesen (PDF, Word)',
+      'Profil automatisch anlegen, Dubletten erkennen',
+      'Stationen, Ausbildung, Kompetenzen, Sprachen per Sprache ändern',
+      'Gehaltswunsch, Verfügbarkeit, Wechselbereitschaft festhalten',
+      'Kandidatensuche und CV-Versionen',
+    ],
+  },
+  {
+    titel: 'Notizen und Wiedervorlagen',
+    icon: '<path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path>',
+    punkte: [
+      'Gesprächsnotizen direkt diktieren',
+      'Wiedervorlagen anlegen, verschieben, erledigen',
+      'Chronik je Kandidat und Firma: Notizen, Mails, Antworten, Stufen',
+      'Tagesübersicht: was heute fällig ist',
+    ],
+  },
+  {
+    titel: 'Mandate und Kunden',
+    icon: '<rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>',
+    punkte: [
+      'Neukunde mit Firma, Ansprechpartner und Auftrag in einem Satz',
+      'Muss- und Kann-Kriterien je Mandat',
+      'Matching: passende Kandidaten aus Ihrem Bestand',
+      'Pipeline mit Stufen und lückenlosem Stufenverlauf',
+      'Firmen- und Ansprechpartnerdaten pflegen',
+    ],
+  },
+  {
+    titel: 'E-Mail und Kommunikation',
+    icon: '<rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="22 6 12 13 2 6"></polyline>',
+    punkte: [
+      'Kandidatenprofil an Kunden – nur mit Zustimmung des Kandidaten',
+      'E-Mails an Kandidaten und Kunden mit Ihrer Signatur',
+      'Serien-Mails an alle Kandidaten oder an alle eines Mandats – an jeden, der eingewilligt hat',
+      'Absagen einzeln oder gesammelt, wenn die Stelle besetzt ist',
+      'Antworten landen automatisch in der Chronik',
+    ],
+  },
+  {
+    titel: 'Stellenanzeigen und Sourcing',
+    icon: '<path d="M3 11l18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>',
+    punkte: [
+      'Stellenausschreibung aus dem Mandat erstellen – anonym und AGG-konform formuliert',
+      'Texte für LinkedIn zum Kopieren, inklusive Boolean-Suchstring',
+      'Stellenbörse auf Ihrer Website – in Ihrem Design, Deutsch und Englisch',
+      'Google-Jobs-Auszeichnung und automatische Meldung an Google',
+      'Anzeige verschwindet von selbst, wenn die Stelle besetzt ist',
+    ],
+  },
+  {
+    titel: 'Verträge und Rechnungen',
+    icon: '<path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>',
+    punkte: [
+      'Vertrag aus Ihrer Vorlage, digital unterschreiben lassen',
+      'Status „unterschrieben“ automatisch, Erinnerungen an Kunden',
+      'Vertrag ändern oder stornieren per Zuruf',
+      'Rechnung nach der Vermittlung als PDF mit Stopp-Fenster',
+    ],
+  },
+  {
+    titel: 'Tagesgeschäft und Assistenz',
+    icon: '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"></line><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line>',
+    punkte: [
+      'Morgen-Briefing per E-Mail: Termine, Fälliges, Neues',
+      'Kontaktpflege: wen Sie wieder ansprechen sollten',
+      'Nachfass-Assistent bei ausbleibender Kundenrückmeldung',
+      'Versandbestätigungen und Tageszusammenfassung',
+    ],
+  },
+  {
+    titel: 'Überall dabei',
+    icon: '<rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line>',
+    punkte: [
+      'Sprachsteuerung über die Claude-App am Handy',
+      'Übersichtliche Weboberfläche für Desktop und Handy, hell und dunkel',
+      'Mandate, Kandidaten und Firmen jederzeit nachschlagen',
+    ],
+  },
+];
+---
+<section id="funktionen" class="funktionen" aria-labelledby="funktionen-titel">
+  <div class="wrap">
+    <div class="kopfzeile kopfzeile-breit">
+      <h2 id="funktionen-titel">Alle Funktionen im Überblick</h2>
+      <p class="einleitung">Vom ersten Lebenslauf bis zur Rechnung nach der Vermittlung – in einem System, per Sprache oder Klick.</p>
+    </div>
+    <div class="raster-funk">
+      {gruppen.map((g) => (
+        <div class="funk">
+          <div class="funk-kopf">
+            <span class="funk-icon"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F7C7C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={g.icon}></svg></span>
+            <h3>{g.titel}</h3>
+          </div>
+          <ul>{g.punkte.map((p) => <li>{p}</li>)}</ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

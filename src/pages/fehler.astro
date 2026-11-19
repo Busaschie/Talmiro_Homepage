@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+// kontakt.php leitet bei Fehlern auf /fehler/?grund=<code>#<code> um.
+// Die Meldung wird allein per CSS (:target) angezeigt, also auch ohne JavaScript.
+const meldungen = [
+  ['pflicht', 'Bitte füllen Sie Name, E-Mail und Nachricht aus und bestätigen Sie die Datenschutzhinweise.'],
+  ['email', 'Die E-Mail-Adresse scheint nicht korrekt zu sein. Bitte prüfen Sie sie.'],
+  ['laenge', 'Eine Ihrer Eingaben ist zu lang (Name max. 100, Firma max. 150, Nachricht max. 3000 Zeichen).'],
+  ['zeichen', 'Name und E-Mail dürfen keine Zeilenumbrüche enthalten.'],
+  ['zeit', 'Das Formular wurde zu schnell abgeschickt. Bitte versuchen Sie es in einigen Sekunden erneut.'],
+  ['limit', 'Von Ihrem Anschluss kamen zu viele Anfragen. Bitte versuchen Sie es in einer Stunde erneut oder schreiben Sie uns direkt.'],
+  ['versand', 'Ihre Nachricht konnte technisch nicht zugestellt werden. Bitte versuchen Sie es später erneut oder schreiben Sie uns direkt.'],
+  ['methode', 'Bitte senden Sie das Formular über die Seite ab.'],
+];
+---
+<Base title="Anfrage nicht gesendet – Talmiro" description="Ihre Anfrage konnte nicht gesendet werden." path="/fehler/" noindex>
+  <div class="text-seite fehler-seite">
+    <div class="wrap">
+      <h1>Anfrage nicht gesendet</h1>
+      {meldungen.map(([id, text]) => <p class="meldung msg" id={id} role="alert">{text}</p>)}
+      <p class="meldung msg-standard">Ihre Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut.</p>
+      <p>Mit der Zurück-Taste Ihres Browsers bleiben Ihre Eingaben in der Regel erhalten. Wir speichern sie nicht. <a href="/#pilot">Zum Formular</a></p>
+      <p>[KONTAKT: E-Mail-Adresse für den Fall, dass das Formular nicht funktioniert]</p>
+    </div>
+  </div>
+</Base>

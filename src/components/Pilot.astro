@@ -1,0 +1,47 @@
+---
+// Formular sendet per POST an /kontakt.php (funktioniert ohne JavaScript).
+// Das versteckte Feld "t" setzt public/form-zeit.js (Mindestzeit-Prüfung, optional).
+---
+<section id="pilot" class="pilot" aria-labelledby="pilot-titel">
+  <div class="wrap">
+    <div class="pilot-text">
+      <h2 id="pilot-titel">Pilotkunde werden</h2>
+      <p class="einleitung">Talmiro entsteht im engen Austausch mit Headhuntern aus der Praxis. Als Pilotkunde gestalten Sie mit.</p>
+      <ul>
+        <li>Persönliche Einrichtung und Übernahme Ihrer Daten</li>
+        <li>Direkter Draht zum Entwickler</li>
+        <li>Einfluss auf neue Funktionen</li>
+        <li>Pilotpreis: [PREIS PILOT]</li>
+      </ul>
+    </div>
+    <form class="formular" action="/kontakt.php" method="post" aria-label="Pilotplatz anfragen" id="pilot-formular">
+      <div class="feld">
+        <label for="f-name">Name</label>
+        <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="100" />
+      </div>
+      <div class="feld">
+        <label for="f-mail">E-Mail</label>
+        <input id="f-mail" name="email" type="email" autocomplete="email" required maxlength="254" />
+      </div>
+      <div class="feld">
+        <label for="f-firma">Firma (optional)</label>
+        <input id="f-firma" name="firma" type="text" autocomplete="organization" maxlength="150" />
+      </div>
+      <div class="feld">
+        <label for="f-msg">Was soll Talmiro Ihnen abnehmen?</label>
+        <textarea id="f-msg" name="nachricht" rows="4" required maxlength="3000"></textarea>
+      </div>
+      <div class="hp" aria-hidden="true">
+        <label for="f-web">Bitte leer lassen</label>
+        <input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+      <input type="hidden" name="t" id="f-zeit" value="" />
+      <div class="feld-ds">
+        <input id="f-ds" name="datenschutz" type="checkbox" value="1" required />
+        <label for="f-ds">Ich habe die <a href="/datenschutz/">Datenschutzhinweise</a> gelesen und bin mit der Verarbeitung meiner Angaben zur Beantwortung einverstanden.</label>
+      </div>
+      <button type="submit" class="knopf">Anfrage senden</button>
+    </form>
+  </div>
+  <script src="/form-zeit.js" defer></script>
+</section>

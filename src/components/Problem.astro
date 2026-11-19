@@ -1,0 +1,20 @@
+---
+const karten = [
+  ['Nacharbeit frisst den Abend', 'Notizen abtippen, CVs übertragen, Wiedervorlagen pflegen – alles nach dem eigentlichen Gespräch.'],
+  ['Zu viele Werkzeuge', 'CRM, Mailprogramm, E-Signatur, Rechnung und Stellenbörse – jedes mit eigener Oberfläche und eigenen Kosten.'],
+  ['Unterwegs außer Reichweite', 'Zwischen zwei Terminen schnell etwas nachsehen oder festhalten? Am Handy kaum möglich.'],
+];
+---
+<section class="problem" aria-labelledby="problem-titel">
+  <div class="wrap">
+    <div class="kopfzeile">
+      <h2 id="problem-titel">Weniger Verwaltung. Mehr Zeit für Gespräche.</h2>
+      <p class="einleitung">Gängige Recruiting-Software ist für Teams mit Schreibtisch gebaut. Ihr Arbeitstag findet am Telefon, im Auto und zwischen Terminen statt.</p>
+    </div>
+    <div class="spalten">
+      {karten.map(([t, x]) => (
+        <div class="karte-hell"><h3>{t}</h3><p>{x}</p></div>
+      ))}
+    </div>
+  </div>
+</section>

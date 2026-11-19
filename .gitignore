@@ -1,0 +1,11 @@
+dist/
+node_modules/
+.astro/
+kontakt.config.php
+*.log
+.env
+.idea/
+deploy.local.*
+
+# Design-Entwurf und Original-Logo bleiben lokal
+_entwurf/

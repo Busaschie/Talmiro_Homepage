@@ -1,0 +1,19 @@
+---
+import logo from '../assets/logo-mark.webp';
+// Bildmarke bleibt in 2-facher Auflösung (184x160) und wird auf 46x40 px angezeigt.
+---
+<header class="kopf">
+  <div class="kopf-innen">
+    <a href="/" class="marke" aria-label="Talmiro – zur Startseite">
+      <img src={logo.src} alt="" width="46" height="40" class="marke-bild" />
+      <span class="wortmarke">TALMIRO</span>
+    </a>
+    <nav aria-label="Hauptnavigation" class="nav">
+      <a href="/#funktionen">Funktionen</a>
+      <a href="/#ablauf">So funktioniert es</a>
+      <a href="/#kontrolle">Kontrolle</a>
+      <a href="/#faq">FAQ</a>
+      <a href="/#pilot" class="knopf">Pilotplatz anfragen</a>
+    </nav>
+  </div>
+</header>

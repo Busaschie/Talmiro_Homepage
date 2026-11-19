@@ -1,0 +1,24 @@
+---
+const schritte = [
+  ['01', 'Sprechen oder schreiben', '„Leg eine Wiedervorlage für Herrn Nagel am Freitag an.“ Talmiro versteht Kandidaten, Kunden und Mandate aus Ihrem Bestand.'],
+  ['02', 'Vorschau prüfen', 'Alles, was nach außen geht oder Daten überschreibt, kommt erst als Entwurf: Mail, Profil, Vertrag, Rechnung.'],
+  ['03', 'Mit Ja bestätigen', 'Erst nach Ihrem Ja wird gesendet – mit Stopp-Fenster, in dem Sie den Versand noch zurückholen können.'],
+];
+---
+<section id="ablauf" class="sektion-dunkel" aria-labelledby="ablauf-titel">
+  <div class="wrap">
+    <div class="kopfzeile">
+      <h2 id="ablauf-titel">So funktioniert es</h2>
+      <p class="einleitung">Drei Schritte – egal ob am Schreibtisch oder unterwegs per Sprache.</p>
+    </div>
+    <div class="spalten">
+      {schritte.map(([n, t, x]) => (
+        <div class="schritt">
+          <span class="schritt-nr" aria-hidden="true">{n}</span>
+          <h3><span class="sr-only">Schritt {n}: </span>{t}</h3>
+          <p>{x}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

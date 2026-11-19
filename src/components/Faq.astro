@@ -1,0 +1,20 @@
+---
+const fragen = [
+  ['Brauche ich ein Claude-Konto?', 'Ja, für die Sprachsteuerung und den Chat nutzen Sie die Claude-App von Anthropic mit Ihrem eigenen Konto; Talmiro wird dort als Konnektor eingebunden. Für den Arbeitsalltag empfehlen wir [TARIF, z. B. Pro oder Max]. Für die Arbeit mit echten Kandidatendaten: [EMPFEHLUNG TEAM-TARIF MIT AUFTRAGSVERARBEITUNG – nach Klärung]. Die Weboberfläche von Talmiro funktioniert auch ohne Claude-Konto.'],
+  ['Wo liegen meine Daten?', '[ANTWORT NACH KLÄRUNG HOSTING UND AUFTRAGSVERARBEITUNG]'],
+  ['Was kostet Talmiro?', '[PREISMODELL]'],
+  ['Kann ich meine bestehenden Kontakte übernehmen?', 'Ja. Lebensläufe lesen Sie einfach ein. Kandidaten, Firmen und Ansprechpartner aus Ihrem bisherigen System übernehmen wir bei der Einrichtung per CSV- oder Excel-Export, inklusive Dublettenprüfung. [STATUS: Import in Vorbereitung] Ein Import Ihrer LinkedIn-Kontakte folgt.'],
+  ['Verschickt Talmiro etwas von selbst?', 'Nein. Alles, was nach außen geht, braucht Ihre Bestätigung – und lässt sich im Stopp-Fenster noch zurückholen.'],
+];
+---
+<section id="faq" class="faq" aria-labelledby="faq-titel">
+  <div class="wrap wrap-eng">
+    <h2 id="faq-titel">Häufige Fragen</h2>
+    {fragen.map(([f, a]) => (
+      <details>
+        <summary>{f}</summary>
+        <p>{a}</p>
+      </details>
+    ))}
+  </div>
+</section>

@@ -1,10 +1,22 @@
 {
-  "name": "${PROJECT_NAME}",
+  "name": "talmiro-website",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Produktseite Talmiro (talmiro.de) - Astro, statisch, Kontaktformular mit PHP",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "astro dev",
+    "build": "astro build",
+    "assets": "node scripts/make-assets.mjs",
+    "preview": "astro preview"
   },
-  "private": true
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.6",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/plus-jakarta-sans": "^5.3.0",
+    "astro": "^7.4.13"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
+  }
 }
