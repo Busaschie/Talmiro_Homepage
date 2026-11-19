@@ -9,6 +9,7 @@
     "build": "astro build",
     "assets": "node scripts/make-assets.mjs",
     "video": "node scripts/make-video.mjs",
+    "einblicke": "node scripts/make-einblicke.mjs",
     "preview": "astro preview"
   },
   "dependencies": {

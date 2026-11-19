@@ -4,7 +4,7 @@
 //   Quelle (Standard): _entwurf/demo-video.mp4  (H.264 + AAC, beliebiges Seitenverhältnis)
 //   Ausgabe in public/media/:
 //     hero-vorschau.mp4 / .webm  stumme Vorschau, Breite 540 px, <= 3 MB (Schleife im Hero)
-//     hero-voll.mp4              Vollfassung mit Ton, Breite 720 px, AAC, <= 15 MB (nur bei Klick geladen)
+//     hero-voll.mp4              Vollfassung mit Ton, Breite 720 px (höchstens Originalbreite), AAC, <= 15 MB (nur bei Klick geladen)
 //     hero-poster.webp           Standbild (Standard: Sekunde 20 der Quelle)
 //
 // Vorschau und Vollfassung: H.264 (main, yuv420p, +faststart, -preset veryfast). Der CRF steigt schrittweise,
@@ -96,10 +96,10 @@ kodiere(ziel, VORSCHAU_MAX, crfListe(28, 48, 3), (crf) => [
   '-row-mt', '1', '-deadline', 'good', '-cpu-used', '3', '-pix_fmt', 'yuv420p', ziel,
 ]);
 
-// b) Vollfassung mit Ton: Breite 720 px, AAC 112 kbit/s (Stereo bleibt Stereo)
+// b) Vollfassung mit Ton: Breite 720 px, nie größer als das Original, AAC 112 kbit/s (Stereo bleibt Stereo)
 ziel = join(aus, 'hero-voll.mp4');
 kodiere(ziel, VOLL_MAX, crfListe(20, 40), (crf) => [
-  '-i', quelle, '-vf', 'scale=720:-2', ...h264, '-crf', String(crf),
+  '-i', quelle, '-vf', "scale=w='min(720,iw)':h=-2", ...h264, '-crf', String(crf),
   '-c:a', 'aac', '-b:a', '112k', ziel,
 ]);
 

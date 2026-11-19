@@ -277,8 +277,8 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .hero-hinweis { margin: 0; font-size: 14px; color: var(--text-3); }
 /* Handy-Rahmen (Hero-Video, Einblicke): Rahmen navy, Schirm im Seitenverhältnis 9:16 */
 .telefon-schirm { position: relative; display: block; aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; background: var(--geraet-schirm); }
-.telefon-schirm.mit-video { background: var(--telefon-rahmen); }
-.hero-video { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: inherit; }
+.telefon-schirm.mit-video { aspect-ratio: 626 / 1050; background: var(--telefon-rahmen); }
+.hero-video { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
 .video-leiste { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; pointer-events: none; }
 .video-leiste[hidden] { display: none; }
 .video-leiste > * { pointer-events: auto; }
@@ -332,6 +332,7 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .einblick { margin: 0; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .einblick-handy { align-items: center; }
 .einblick-handy .telefon { width: 100%; max-width: 260px; }
+.einblick-handy .telefon-schirm { aspect-ratio: 1080 / 2203; }
 .einblick figcaption { font-size: 15px; line-height: 1.55; color: var(--text-2); }
 .einblick figcaption strong { color: var(--titel); }
 .einblick-handy figcaption { max-width: 260px; }
@@ -339,11 +340,13 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .einblick-link:focus-visible { outline-offset: 4px; }
 .einblick-bild, .einblick-bild img, .dialog-bild img { display: block; }
 .laptop-inner .einblick-bild, .telefon-schirm .einblick-bild { width: 100%; height: 100%; }
-.einblick-bild img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+.einblick-bild img { width: 100%; height: 100%; object-fit: contain; object-position: top; }
+.einblick-hell .laptop-inner, .einblick-hell .telefon-schirm { background: #f5f7f9; }
+.einblick-dunkel .laptop-inner, .einblick-dunkel .telefon-schirm { background: #14181d; }
 /* Laptop-Rahmen (nur CSS) */
 .laptop { width: 100%; }
 .laptop-rahmen { background: var(--geraet-rahmen); border-radius: 14px 14px 3px 3px; padding: 10px 10px 12px; }
-.laptop-inner { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: 4px; overflow: hidden; background: var(--geraet-schirm); }
+.laptop-inner { position: relative; display: block; aspect-ratio: 1918 / 961; border-radius: 4px; overflow: hidden; background: var(--geraet-schirm); }
 .laptop-fuss { position: relative; height: 12px; margin: 0 -3%; background: var(--geraet-fuss); border-radius: 0 0 18px 18px; }
 .laptop-fuss::after { content: ''; position: absolute; left: 50%; top: 0; width: 16%; height: 5px; transform: translateX(-50%); background: var(--geraet-kerbe); border-radius: 0 0 8px 8px; }
 /* Platzhalter, solange das Bild fehlt */

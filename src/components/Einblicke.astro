@@ -2,20 +2,21 @@
 import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
-// Screenshots später unter src/assets/einblicke/ ablegen: admin-laptop, admin-handy, ui-laptop, ui-handy (PNG/JPG).
+// Bilder liegen unter src/assets/einblicke/: hell-laptop, hell-handy, dunkel-laptop, dunkel-handy (webp/png/jpg).
+// Erzeugt aus _entwurf mit npm run einblicke (Handy-Bilder ohne Status- und Gestenleiste).
 // Fehlt ein Bild, bleibt der Platzhalter. Nur Testdaten auf den Screenshots, keine echten Namen, Mails oder Firmen.
-const bilder = import.meta.glob<{ default: ImageMetadata }>('../assets/einblicke/*.{png,jpg,jpeg,PNG,JPG,JPEG}', { eager: true });
+const bilder = import.meta.glob<{ default: ImageMetadata }>('../assets/einblicke/*.{webp,png,jpg,jpeg,PNG,JPG,JPEG}', { eager: true });
 const finde = (name: string): ImageMetadata | undefined => {
   const treffer = Object.entries(bilder).find(([pfad]) => /\/([^/]+)\.[a-z]+$/i.exec(pfad)?.[1].toLowerCase() === name);
   return treffer?.[1].default;
 };
 
 type Geraet = 'laptop' | 'handy';
-const eintraege: { id: string; geraet: Geraet; titel: string; text: string; alt: string }[] = [
-  { id: 'admin-laptop', geraet: 'laptop', titel: 'Verwaltung am Laptop', text: 'Kandidaten, Mandate und Verträge im Verwaltungsbereich, übersichtlich am großen Bildschirm.', alt: 'Screenshot: Verwaltungsbereich von Talmiro am Laptop (Testdaten)' },
-  { id: 'admin-handy', geraet: 'handy', titel: 'Verwaltung am Handy', text: 'Dieselben Daten unterwegs nachschlagen.', alt: 'Screenshot: Verwaltungsbereich von Talmiro am Handy (Testdaten)' },
-  { id: 'ui-laptop', geraet: 'laptop', titel: 'Oberfläche am Laptop', text: 'Die Weboberfläche von Talmiro am Schreibtisch.', alt: 'Screenshot: Weboberfläche von Talmiro am Laptop (Testdaten)' },
-  { id: 'ui-handy', geraet: 'handy', titel: 'Oberfläche am Handy', text: 'Die Weboberfläche von Talmiro am Handy.', alt: 'Screenshot: Weboberfläche von Talmiro am Handy (Testdaten)' },
+const eintraege: { id: string; geraet: Geraet; modus: 'hell' | 'dunkel'; titel: string; text: string; alt: string }[] = [
+  { id: 'hell-laptop', geraet: 'laptop', modus: 'hell', titel: 'Hell – Laptop', text: 'Auftrag mit Pipeline in der Weboberfläche, heller Modus, am Laptop.', alt: 'Screenshot: Auftrag mit Pipeline in der Weboberfläche, heller Modus, am Laptop (Testdaten)' },
+  { id: 'hell-handy', geraet: 'handy', modus: 'hell', titel: 'Hell – Handy', text: 'Derselbe Auftrag am Handy, heller Modus.', alt: 'Screenshot: Auftrag mit Pipeline in der Weboberfläche, heller Modus, am Handy (Testdaten)' },
+  { id: 'dunkel-laptop', geraet: 'laptop', modus: 'dunkel', titel: 'Dunkel – Laptop', text: 'Auftrag mit Pipeline in der Weboberfläche, dunkler Modus, am Laptop.', alt: 'Screenshot: Auftrag mit Pipeline in der Weboberfläche, dunkler Modus, am Laptop (Testdaten)' },
+  { id: 'dunkel-handy', geraet: 'handy', modus: 'dunkel', titel: 'Dunkel – Handy', text: 'Derselbe Auftrag am Handy, dunkler Modus.', alt: 'Screenshot: Auftrag mit Pipeline in der Weboberfläche, dunkler Modus, am Handy (Testdaten)' },
 ];
 const gross = '(min-width: 1200px) 1100px, 94vw';
 const klein = {
@@ -27,7 +28,7 @@ const klein = {
   <div class="wrap">
     <div class="kopfzeile kopfzeile-breit" data-reveal>
       <h2 id="einblicke-titel" class="titel-verlauf">Einblicke</h2>
-      <p class="einleitung">So sieht Talmiro aus: die Verwaltung und die Oberfläche, am Laptop und am Handy.</p>
+      <p class="einleitung">So sieht Talmiro aus: hell und dunkel, am Laptop und am Handy.</p>
     </div>
     <div class="raster-einblicke">
       {eintraege.map((e) => {
@@ -45,7 +46,7 @@ const klein = {
           </div>
         );
         return (
-          <figure class={`einblick einblick-${e.geraet}`} data-reveal>
+          <figure class={`einblick einblick-${e.geraet} einblick-${e.modus}`} data-reveal>
             <div class={rahmen}>
               {e.geraet === 'laptop' ? <div class="laptop-rahmen">{inhalt}</div> : inhalt}
               {e.geraet === 'laptop' && <div class="laptop-fuss" aria-hidden="true"></div>}
