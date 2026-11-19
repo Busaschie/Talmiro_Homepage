@@ -7,11 +7,11 @@ const karten = [
 ---
 <section class="problem" aria-labelledby="problem-titel">
   <div class="wrap">
-    <div class="kopfzeile">
+    <div class="kopfzeile" data-reveal>
       <h2 id="problem-titel">Weniger Verwaltung. Mehr Zeit für Gespräche.</h2>
       <p class="einleitung">Gängige Recruiting-Software ist für Teams mit Schreibtisch gebaut. Ihr Arbeitstag findet am Telefon, im Auto und zwischen Terminen statt.</p>
     </div>
-    <div class="spalten">
+    <div class="spalten" data-reveal>
       {karten.map(([t, x]) => (
         <div class="karte-hell"><h3>{t}</h3><p>{x}</p></div>
       ))}

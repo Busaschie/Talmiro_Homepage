@@ -10,11 +10,11 @@ const regeln = [
 ---
 <section id="kontrolle" class="kontrolle" aria-labelledby="kontrolle-titel">
   <div class="wrap">
-    <div class="kontrolle-kopf">
+    <div class="kontrolle-kopf" data-reveal>
       <h2 id="kontrolle-titel">Sie behalten die Kontrolle</h2>
       <p class="einleitung">Ein Assistent, der für Sie handelt, muss berechenbar sein. Deshalb gelten in Talmiro feste Regeln, die keine Eingabe aushebeln kann.</p>
     </div>
-    <div class="kontrolle-raster">
+    <div class="kontrolle-raster" data-reveal>
       {regeln.map(([t, x]) => (
         <div class="regel"><h3>{t}</h3><p>{x}</p></div>
       ))}

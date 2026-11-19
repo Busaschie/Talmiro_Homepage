@@ -17,3 +17,42 @@ import logo from '../assets/logo-mark.webp';
     </nav>
   </div>
 </header>
+
+<script>
+  // Kopfzeile: Unterlinie erst nach dem Scrollen; Höhe als --kopf-h (für scroll-margin-top);
+  // Scroll-Spy: Link des Abschnitts in der Bildschirmmitte bekommt aria-current="true".
+  const kopf = document.querySelector<HTMLElement>('.kopf');
+  if (kopf) {
+    const setzeHoehe = () => document.documentElement.style.setProperty('--kopf-h', `${kopf.offsetHeight}px`);
+    const setzeScroll = () => kopf.classList.toggle('is-scrolled', window.scrollY > 4);
+    setzeHoehe();
+    setzeScroll();
+    addEventListener('scroll', setzeScroll, { passive: true });
+    addEventListener('resize', setzeHoehe);
+  }
+
+  const links = new Map<string, HTMLAnchorElement>();
+  document.querySelectorAll<HTMLAnchorElement>('.nav a:not(.knopf)[href^="/#"]').forEach((a) => {
+    links.set(a.getAttribute('href')!.slice(2), a);
+  });
+  const sektionen = [...links.keys()]
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  if (sektionen.length) {
+    const sichtbar = new Set<string>();
+    const aktualisiere = () => {
+      // erster Abschnitt in Dokumentreihenfolge, der die Bildschirmmitte berührt
+      const aktiv = sektionen.find((s) => sichtbar.has(s.id))?.id;
+      links.forEach((a, id) => (id === aktiv ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+    };
+    const spy = new IntersectionObserver(
+      (eintraege) => {
+        eintraege.forEach((e) => (e.isIntersecting ? sichtbar.add(e.target.id) : sichtbar.delete(e.target.id)));
+        aktualisiere();
+      },
+      { rootMargin: '-45% 0px -54% 0px' },
+    );
+    sektionen.forEach((s) => spy.observe(s));
+  }
+</script>

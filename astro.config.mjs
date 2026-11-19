@@ -8,6 +8,8 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   build: { inlineStylesheets: 'never' },
+  // Skripte nie inline einbetten (Content-Security-Policy erlaubt nur eigene Dateien und den einen gehashten Inline-Block)
+  vite: { build: { assetsInlineLimit: 0 } },
   integrations: [
     sitemap({ filter: (page) => !page.includes('/danke') && !page.includes('/fehler') && !page.includes('/404') }),
   ],

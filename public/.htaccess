@@ -36,7 +36,8 @@ ErrorDocument 404 /404.html
   Header always set X-Frame-Options "DENY"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
   # Alles lokal (Schriften, Bilder, Skripte); Formular nur an die eigene Domain.
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+  # script-src: der sha256-Hash gehoert zum Inline-Script im <head> von Base.astro (js-reveal). Aendert sich das Script, Hash neu berechnen (README).
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-BElgArR3BVlGRODXd4iBu75i5/dGtKNlxyy4Jb2fIlk='; style-src 'self'; img-src 'self' data:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
   Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
 </IfModule>
 

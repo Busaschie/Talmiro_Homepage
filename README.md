@@ -69,3 +69,10 @@ rÃ¤umt auf. Es bricht ab, wenn schon eine `kontakt.config.php` im Projektordner 
   (`X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `Content-Security-Policy` nur mit eigenen Quellen, HSTS, `X-Frame-Options`).
 - Wer externe Skripte, Schriften oder Bilder einbaut, muss die CSP in `.htaccess` anpassen.
 - Impressum und Datenschutz sind **Gliederungen mit Platzhaltern**, keine fertigen Rechtstexte (siehe `PLATZHALTER.md`).
+
+## Skripte und CSP
+
+- Skripte werden nie inline eingebettet (`vite.build.assetsInlineLimit: 0`), außer dem kleinen Block im `<head>` von `src/layouts/Base.astro` (Klasse `js-reveal` plus 3-s-Notfall-Fallback).
+  Für diesen Block steht ein `sha256`-Hash in der CSP in `public/.htaccess`. **Wer das Script ändert, muss den Hash neu berechnen:**
+  Inhalt zwischen `<script>` und `</script>` in `dist/index.html` mit SHA-256 hashen (Base64) und in `script-src` eintragen.
+- Scroll-Einblendung (`[data-reveal]`), Rauch (`FluidBackground.astro`, aus bei reduzierter Bewegung, ohne WebGL2 und auf Touch-Geräten) und Scroll-Spy der Navigation (`Header.astro`) kommen von Littlewebman bzw. sind daran angelehnt (Rauch: Pavel Dobryakov, MIT).

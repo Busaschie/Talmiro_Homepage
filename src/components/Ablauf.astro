@@ -13,7 +13,7 @@ const schritte = [
     </div>
     <div class="spalten">
       {schritte.map(([n, t, x]) => (
-        <div class="schritt">
+        <div class="schritt" data-reveal>
           <span class="schritt-nr" aria-hidden="true">{n}</span>
           <h3><span class="sr-only">Schritt {n}: </span>{t}</h3>
           <p>{x}</p>

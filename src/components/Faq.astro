@@ -11,7 +11,7 @@ const fragen = [
   <div class="wrap wrap-eng">
     <h2 id="faq-titel">Häufige Fragen</h2>
     {fragen.map(([f, a]) => (
-      <details>
+      <details data-reveal>
         <summary>{f}</summary>
         <p>{a}</p>
       </details>
