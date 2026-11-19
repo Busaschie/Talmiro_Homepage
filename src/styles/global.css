@@ -47,10 +47,10 @@
   --ta-ja-text: #ffffff;
 
   /* Abschnitt „So funktioniert es“ und Footer */
-  --sektion-bg: #14305e;
+  --ablauf-bg: #0f4747; /* nur „So funktioniert es“ */
   --sektion-titel: #ffffff;
   --sektion-text: #d3dce8;
-  --sektion-linie: #3a5584;
+  --sektion-linie: #7ab5b1; /* Rahmen der Schritte, 4,5:1 auf --ablauf-bg */
   --sektion-nr: #7fd3cf;
   --footer-bg: #14305e;
   --footer-text: #d3dce8;
@@ -65,6 +65,7 @@
 
   /* Logo-Schriftzug */
   --grad-logo: linear-gradient(90deg, #14305e 0%, #1f5c8a 45%, #1aa3a3 100%);
+  --grad-titel: linear-gradient(90deg, #14305e 0%, #1f5c8a 45%, #148f8f 100%); /* wie Logo, Ende etwas dunkler (>= 3:1 auf --flaeche) */
   --grad-footer: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
 
   /* Hinweis- und Fehlerboxen (bleiben in beiden Modi hell) */
@@ -117,11 +118,12 @@
   --blase-ich-text: #e3f6f4;
   --ta-ja-bg: #0f7c7c;
   --ta-ja-text: #ffffff;
-  --sektion-bg: #1c2638;
-  --sektion-linie: #34425a;
+  --ablauf-bg: #1a2524;
+  --sektion-linie: #6f908c;
   --footer-bg: #101a2b;
   --fokus: #4cc7c2;
   --grad-logo: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
+  --grad-titel: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
   --rauch-blend: screen;
 }
 /* Ohne JavaScript (kein data-theme): dem System folgen */
@@ -158,11 +160,12 @@
     --blase-ich-text: #e3f6f4;
     --ta-ja-bg: #0f7c7c;
     --ta-ja-text: #ffffff;
-    --sektion-bg: #1c2638;
-    --sektion-linie: #34425a;
+    --ablauf-bg: #1a2524;
+    --sektion-linie: #6f908c;
     --footer-bg: #101a2b;
     --fokus: #4cc7c2;
     --grad-logo: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
+    --grad-titel: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
     --rauch-blend: screen;
   }
 }
@@ -192,6 +195,10 @@ h1, h2, h3 { font-family: var(--font-h); }
 .wrap { max-width: var(--breite); margin: 0 auto; padding: 88px 24px; }
 .wrap-eng { max-width: 900px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Überschriften mit Farbverlauf (h1 im Hero, h2 der Startseite außer „So funktioniert es“) */
+.titel-verlauf { width: fit-content; max-width: 100%; color: var(--titel); background: var(--grad-titel); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+@media (forced-colors: active) { .titel-verlauf { background: none; -webkit-text-fill-color: currentColor; color: CanvasText; } }
 
 /* Kopf */
 .kopf { position: sticky; top: 0; z-index: 50; background: var(--kopf-bg); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color 0.2s; }
@@ -278,7 +285,7 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .karte-hell h3 { margin: 0; font-size: 20px; color: var(--titel); }
 .karte-hell p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--text-2); }
 
-.sektion-dunkel { background: var(--sektion-bg); }
+.sektion-dunkel { background: var(--ablauf-bg); }
 .sektion-dunkel .wrap { display: flex; flex-direction: column; gap: 40px; }
 .sektion-dunkel h2 { color: var(--sektion-titel); }
 .sektion-dunkel .einleitung { color: var(--sektion-text); }
@@ -345,6 +352,8 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .text-seite .hinweis-recht { color: var(--hinweis-text); }
 .meldung { background: var(--meldung-bg); border: 1px solid var(--meldung-rand); border-radius: 12px; padding: 16px 20px; color: var(--meldung-text); }
 .text-seite .meldung { color: var(--meldung-text); }
+.kasten { background: var(--flaeche); border: 1px solid var(--linie); border-left: 4px solid var(--link); border-radius: 12px; padding: 16px 20px; margin: 0 0 16px; }
+.kasten address { font-style: normal; font-size: 16px; line-height: 1.65; color: var(--text); }
 .msg { display: none; }
 .msg:target { display: block; }
 .fehler-seite:has(.msg:target) .msg-standard { display: none; }

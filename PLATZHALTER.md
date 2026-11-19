@@ -4,15 +4,17 @@
 
 **Impressum und Datenschutz sind nur Gliederungen mit Platzhaltern, kein fertiger Rechtstext. Beides muss vor dem Livegang rechtlich geprüft und vollständig ausgefüllt werden.**
 
-| Platzhalter | Ort | Was fehlt |
+| Platzhalter / Stelle | Ort | Was fehlt |
 |---|---|---|
-| `[NAME]`, `[ANSCHRIFT]`, `[KONTAKT: …]` | `src/pages/impressum.astro`, `datenschutz.astro` | Anbieter bzw. Verantwortlicher |
-| `[USt-IdNr. …]`, `[NAME UND ANSCHRIFT, falls abweichend …]` | Impressum | falls zutreffend |
+| `[USt-IdNr. …]` | Impressum | falls zutreffend |
 | `[HINWEIS ZUR VERBRAUCHERSTREITBEILEGUNG …]`, `[HAFTUNGSHINWEISE …]` | Impressum | rechtlich prüfen |
-| `[ANGABEN ZUM HOSTER …]` | Datenschutz, Abschnitt 2 | febas: Anschrift, Standort, AV-Vertrag |
-| `[ZWECK, RECHTSGRUNDLAGE, SPEICHERDAUER …]` | Datenschutz, Abschnitt 3 (Server-Logs) | nach Angaben von febas |
-| `[RECHTSGRUNDLAGE, SPEICHERDAUER IM POSTFACH, EMPFÄNGER …]` | Datenschutz, Abschnitt 4 (Formular) | prüfen; Hinweis auf IP-Hash (24 h) steht schon im Text |
-| `[ZUSTÄNDIGE AUFSICHTSBEHÖRDE …]`, `[DATUM]` | Datenschutz, Abschnitte 6/7 | eintragen |
+| Verantwortlicher (Name, Anschrift, E-Mail) | Impressum, Datenschutz Abschnitt 1 | eingetragen; in Datenschutz Abschnitt 1 steht die Adresse `info@talmiro.e` (vermutlich Tippfehler, `.de`) |
+| Hosting und Server-Logfiles (FEBAS, Rechtsgrundlage, 7 Tage, AVV) | Datenschutz, Abschnitt 2 | eingetragen nach Angaben von Niko; **AVV-Abschluss und 7-Tage-Frist bitte bestätigen** |
+| Externe Dienste und Schriftarten | Datenschutz, Abschnitt 5 | eingetragen; stimmt mit dem Build überein (keine externen Anfragen, Schriften lokal) |
+| Kontaktformular: Rechtsgrundlage, Speicherdauer im Postfach, Empfänger | Datenschutz, Abschnitt 3 | fehlt im Text, rechtlich prüfen; Hinweis auf IP-Hash (24 h) steht schon drin |
+| Zuständige Aufsichtsbehörde | Datenschutz, Abschnitt 6 | fehlt im Text |
+| Speicherung der Design-Wahl (`localStorage` `talmiro-theme`, nur hell/dunkel, nichts wird übertragen) | Datenschutz, Abschnitt 4 | ggf. erwähnen; rechtlich prüfen |
+| Hinweisbox „Entwurf, nicht rechtsverbindlich“ | Impressum, Datenschutz | vor dem Livegang entfernen, wenn beides geprüft ist |
 
 ## Inhalt (Startseite)
 
