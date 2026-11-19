@@ -198,6 +198,10 @@ h1, h2, h3 { font-family: var(--font-h); }
 
 /* Überschriften mit Farbverlauf (h1 im Hero, h2 der Startseite außer „So funktioniert es“) */
 .titel-verlauf { width: fit-content; max-width: 100%; color: var(--titel); background: var(--grad-titel); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+/* Unterlängen (g, p, y) nicht abschneiden: background-clip: text färbt nur die Zeilenbox. Etwas Polster oben/unten,
+   per negativem Rand ausgeglichen (Abstände bleiben gleich); clone sorgt dafür, dass es auch bei Zeilenumbruch stimmt.
+   Selektor mit .wrap, damit er das margin: 0 von ".wrap h2" bzw. ".hero h1" sicher überstimmt. */
+.wrap .titel-verlauf { padding-block: 0.08em 0.18em; margin-block: -0.08em -0.18em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 @media (forced-colors: active) { .titel-verlauf { background: none; -webkit-text-fill-color: currentColor; color: CanvasText; } }
 
 /* Kopf */
@@ -255,7 +259,7 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .hero .wrap { padding: 88px 24px 96px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 56px; }
 .hero-text { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px; align-self: flex-start; }
 .eyebrow { margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--link); line-height: 1.2; }
-.hero h1 { margin: 0; font-size: clamp(40px, 8vw, 64px); line-height: 1.05; font-weight: 800; color: var(--titel); }
+.hero h1 { margin: 0; font-size: clamp(40px, 8vw, 64px); line-height: 1.1; font-weight: 800; color: var(--titel); }
 .lead { margin: 0; font-size: 20px; line-height: 1.55; color: var(--text-2); max-width: 600px; }
 .hero-knoepfe { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; }
 .hero-hinweis { margin: 0; font-size: 14px; color: var(--text-3); }
