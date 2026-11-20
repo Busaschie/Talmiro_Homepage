@@ -2,8 +2,8 @@
 import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
-// Bilder liegen unter src/assets/einblicke/: hell-laptop, hell-handy, dunkel-laptop, dunkel-handy (webp/png/jpg).
-// Erzeugt aus _entwurf mit npm run einblicke (Handy-Bilder ohne Status- und Gestenleiste).
+// Bilder liegen unter src/assets/einblicke/: hell-laptop, hell-handy, dunkel-laptop, dunkel-handy, admin-hell, admin-dunkel (webp/png/jpg).
+// Erzeugt aus _entwurf mit npm run einblicke (Handy-Bilder ohne Status- und Gestenleiste, Admin-Bilder unverändert).
 // Fehlt ein Bild, bleibt der Platzhalter. Nur Testdaten auf den Screenshots, keine echten Namen, Mails oder Firmen.
 const bilder = import.meta.glob<{ default: ImageMetadata }>('../assets/einblicke/*.{webp,png,jpg,jpeg,PNG,JPG,JPEG}', { eager: true });
 const finde = (name: string): ImageMetadata | undefined => {
@@ -12,15 +12,25 @@ const finde = (name: string): ImageMetadata | undefined => {
 };
 
 type Geraet = 'laptop' | 'handy';
-const eintraege: { id: string; geraet: Geraet; modus: 'hell' | 'dunkel'; titel: string; text: string; alt: string }[] = [
-  { id: 'hell-laptop', geraet: 'laptop', modus: 'hell', titel: 'Hell – Laptop', text: 'Auftrag mit Pipeline in der Weboberfläche, heller Modus, am Laptop.', alt: 'Screenshot: Auftrag mit Pipeline in der Weboberfläche, heller Modus, am Laptop (Testdaten)' },
-  { id: 'hell-handy', geraet: 'handy', modus: 'hell', titel: 'Hell – Handy', text: 'Derselbe Auftrag am Handy, heller Modus.', alt: 'Screenshot: Auftrag mit Pipeline in der Weboberfläche, heller Modus, am Handy (Testdaten)' },
-  { id: 'dunkel-laptop', geraet: 'laptop', modus: 'dunkel', titel: 'Dunkel – Laptop', text: 'Auftrag mit Pipeline in der Weboberfläche, dunkler Modus, am Laptop.', alt: 'Screenshot: Auftrag mit Pipeline in der Weboberfläche, dunkler Modus, am Laptop (Testdaten)' },
-  { id: 'dunkel-handy', geraet: 'handy', modus: 'dunkel', titel: 'Dunkel – Handy', text: 'Derselbe Auftrag am Handy, dunkler Modus.', alt: 'Screenshot: Auftrag mit Pipeline in der Weboberfläche, dunkler Modus, am Handy (Testdaten)' },
+type Eintrag = { id: string; geraet: Geraet; modus: 'hell' | 'dunkel'; art: 'web' | 'admin'; titel: string; text: string; alt: string };
+const web: Eintrag[] = [
+  { id: 'hell-laptop', geraet: 'laptop', modus: 'hell', art: 'web', titel: 'Hell – Laptop', text: 'Auftrag mit Pipeline in der Weboberfläche, heller Modus, am Laptop.', alt: 'Screenshot: Auftrag mit Pipeline in der Weboberfläche, heller Modus, am Laptop (Testdaten)' },
+  { id: 'hell-handy', geraet: 'handy', modus: 'hell', art: 'web', titel: 'Hell – Handy', text: 'Derselbe Auftrag am Handy, heller Modus.', alt: 'Screenshot: Auftrag mit Pipeline in der Weboberfläche, heller Modus, am Handy (Testdaten)' },
+  { id: 'dunkel-laptop', geraet: 'laptop', modus: 'dunkel', art: 'web', titel: 'Dunkel – Laptop', text: 'Auftrag mit Pipeline in der Weboberfläche, dunkler Modus, am Laptop.', alt: 'Screenshot: Auftrag mit Pipeline in der Weboberfläche, dunkler Modus, am Laptop (Testdaten)' },
+  { id: 'dunkel-handy', geraet: 'handy', modus: 'dunkel', art: 'web', titel: 'Dunkel – Handy', text: 'Derselbe Auftrag am Handy, dunkler Modus.', alt: 'Screenshot: Auftrag mit Pipeline in der Weboberfläche, dunkler Modus, am Handy (Testdaten)' },
+];
+const admin: Eintrag[] = [
+  { id: 'admin-hell', geraet: 'laptop', modus: 'hell', art: 'admin', titel: 'Verwaltung – Hell', text: 'Übersicht für den Tag: Wiedervorlagen, neue Lebensläufe, Aufträge, Verträge und Post.', alt: 'Screenshot: Übersicht der Verwaltung mit Kennzahlen zu Kandidaten, Auftraggebern, Aufträgen und Kommunikation, heller Modus (Testdaten)' },
+  { id: 'admin-dunkel', geraet: 'laptop', modus: 'dunkel', art: 'admin', titel: 'Verwaltung – Dunkel', text: 'Dieselbe Übersicht im dunklen Modus.', alt: 'Screenshot: Übersicht der Verwaltung mit Kennzahlen zu Kandidaten, Auftraggebern, Aufträgen und Kommunikation, dunkler Modus (Testdaten)' },
+];
+const gruppen = [
+  { id: 'einblicke-web', titel: 'Weboberfläche', klasse: 'raster-einblicke', eintraege: web },
+  { id: 'einblicke-admin', titel: 'Verwaltung', klasse: 'raster-einblicke raster-admin', eintraege: admin },
 ];
 const gross = '(min-width: 1200px) 1100px, 94vw';
 const klein = {
   laptop: { widths: [480, 800, 1200], sizes: '(min-width: 1248px) 760px, (min-width: 721px) 60vw, 92vw' },
+  laptopAdmin: { widths: [480, 800, 1200], sizes: '(min-width: 1248px) 560px, (min-width: 721px) 46vw, 92vw' },
   handy: { widths: [260, 520, 780], sizes: '260px' },
 };
 ---
@@ -28,43 +38,49 @@ const klein = {
   <div class="wrap">
     <div class="kopfzeile kopfzeile-breit" data-reveal>
       <h2 id="einblicke-titel" class="titel-verlauf">Einblicke</h2>
-      <p class="einleitung">So sieht Talmiro aus: hell und dunkel, am Laptop und am Handy.</p>
+      <p class="einleitung">So sieht Talmiro aus: die Weboberfläche am Laptop und am Handy und die Verwaltung im Hintergrund, jeweils hell und dunkel.</p>
     </div>
-    <div class="raster-einblicke">
-      {eintraege.map((e) => {
-        const bild = finde(e.id);
-        const rahmen = e.geraet === 'laptop' ? 'laptop' : 'telefon';
-        const schirm = e.geraet === 'laptop' ? 'laptop-inner' : 'telefon-schirm';
-        const inhalt = bild ? (
-          <a class={`${schirm} einblick-link`} href={bild.src} data-einblick aria-label={`Bild vergrößern: ${e.titel}`}>
-            <Picture src={bild} alt={e.alt} formats={['avif', 'webp']} widths={klein[e.geraet].widths} sizes={klein[e.geraet].sizes} loading="lazy" decoding="async" pictureAttributes={{ class: 'einblick-bild' }} />
-          </a>
-        ) : (
-          <div class={`${schirm} platzhalter`}>
-            <span class="platzhalter-titel">{e.titel}</span>
-            <span class="platzhalter-text">Bild folgt</span>
-          </div>
-        );
-        return (
-          <figure class={`einblick einblick-${e.geraet} einblick-${e.modus}`} data-reveal>
-            <div class={rahmen}>
-              {e.geraet === 'laptop' ? <div class="laptop-rahmen">{inhalt}</div> : inhalt}
-              {e.geraet === 'laptop' && <div class="laptop-fuss" aria-hidden="true"></div>}
-            </div>
-            <figcaption><strong>{e.titel}.</strong> {e.text}</figcaption>
-            {bild && (
-              <dialog class="einblick-dialog" aria-label={e.titel}>
-                <button type="button" class="dialog-zu" aria-label="Schließen">
-                  <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
-                </button>
-                <Picture src={bild} alt={e.alt} formats={['avif', 'webp']} widths={[800, 1200, 1800]} sizes={gross} loading="lazy" decoding="async" pictureAttributes={{ class: 'dialog-bild' }} />
-                <p class="dialog-unter">{e.titel}</p>
-              </dialog>
-            )}
-          </figure>
-        );
-      })}
-    </div>
+    {gruppen.map((g) => (
+      <div class="einblick-gruppe">
+        <h3 id={`${g.id}-titel`} class="gruppen-titel" data-reveal>{g.titel}</h3>
+        <div class={g.klasse} role="group" aria-labelledby={`${g.id}-titel`}>
+          {g.eintraege.map((e) => {
+            const bild = finde(e.id);
+            const rahmen = e.geraet === 'laptop' ? 'laptop' : 'telefon';
+            const schirm = e.geraet === 'laptop' ? 'laptop-inner' : 'telefon-schirm';
+            const bemessung = e.geraet === 'handy' ? klein.handy : e.art === 'admin' ? klein.laptopAdmin : klein.laptop;
+            const inhalt = bild ? (
+              <a class={`${schirm} einblick-link`} href={bild.src} data-einblick aria-label={`Bild vergrößern: ${e.titel}`}>
+                <Picture src={bild} alt={e.alt} formats={['avif', 'webp']} widths={bemessung.widths} sizes={bemessung.sizes} loading="lazy" decoding="async" pictureAttributes={{ class: 'einblick-bild' }} />
+              </a>
+            ) : (
+              <div class={`${schirm} platzhalter`}>
+                <span class="platzhalter-titel">{e.titel}</span>
+                <span class="platzhalter-text">Bild folgt</span>
+              </div>
+            );
+            return (
+              <figure class={`einblick einblick-${e.geraet} einblick-${e.modus} einblick-${e.art}`} data-reveal>
+                <div class={rahmen}>
+                  {e.geraet === 'laptop' ? <div class="laptop-rahmen">{inhalt}</div> : inhalt}
+                  {e.geraet === 'laptop' && <div class="laptop-fuss" aria-hidden="true"></div>}
+                </div>
+                <figcaption><strong>{e.titel}.</strong> {e.text}</figcaption>
+                {bild && (
+                  <dialog class="einblick-dialog" aria-label={e.titel}>
+                    <button type="button" class="dialog-zu" aria-label="Schließen">
+                      <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+                    </button>
+                    <Picture src={bild} alt={e.alt} formats={['avif', 'webp']} widths={[800, 1200, 1800]} sizes={gross} loading="lazy" decoding="async" pictureAttributes={{ class: 'dialog-bild' }} />
+                    <p class="dialog-unter">{e.titel}</p>
+                  </dialog>
+                )}
+              </figure>
+            );
+          })}
+        </div>
+      </div>
+    ))}
   </div>
 </section>
 

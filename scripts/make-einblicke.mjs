@@ -1,7 +1,7 @@
 // Bereitet die Screenshots für „Einblicke“ auf (wiederholbar):  npm run einblicke
 //
-//   Quellen: _entwurf/ui-hell_compressed.webp, ui-hell-handy_compressed.webp, ui-dark_compressed.webp, ui-dark-handy_compressed.webp
-//   Ausgabe: src/assets/einblicke/hell-laptop.webp, hell-handy.webp, dunkel-laptop.webp, dunkel-handy.webp
+//   Quellen: _entwurf/ui-laptop-hell|dunkel.webp, ui-handy-hell|dunkel.webp, admin-laptop-hell|dunkel.webp
+//   Ausgabe: src/assets/einblicke/hell-laptop, dunkel-laptop, hell-handy, dunkel-handy, admin-hell, admin-dunkel (.webp)
 //
 // Laptop-Bilder werden unverändert übernommen. Bei den Handy-Bildern werden die Systemstatusleiste oben (Uhrzeit, Akku)
 // und die Gestenleiste unten abgeschnitten. Die Grenze wird am Bild gesucht: Die Systemleisten sind einfarbig dunkel,
@@ -18,11 +18,14 @@ const SUCHE_OBEN = 220; // Suchbereich in Pixeln vom Rand
 const SUCHE_UNTEN = 140;
 const SCHWELLE = 8; // Farbabstand (Summe über RGB), ab dem eine Zeile als Inhalt gilt
 
+// Admin-Bilder sind bereits bereinigt und werden nicht beschnitten.
 const bilder = [
-  { quelle: 'ui-hell_compressed.webp', ziel: 'hell-laptop.webp', handy: false },
-  { quelle: 'ui-hell-handy_compressed.webp', ziel: 'hell-handy.webp', handy: true },
-  { quelle: 'ui-dark_compressed.webp', ziel: 'dunkel-laptop.webp', handy: false },
-  { quelle: 'ui-dark-handy_compressed.webp', ziel: 'dunkel-handy.webp', handy: true },
+  { quelle: 'ui-laptop-hell.webp', ziel: 'hell-laptop.webp', handy: false },
+  { quelle: 'ui-handy-hell.webp', ziel: 'hell-handy.webp', handy: true },
+  { quelle: 'ui-laptop-dunkel.webp', ziel: 'dunkel-laptop.webp', handy: false },
+  { quelle: 'ui-handy-dunkel.webp', ziel: 'dunkel-handy.webp', handy: true },
+  { quelle: 'admin-laptop-hell.webp', ziel: 'admin-hell.webp', handy: false },
+  { quelle: 'admin-laptop-dunkel.webp', ziel: 'admin-dunkel.webp', handy: false },
 ];
 
 // mittlere Farbe einer Zeile im Bereich x = 22 % .. 32 % (frei von Uhrzeit, Statussymbolen und Gestenleiste)

@@ -329,10 +329,13 @@ html.js .nav .theme-knopf { display: inline-flex; }
 /* Einblicke: 2x2-Raster, Laptop breiter als Handy; am Handy untereinander */
 .einblicke .wrap { display: flex; flex-direction: column; gap: 40px; }
 .raster-einblicke { display: grid; grid-template-columns: 2fr 1fr; gap: 56px 48px; align-items: start; }
+.raster-einblicke.raster-admin { grid-template-columns: 1fr 1fr; }
+.einblick-gruppe { display: flex; flex-direction: column; gap: 28px; }
+.wrap .gruppen-titel { margin: 0; font-size: 24px; line-height: 1.25; color: var(--titel); }
 .einblick { margin: 0; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .einblick-handy { align-items: center; }
 .einblick-handy .telefon { width: 100%; max-width: 260px; }
-.einblick-handy .telefon-schirm { aspect-ratio: 1080 / 2203; }
+.einblick-handy .telefon-schirm { aspect-ratio: 1080 / 2205; }
 .einblick figcaption { font-size: 15px; line-height: 1.55; color: var(--text-2); }
 .einblick figcaption strong { color: var(--titel); }
 .einblick-handy figcaption { max-width: 260px; }
@@ -341,12 +344,13 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .einblick-bild, .einblick-bild img, .dialog-bild img { display: block; }
 .laptop-inner .einblick-bild, .telefon-schirm .einblick-bild { width: 100%; height: 100%; }
 .einblick-bild img { width: 100%; height: 100%; object-fit: contain; object-position: top; }
-.einblick-hell .laptop-inner, .einblick-hell .telefon-schirm { background: #f5f7f9; }
-.einblick-dunkel .laptop-inner, .einblick-dunkel .telefon-schirm { background: #14181d; }
+.einblick-hell .laptop-inner, .einblick-hell .telefon-schirm { background: #fbf8f2; }
+.einblick-dunkel .laptop-inner, .einblick-dunkel .telefon-schirm { background: #17130e; }
+.einblick-admin .laptop-inner { aspect-ratio: 1918 / 1024; }
 /* Laptop-Rahmen (nur CSS) */
 .laptop { width: 100%; }
 .laptop-rahmen { background: var(--geraet-rahmen); border-radius: 14px 14px 3px 3px; padding: 10px 10px 12px; }
-.laptop-inner { position: relative; display: block; aspect-ratio: 1918 / 961; border-radius: 4px; overflow: hidden; background: var(--geraet-schirm); }
+.laptop-inner { position: relative; display: block; aspect-ratio: 1918 / 930; border-radius: 4px; overflow: hidden; background: var(--geraet-schirm); }
 .laptop-fuss { position: relative; height: 12px; margin: 0 -3%; background: var(--geraet-fuss); border-radius: 0 0 18px 18px; }
 .laptop-fuss::after { content: ''; position: absolute; left: 50%; top: 0; width: 16%; height: 5px; transform: translateX(-50%); background: var(--geraet-kerbe); border-radius: 0 0 8px 8px; }
 /* Platzhalter, solange das Bild fehlt */
@@ -364,7 +368,7 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .dialog-zu:focus-visible { outline: 3px solid var(--fokus-dunkel); outline-offset: 2px; }
 html:has(dialog[open]) { overflow: hidden; }
 @media (max-width: 720px) {
-  .raster-einblicke { grid-template-columns: 1fr; gap: 40px; }
+  .raster-einblicke, .raster-einblicke.raster-admin { grid-template-columns: 1fr; gap: 40px; }
 }
 
 .kontrolle { background: var(--flaeche); }
@@ -377,6 +381,7 @@ html:has(dialog[open]) { overflow: hidden; }
 
 .pilot .wrap { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; }
 .pilot-text { flex: 1 1 400px; display: flex; flex-direction: column; gap: 20px; }
+.preis-hinweis { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-3); }
 .pilot-text ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 17px; line-height: 1.5; color: var(--text); }
 .formular { flex: 1 1 420px; min-width: 0; background: var(--flaeche); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 18px; }
 .feld { display: flex; flex-direction: column; gap: 6px; }
