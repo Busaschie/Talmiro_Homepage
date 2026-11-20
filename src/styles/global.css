@@ -362,6 +362,8 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .einblick-dialog::backdrop { background: var(--dialog-backdrop); }
 .dialog-bild { display: block; }
 .dialog-bild img { max-width: 100%; max-height: 80vh; width: auto; height: auto; object-fit: contain; }
+/* Während das große Bild lädt: Vorschaubild (per Script als background-image gesetzt) leicht unscharf, kein Alt-Text-Kasten */
+.dialog-bild img.laedt { filter: blur(6px); background-size: 100% 100%; background-repeat: no-repeat; color: transparent; font-size: 0; }
 .dialog-unter { margin: 0; padding: 12px 56px 14px 16px; font-size: 15px; color: var(--text-2); }
 .dialog-zu { position: absolute; top: 8px; right: 8px; z-index: 2; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: var(--video-knopf-bg); color: var(--video-knopf-text); cursor: pointer; }
 .dialog-zu:hover { background: var(--knopf-hover); }

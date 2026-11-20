@@ -19,15 +19,16 @@ RewriteRule ^ https://www.talmiro.de%{REQUEST_URI} [L,R=301]
 ErrorDocument 404 /404.html
 
 # ---- Stellenbörse /jobs/ -----------------------------------------------------
-# Die Stellenseiten legt das CRM per SFTP in /jobs/ und /jobs/en/ ab (nicht Teil dieses Uploads). Die Website liefert dort nur
-# vergeben.html (DE) und en/vergeben.html (EN): Ziel für entfernte oder unbekannte Stellen (404) und endgültig entfernte (410).
+# Die Stellenseiten legt das CRM per SFTP in /jobs/ und /jobs/en/ ab. Die Website liefert unter /jobs/ nie etwas (nicht Teil dieses Uploads).
+# Fehlerziel für entfernte oder unbekannte Stellen (404) und endgültig entfernte (410) sind zwei normale Seiten der Website außerhalb von /jobs/:
+# /stelle-vergeben/ (DE) und /en/position-filled/ (EN).
 <If "%{REQUEST_URI} =~ m#^/jobs/en/#">
-  ErrorDocument 404 /jobs/en/vergeben.html
-  ErrorDocument 410 /jobs/en/vergeben.html
+  ErrorDocument 404 /en/position-filled/
+  ErrorDocument 410 /en/position-filled/
 </If>
 <ElseIf "%{REQUEST_URI} =~ m#^/jobs/#">
-  ErrorDocument 404 /jobs/vergeben.html
-  ErrorDocument 410 /jobs/vergeben.html
+  ErrorDocument 404 /stelle-vergeben/
+  ErrorDocument 410 /stelle-vergeben/
 </ElseIf>
 # Demo (STELLEN_DEMO = true in src/config.ts): /jobs/ nie indexieren. Zeilen mit #@demo / #@echt wählt scripts/make-vorlagen.mjs beim Build.
 #@demo <IfModule mod_headers.c>

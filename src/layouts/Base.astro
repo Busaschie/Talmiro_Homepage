@@ -7,7 +7,6 @@ import '@fontsource/inter/latin-500.css';
 import '@fontsource/inter/latin-600.css';
 import '../styles/global.css';
 import fontInter4 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
-import fontInter6 from '@fontsource/inter/files/inter-latin-600-normal.woff2?url';
 import fontPjs8 from '@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-800-normal.woff2?url';
 import FluidBackground from '../components/FluidBackground.astro';
 import Header from '../components/Header.astro';
@@ -56,7 +55,6 @@ const ld = [
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="preload" href={fontInter4} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={fontInter6} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={fontPjs8} as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#FBF8F3" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#17140F" media="(prefers-color-scheme: dark)" />

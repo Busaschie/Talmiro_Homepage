@@ -8,11 +8,11 @@ kein Tracking, keine Cookies. Das Kontaktformular läuft über `public/kontakt.p
 ```powershell
 npm install        # einmalig
 npm run dev        # lokale Entwicklung (http://localhost:4321); kontakt.php läuft hier NICHT (siehe Test unten)
-npm run build      # statischer Build nach dist/
+npm run build      # statischer Build nach dist/ (fasst /jobs und homepage/jobs/ nicht an)
 npm run preview    # dist/ lokal ansehen
 npm run assets     # Bildmarke und Favicons neu aus _entwurf/talmiro-logo.jpg erzeugen (nur bei neuem Logo)
 npm run video      # Demo-Video neu aufbereiten (braucht ffmpeg), siehe „Hero-Video“
-npm run vorlagen   # Vorlagen für die Stellenbörse aus dist/ nach jobs/_vorlagen (läuft auch bei npm run build), siehe „Stellenbörse“
+npm run vorlagen   # wie build, erzeugt zusätzlich die Vorlagen für das CRM nach jobs/_vorlagen (nur auf ausdrücklichen Befehl), siehe „Stellenbörse“
 npm run einblicke  # Screenshots für „Einblicke“ aus _entwurf aufbereiten (Handy-Bilder zuschneiden)
 ```
 
@@ -31,10 +31,12 @@ npm run einblicke  # Screenshots für „Einblicke“ aus _entwurf aufbereiten (
 
 ## Deployment zu febas
 
-1. `npm run build`
+1. `npm run build` (das erzeugt nie etwas unter `/jobs/`; die Vorlagen für das CRM entstehen nur mit `npm run vorlagen`)
 2. **Inhalt** von `dist/` (nicht den Ordner selbst) per SFTP/FTP in den Webroot der Domain hochladen: `[PFAD]`.
    Dabei muss auch die **versteckte** Datei `.htaccess` mitgehen (im FTP-Programm „versteckte Dateien anzeigen“ einschalten).
-   Eine Vorlage für den Upload steht in `scripts/upload.example.ps1` (ohne Zugangsdaten).
+   Eine Vorlage für den Upload steht in `scripts/upload.example.ps1` (ohne Zugangsdaten). Der Server-Ordner `/jobs` gehört dem CRM und wird nie angefasst
+   (siehe „Stellenbörse“). **WebStorm:** unter Tools > Deployment > Mapping bei „Excluded Paths“ den Remote-Ordner `/jobs` eintragen; dann ist auch
+   „Sync with Deployed“ mit Löschen für alles außer `/jobs` sicher.
 3. PHP-Version im febas-Kundenbereich prüfen: mindestens **PHP 8.1** (getestet mit 8.3), Funktion `mail()` muss erlaubt sein.
 4. Konfiguration anlegen: `public/kontakt.config.example.php` nach **`kontakt.config.php`** kopieren, ausfüllen
    (`to`, `from`, `ratelimit_salt`) und **eine Ebene über dem Webroot** ablegen. Liegt sie ausnahmsweise neben `kontakt.php`,
@@ -118,25 +120,26 @@ räumt auf. Es bricht ab, wenn schon eine `kontakt.config.php` im Projektordner 
 ## Stellenbörse (/jobs/)
 
 Das CRM (crm_agenten) erzeugt aus freigegebenen Aufträgen Stellenseiten und lädt sie per SFTP nach `/jobs/` (DE) und `/jobs/en/` (EN) hoch, dazu `/jobs/sitemap-jobs.xml`.
-Die Website liefert dafür nur das Aussehen und `vergeben.html`. Vertrag mit dem CRM: `docs/technik.md` im CRM (Abschnitte Stellenbörse).
+Die Website liefert dafür nur das Aussehen (Vorlagen) und liefert unter `/jobs/` selbst **nie** eine Datei. Vertrag mit dem CRM: `docs/technik.md` im CRM (Abschnitte Stellenbörse).
 
-- **Vorlagen aus dem Build:** Die Seiten `src/pages/jobs-vorlagen/{detail,liste}-{de,en}.astro` (Layout `src/layouts/JobsLayout.astro`, Stile `src/styles/jobs.css`) enthalten nur die Platzhalter `{{JOB_HEAD}}`, `{{JOB_BODY}}` bzw. `{{JOB_LIST}}` und `{{JOB_COUNT}}` als Rohtext. `npm run build` ruft danach `scripts/make-vorlagen.mjs` (einzeln: `npm run vorlagen`):
-  - schreibt `jobs/_vorlagen/_vorlage_detail.de.html`, `_vorlage_detail.en.html`, `_vorlage_liste.de.html`, `_vorlage_liste.en.html` (der Ordner steht in `.gitignore`; das CRM liest ihn über `JOBS_TEMPLATE_DIR` = `..\homepage\jobs\_vorlagen`),
-  - sichert vorhandene, abweichende Vorlagen vorher als `jobs/_vorlagen.bak-<Datum>`,
-  - macht alle Adressen absolut (`https://www.talmiro.de/…`, Umgebungsvariable `JOBS_SITE` ändert die Domain), prüft, dass jeder Platzhalter genau einmal vorkommt, und bricht bei Inline-Skript, `style`-Attribut oder fremden Platzhaltern mit Fehler ab,
-  - bündelt CSS und Skripte der Stellenseiten unter festen Namen (`/css/jobs.css`, `/js/jobs-site.js`; Schriften, Logo und Wasserzeichen unter `/stabil/`), damit bereits hochgeladene Stellenseiten nach einem neuen Website-Build nicht auf nicht mehr vorhandene Dateien mit Hash zeigen. Diese Dateien gehören zum normalen Website-Upload,
-  - entfernt `dist/jobs-vorlagen` (Vorlagen werden nicht hochgeladen).
-  - `public/js/jobs.js` (fester Name, von Hand) setzt den Bewerben-Link (E-Mail steht nicht im HTML) und baut den Filter der Liste. Die Adresse dort muss `JOBS_APPLY_EMAIL` im CRM entsprechen.
-- **vergeben.html:** `src/pages/jobs/vergeben.astro` und `jobs/en/vergeben.astro` werden zu `dist/jobs/vergeben.html` und `dist/jobs/en/vergeben.html`. Das sind die **einzigen Dateien unter `/jobs/`, die die Website liefert** und beim Website-Upload mit hochgeladen werden. `.htaccess` zeigt `ErrorDocument 404/410` unter `/jobs/` darauf (EN: `/jobs/en/vergeben.html`).
-- **Upload-Schutz:** `/jobs/` gehört dem CRM. Beim Hochladen nie löschen oder überschreiben (außer `vergeben*.html`). `scripts/upload.example.ps1` löscht nichts und bricht ab, wenn `dist\jobs` mehr als die vergeben-Dateien enthält. **WebStorm-Deployment:** unter Tools > Deployment > Mapping bei „Excluded Paths“ den Ordner `/jobs` eintragen (vergeben*.html dann einmal von Hand hochladen oder den Ausschluss auf `/jobs/index.html` usw. beschränken) und „Delete remote files not present locally“ nicht verwenden, jedenfalls nicht für `/jobs`.
+- **Zwei Modi, ein Skript (`scripts/make-vorlagen.mjs`):**
+  - `npm run build` (Website-Modus): schreibt **nichts** nach `homepage/jobs/` (keine Vorlagen, keine `.bak`-Ordner). `dist/` enthält keinen Ordner `jobs/`; existiert er, bricht der Build mit Fehler ab. Das Skript erzeugt die festen Dateien `/css/jobs.css`, `/js/jobs-site.js` und `/stabil/` (Schriften, Logo, Wasserzeichen), auf die bereits hochgeladene Stellenseiten zeigen, wählt die Demo-Zeilen in `robots.txt`/`.htaccess` und entfernt `dist/jobs-vorlagen`.
+  - `npm run vorlagen` (Vorlagen-Modus, nur auf ausdrücklichen Befehl): astro build, dann zusätzlich `jobs/_vorlagen/_vorlage_detail.de.html`, `_vorlage_detail.en.html`, `_vorlage_liste.de.html`, `_vorlage_liste.en.html` schreiben. Der Ordner steht in `.gitignore`; das CRM liest ihn über `JOBS_TEMPLATE_DIR` = `..\homepage\jobs\_vorlagen`. Abweichende Vorlagen werden vorher als `jobs/_vorlagen.bak-<Datum>` gesichert.
+- **Quelle der Vorlagen:** `src/pages/jobs-vorlagen/{detail,liste}-{de,en}.astro` (Layout `src/layouts/JobsLayout.astro`, Stile `src/styles/jobs.css`) enthalten nur die Platzhalter `{{JOB_HEAD}}`, `{{JOB_BODY}}` bzw. `{{JOB_LIST}}` und `{{JOB_COUNT}}` als Rohtext. Das Skript macht alle Adressen absolut (`https://www.talmiro.de/…`, Umgebungsvariable `JOBS_SITE` ändert die Domain), prüft in beiden Modi, dass jeder Platzhalter genau einmal vorkommt, und bricht bei Inline-Skript, `style`-Attribut oder fremden Platzhaltern ab.
+- **Feste Namen:** CSS und Skripte der Stellenseiten liegen unter `/css/jobs.css` und `/js/jobs-site.js`, Schriften, Logo und Wasserzeichen unter `/stabil/`, damit bereits hochgeladene Stellenseiten nach einem neuen Website-Build nicht auf nicht mehr vorhandene Dateien mit Hash zeigen. Sie gehören zum normalen Website-Upload.
+- **Bewerben und Filter:** `public/js/jobs.js` (fester Name, von Hand) setzt den Bewerben-Link (E-Mail steht nicht im HTML) und baut den Filter der Liste. Die Adresse dort muss `JOBS_APPLY_EMAIL` im CRM entsprechen.
+- **Fehlerziele „vergeben“:** Für entfernte oder unbekannte Stellen sind es normale Seiten der Website **außerhalb von `/jobs/`**: `/stelle-vergeben/` (DE, `src/pages/stelle-vergeben.astro`) und `/en/position-filled/` (EN, `src/pages/en/position-filled.astro`). `.htaccess` zeigt `ErrorDocument 404` und `410` unter `/jobs/` auf `/stelle-vergeben/` und unter `/jobs/en/` auf `/en/position-filled/`. Beide Seiten sind `noindex` (auch bei `STELLEN_DEMO = false`) und nicht in der Sitemap.
+  - **Einmal von Hand löschen:** Die alten Dateien `/jobs/vergeben.html` und `/jobs/en/vergeben.html` auf dem Server, sobald die neuen Seiten online sind.
+  - **CRM:** In `docs/technik.md` des CRM (Sperrliste `BLOCKED`) steht noch `jobs/vergeben.html`. Das bleibt harmlos; die Anpassung ist Sache des CRM und wurde hier nicht gemacht.
+- **Upload-Schutz:** `/jobs/` gehört dem CRM. Auf dem Server nie löschen oder überschreiben. `scripts/upload.example.ps1` löscht nichts und bricht ab, wenn `dist\jobs` existiert. **WebStorm-Deployment:** Tools > Deployment > Mapping > „Excluded Paths“: den Remote-Ordner `/jobs` eintragen. Dann ist auch „Sync with Deployed“ mit Löschen für alles außer `/jobs` sicher. „Delete remote files not present locally“ nie für `/jobs` verwenden.
 - **Stellenbörse als Demo (`STELLEN_DEMO` in `src/config.ts`, derzeit `true`):** Die Seiten unter `/jobs/` sind reine Beispielseiten (nicht verlinkt, nicht für Google). Bei `true` gilt nach `npm run build`:
-  - `<meta name="robots" content="noindex, nofollow">` in allen vier Vorlagen und in `vergeben.html` (im Layout, außerhalb der Platzhalter),
+  - `<meta name="robots" content="noindex, nofollow">` in allen vier Vorlagen und auf den Fehlerzielen `/stelle-vergeben/` und `/en/position-filled/` (im Layout, außerhalb der Platzhalter),
   - `.htaccess`: für `/jobs/` zusätzlich `Header always set X-Robots-Tag "noindex, nofollow"`,
   - `robots.txt`: keine Sitemap-Zeile für `sitemap-jobs.xml` und bewusst KEIN `Disallow: /jobs/`; der Ausschluss läuft nur über Meta-Tag und `X-Robots-Tag`, damit Suchmaschinen das noindex sehen können,
   - sichtbarer Hinweis „Beispielseite – Demonstration der Talmiro-Stellenbörse, keine echten Stellen“ (DE/EN) auf Liste und Detailseiten; der Satz „Aktuelle Stellen, die wir im Auftrag unserer Kunden besetzen“ erscheint nur bei `false`,
   - der Bewerben-Link führt zum Pilot-Formular der Startseite (`/#pilot`), keine Bewerbung an `info@talmiro.de` (`public/js/jobs.js`, erkennt `data-stellen-demo` am `body`).
   Die Auswahl in `robots.txt` und `.htaccess` treffen die Zeilen mit `#@demo ` bzw. `#@echt ` (`scripts/make-vorlagen.mjs` schreibt beide Dateien aus `public/` nach `dist/`).
-  **Umstellen auf die echte Stellenbörse:** 1. `STELLEN_DEMO = false` setzen. 2. `npm run build`; das CRM liest die neuen Vorlagen aus `jobs/_vorlagen`. 3. Website neu hochladen (robots.txt, .htaccess, Vorlagen). 4. Im CRM die Stellen neu übertragen („Erneut hochladen“), weil die bereits hochgeladenen Seiten noch das noindex-Meta der Demo-Vorlage tragen. 5. `JOBS_APPLY_EMAIL` im CRM und die Adresse in `public/js/jobs.js` prüfen. 6. `/jobs/sitemap-jobs.xml` in der Search Console melden; `STELLEN_IN_NAVIGATION` nach Bedarf auf `true`.
+  **Umstellen auf die echte Stellenbörse:** 1. `STELLEN_DEMO = false` setzen. 2. `npm run vorlagen` (nicht `build`: nur das erzeugt `jobs/_vorlagen`); das CRM liest die neuen Vorlagen von dort. 3. Website neu hochladen (robots.txt, .htaccess; `/jobs` auf dem Server bleibt unangetastet). 4. Im CRM die Stellen neu übertragen („Erneut hochladen“), weil die bereits hochgeladenen Seiten noch das noindex-Meta der Demo-Vorlage tragen. 5. `JOBS_APPLY_EMAIL` im CRM und die Adresse in `public/js/jobs.js` prüfen. 6. `/jobs/sitemap-jobs.xml` in der Search Console melden; `STELLEN_IN_NAVIGATION` nach Bedarf auf `true`.
 - **Menüpunkt „Stellen“:** Schalter `STELLEN_IN_NAVIGATION` in `src/config.ts` (Standard `false`). Auf den Stellenseiten selbst steht der Punkt immer in der Navigation.
-- **Sitemap:** `/jobs/sitemap-jobs.xml` kommt vom CRM; `robots.txt` nennt sie zusätzlich zur Website-Sitemap, aber nur bei `STELLEN_DEMO = false` (in der Demo fehlt die Zeile, siehe oben). Die Seiten unter `/jobs` stehen nicht in der Website-Sitemap (Filter in `astro.config.mjs`).
+- **Sitemap:** `/jobs/sitemap-jobs.xml` kommt vom CRM; `robots.txt` nennt sie zusätzlich zur Website-Sitemap, aber nur bei `STELLEN_DEMO = false` (in der Demo fehlt die Zeile, siehe oben). Die Seiten unter `/jobs`, `/stelle-vergeben/` und `/en/position-filled/` stehen nicht in der Website-Sitemap (Filter in `astro.config.mjs`).
 - **Server (.htaccess):** Der Block „Stellenbörse“ nutzt `<If>`-Abschnitte (Apache 2.4). Er ist auf einem echten Apache noch nicht getestet.

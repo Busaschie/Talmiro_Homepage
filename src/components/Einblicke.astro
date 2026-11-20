@@ -86,12 +86,60 @@ const klein = {
 
 <script>
   // Klick auf ein Bild öffnet es groß im <dialog> (Esc und Schließen-Knopf; Fokus geht zurück). Ohne JavaScript öffnet der Link die Bilddatei.
+  // Langsame Verbindung: Solange das große Bild lädt, zeigt der Dialog sofort das schon geladene Vorschaubild (leicht unscharf, in Zielgröße);
+  // mit dem load-Event verschwindet der Platzhalter. Das große Bild wird bei Maus/Fokus auf dem Vorschaubild einmalig vorgeladen.
+  // Größen und Hintergrund per CSSOM (el.style.x), nicht als style-Attribut im HTML: die CSP erlaubt keine Inline-Styles.
   document.querySelectorAll<HTMLAnchorElement>('[data-einblick]').forEach((link) => {
     const dialog = link.closest('figure')?.querySelector<HTMLDialogElement>('dialog');
     if (!dialog || typeof dialog.showModal !== 'function') return;
     link.setAttribute('aria-haspopup', 'dialog');
+    const gross = dialog.querySelector<HTMLImageElement>('.dialog-bild img');
+    const klein = link.querySelector<HTMLImageElement>('img');
+
+    let vorgeladen = false;
+    const vorladen = () => {
+      if (vorgeladen || !gross) return;
+      vorgeladen = true;
+      gross.loading = 'eager';
+      gross.decode().catch(() => { /* noch nicht dekodierbar oder Fehler: der Dialog zeigt es beim Öffnen */ });
+    };
+    // Kein Vorladen auf Touch ohne Interaktion: nur Maus/Stift (pointerenter) und Tastaturfokus
+    link.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') vorladen(); });
+    link.addEventListener('focus', vorladen);
+
+    let wartet = false;
+    const zeigeVorschau = () => {
+      if (!gross || wartet || (gross.complete && gross.naturalWidth > 0)) return;
+      wartet = true;
+      gross.classList.add('laedt');
+      if (klein?.currentSrc) gross.style.backgroundImage = `url("${klein.currentSrc}")`;
+      // Zielgröße reservieren: wie sizes ("(min-width: 1200px) 1100px, 94vw"), Höhe höchstens 80vh, Seitenverhältnis des Bildes
+      const verh = Number(gross.getAttribute('height')) / Number(gross.getAttribute('width'));
+      let b = window.innerWidth >= 1200 ? 1100 : window.innerWidth * 0.94;
+      let h = b * verh;
+      const maxH = window.innerHeight * 0.8;
+      if (h > maxH) { h = maxH; b = h / verh; }
+      if (Number.isFinite(b) && Number.isFinite(h)) {
+        gross.style.width = `${Math.round(b)}px`;
+        gross.style.height = `${Math.round(h)}px`;
+      }
+      const fertig = () => {
+        wartet = false;
+        gross.classList.remove('laedt');
+        gross.style.removeProperty('background-image');
+        gross.style.removeProperty('width');
+        gross.style.removeProperty('height');
+        gross.removeEventListener('load', fertig);
+        gross.removeEventListener('error', fertig);
+      };
+      gross.addEventListener('load', fertig);
+      gross.addEventListener('error', fertig);
+    };
+
     link.addEventListener('click', (e) => {
       e.preventDefault();
+      vorladen();
+      zeigeVorschau();
       dialog.showModal();
     });
     dialog.querySelector('.dialog-zu')?.addEventListener('click', () => dialog.close());
