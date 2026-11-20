@@ -1,20 +1,12 @@
 # Offene Platzhalter und Aufgaben vor dem Livegang
 
-## Rechtlich (bitte prüfen lassen)
+## Rechtlich
 
-**Impressum und Datenschutz sind nur Gliederungen mit Platzhaltern, kein fertiger Rechtstext. Beides muss vor dem Livegang rechtlich geprüft und vollständig ausgefüllt werden.**
+Impressum und Datenschutzhinweise sind mit der Fassung von Niko vom 20.11.2026 vollständig (Impressum, USt/Kleinunternehmer, Kontaktformular mit Rechtsgrundlage, Speicherdauer und Empfänger, Aufsichtsbehörde, localStorage-Hinweis, Hinweisboxen entfernt). Offen:
 
-| Platzhalter / Stelle | Ort | Was fehlt |
-|---|---|---|
-| `[USt-IdNr. …]` | Impressum | falls zutreffend |
-| `[HINWEIS ZUR VERBRAUCHERSTREITBEILEGUNG …]`, `[HAFTUNGSHINWEISE …]` | Impressum | rechtlich prüfen |
-| Verantwortlicher (Name, Anschrift, E-Mail) | Impressum, Datenschutz Abschnitt 1 | eingetragen; in Datenschutz Abschnitt 1 steht die Adresse `info@talmiro.e` (vermutlich Tippfehler, `.de`) |
-| Hosting und Server-Logfiles (FEBAS, Rechtsgrundlage, 7 Tage, AVV) | Datenschutz, Abschnitt 2 | eingetragen nach Angaben von Niko; **AVV-Abschluss und 7-Tage-Frist bitte bestätigen** |
-| Externe Dienste und Schriftarten | Datenschutz, Abschnitt 5 | eingetragen; stimmt mit dem Build überein (keine externen Anfragen, Schriften lokal) |
-| Kontaktformular: Rechtsgrundlage, Speicherdauer im Postfach, Empfänger | Datenschutz, Abschnitt 3 | fehlt im Text, rechtlich prüfen; Hinweis auf IP-Hash (24 h) steht schon drin |
-| Zuständige Aufsichtsbehörde | Datenschutz, Abschnitt 6 | fehlt im Text |
-| Speicherung der Design-Wahl (`localStorage` `talmiro-theme`, nur hell/dunkel, nichts wird übertragen) | Datenschutz, Abschnitt 4 | ggf. erwähnen; rechtlich prüfen |
-| Hinweisbox „Entwurf, nicht rechtsverbindlich“ | Impressum, Datenschutz | vor dem Livegang entfernen, wenn beides geprüft ist |
+- **Server-Logs 7 Tage bei FEBAS bestätigen lassen** (Datenschutz, Abschnitt 2: „höchstens 7 Tage“; der AVV mit FEBAS ist laut Text geschlossen).
+- **Impressum und Datenschutz vor dem Livegang rechtlich prüfen lassen (empfohlen).**
+- **Bewerbungen per E-Mail** (Stellenbörse) sind im Datenschutztext nicht erwähnt, siehe Abschnitt „Stellenbörse“.
 
 ## Inhalt (Startseite)
 
@@ -24,7 +16,6 @@
 | `[TARIF, z. B. Pro oder Max]`, `[EMPFEHLUNG TEAM-TARIF MIT AUFTRAGSVERARBEITUNG – nach Klärung]` | `Faq.astro` („Brauche ich ein Claude-Konto?“) |
 | `[ANTWORT NACH KLÄRUNG HOSTING UND AUFTRAGSVERARBEITUNG]` | `Faq.astro` („Wo liegen meine Daten?“) |
 | `[STATUS: Import in Vorbereitung]` | `Faq.astro` („Kann ich meine bestehenden Kontakte übernehmen?“) |
-| `[KONTAKT: E-Mail-Adresse für den Fall, dass das Formular nicht funktioniert]` | `src/pages/fehler.astro` (nicht im Entwurf, ergänzt) |
 
 ## Medien (Platzhalter)
 
