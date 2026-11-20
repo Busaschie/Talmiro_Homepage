@@ -4,7 +4,6 @@
 
 Impressum und Datenschutzhinweise sind mit der Fassung von Niko vom 20.11.2026 vollständig (Impressum, USt/Kleinunternehmer, Kontaktformular mit Rechtsgrundlage, Speicherdauer und Empfänger, Aufsichtsbehörde, localStorage-Hinweis, Hinweisboxen entfernt). Offen:
 
-- **Server-Logs 7 Tage bei FEBAS bestätigen lassen** (Datenschutz, Abschnitt 2: „höchstens 7 Tage“; der AVV mit FEBAS ist laut Text geschlossen).
 - **Impressum und Datenschutz vor dem Livegang rechtlich prüfen lassen (empfohlen).**
 - **Bewerbungen per E-Mail** (Stellenbörse) sind im Datenschutztext nicht erwähnt, siehe Abschnitt „Stellenbörse“.
 
@@ -13,14 +12,13 @@ Impressum und Datenschutzhinweise sind mit der Fassung von Niko vom 20.11.2026 v
 | Platzhalter | Ort |
 |---|---|
 | `[ANGABEN ZU SERVERSTANDORT UND AUFTRAGSVERARBEITUNG – nach rechtlicher Klärung]` | `Kontrolle.astro` (Karte „Datenschutz und Hosting“) |
-| `[TARIF, z. B. Pro oder Max]`, `[EMPFEHLUNG TEAM-TARIF MIT AUFTRAGSVERARBEITUNG – nach Klärung]` | `Faq.astro` („Brauche ich ein Claude-Konto?“) |
-| `[ANTWORT NACH KLÄRUNG HOSTING UND AUFTRAGSVERARBEITUNG]` | `Faq.astro` („Wo liegen meine Daten?“) |
+| `[ANTWORT NACH KLÄRUNG HOSTING UND AUFTRAGSVERARBEITUNG]` | `Faq.astro` („Wo liegen meine Daten?“): ausgeblendet (auskommentiert), Antwort nach Klärung Hosting/AVV |
 | `[STATUS: Import in Vorbereitung]` | `Faq.astro` („Kann ich meine bestehenden Kontakte übernehmen?“) |
 
 ## Medien (Platzhalter)
 
 - **Hero-Video:** `public/media/hero-*` stammen aus `_entwurf/demo-video.mp4` (Bildschirmaufnahme, 2:02 min, 626×1050). Vor dem Livegang prüfen: nur Testdaten im Bild (keine echten Namen, Kontakte, Firmen), Ton und Inhalt freigegeben. Neues Video: `npm run video -- <datei>` (siehe README).
-- **Untertitel:** `public/media/demo-video.de.vtt` ist ein leerer Platzhalter. Der Text kommt von Niko bzw. aus dem Transkript; danach in `src/components/Hero.astro` `UNTERTITEL = true` setzen. Bis dahin wird der Track nicht ausgeliefert.
+- **Untertitel:** `public/media/demo-video.de.vtt` ist ein leerer Platzhalter. Der Text kommt von Niko bzw. aus dem Transkript; danach in `src/components/Hero.astro` `UNTERTITEL = true` setzen. Bis dahin wird der Track nicht ausgeliefert. Status: wartet, evtl. neues Video.
 - **Einblicke:** sechs Screenshots (Weboberfläche hell/dunkel × Laptop/Handy, Verwaltung hell/dunkel) liegen unter `src/assets/einblicke/` (Testdaten). Bei neuen Screenshots in `_entwurf` ablegen und `npm run einblicke` ausführen. In den Verwaltungs-Screenshots ist der Vorname „Niko“ (angemeldeter Benutzer) sichtbar; vor dem Livegang entscheiden, ob das so bleiben soll.
 - Bildunterschriften und Alt-Texte der Einblicke (Kopf von `Einblicke.astro`) bei neuen Screenshots prüfen.
 
@@ -40,7 +38,7 @@ Impressum und Datenschutzhinweise sind mit der Fassung von Niko vom 20.11.2026 v
 
 ## Logo
 
-- **Logo als SVG mit transparentem Hintergrund nachliefern.** Bisher ist die Bildmarke ein aus dem JPG ausgeschnittenes WebP
+- **Logo als SVG mit transparentem Hintergrund nachliefern.** Bisher ist die Bildmarke ein aus dem JPG ausgeschnittenes WebP Status: wartet, evtl. geändertes Logo.
   (`src/assets/logo-mark.webp`) mit grauem Hintergrund und abgerundeten Ecken wie im Entwurf; die Favicons
   (`public/favicon.*`, `apple-touch-icon.png`) und `public/favicon.svg` (enthält nur ein eingebettetes PNG) sind daraus abgeleitet.
   Nach Lieferung: `scripts/make-assets.mjs` anpassen bzw. Dateien ersetzen, OG-Bild (`scripts/og.html`) neu rendern.
