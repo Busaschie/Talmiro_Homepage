@@ -39,7 +39,12 @@ npm run einblicke  # Screenshots für „Einblicke“ aus _entwurf aufbereiten (
    „Sync with Deployed“ mit Löschen für alles außer `/jobs` sicher.
 3. PHP-Version im febas-Kundenbereich prüfen: mindestens **PHP 8.1** (getestet mit 8.3), Funktion `mail()` muss erlaubt sein.
 4. Konfiguration anlegen: `public/kontakt.config.example.php` nach **`kontakt.config.php`** kopieren, ausfüllen
-   (`to`, `from`, `ratelimit_salt`) und **eine Ebene über dem Webroot** ablegen. Liegt sie ausnahmsweise neben `kontakt.php`,
+   (`to`, `from`, `ratelimit_salt`) und außerhalb des Webroots ablegen. **Bevorzugter Ort bei febas:**
+   `/var/www/<kunde>/priv/talmiro/kontakt.config.php` (die Seite liegt in `/var/www/<kunde>/htdocs/talmiro/`).
+   `kontakt.php` sucht in dieser Reihenfolge, die erste gültige Datei gewinnt (fehlende Pfade werden still übersprungen):
+   1. `<zwei Ebenen über dem Seitenordner>/priv/talmiro/kontakt.config.php`, 2. eine Ebene über `kontakt.php`, 3. neben `kontakt.php`.
+   `ratelimit_dir` kann leer bleiben (Standard: Temp-Ordner, bei febas `/var/www/<kunde>/tmp`, außerhalb des Webroots) oder auf
+   `/var/www/<kunde>/priv/talmiro/rl` zeigen. Liegt die Konfiguration ausnahmsweise neben `kontakt.php`,
    sperrt die `.htaccess` den Abruf. `from` muss eine Adresse der eigenen Domain sein (SPF).
 5. Testversand: Formular auf der Live-Seite ausfüllen und absenden, es muss auf `/danke/` weiterleiten und die Mail ankommen
    (auch Spam-Ordner prüfen; bei Problemen SPF/DKIM der Domain prüfen). Danach `https://www.talmiro.de/kontakt.config.php`

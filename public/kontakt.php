@@ -35,10 +35,38 @@ function fehler(string $code): never
     weiter('/fehler/?grund=' . rawurlencode($code) . '#' . rawurlencode($code));
 }
 
+/** Ist der Pfad nach open_basedir (falls gesetzt) überhaupt prüfbar? Vermeidet Warnungen für Pfade außerhalb der erlaubten Ordner. */
+function pfad_erlaubt(string $pfad): bool
+{
+    $basedir = (string)ini_get('open_basedir');
+    if ($basedir === '') {
+        return true;
+    }
+    foreach (explode(PATH_SEPARATOR, $basedir) as $erlaubt) {
+        $erlaubt = rtrim(trim($erlaubt), '/\\');
+        if ($erlaubt !== '' && ($pfad === $erlaubt || strpos($pfad, $erlaubt . '/') === 0 || strpos($pfad, $erlaubt . '\\') === 0)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Sucht kontakt.config.php, die erste gefundene gültige Datei gewinnt:
+ *  1) zwei Ebenen über dem Webroot-Ordner der Seite in priv/talmiro/ (febas: /var/www/<kunde>/priv/talmiro/)
+ *  2) eine Ebene über kontakt.php
+ *  3) neben kontakt.php
+ * Fehlende oder nicht lesbare Pfade werden still übersprungen.
+ */
 function lade_config(): ?array
 {
-    foreach ([dirname(__DIR__) . '/kontakt.config.php', __DIR__ . '/kontakt.config.php'] as $pfad) {
-        if (is_file($pfad)) {
+    $kandidaten = [
+        dirname(__DIR__, 2) . '/priv/talmiro/kontakt.config.php',
+        dirname(__DIR__) . '/kontakt.config.php',
+        __DIR__ . '/kontakt.config.php',
+    ];
+    foreach ($kandidaten as $pfad) {
+        if (pfad_erlaubt($pfad) && @is_file($pfad)) {
             $c = require $pfad;
             if (is_array($c) && !empty($c['to']) && !empty($c['from'])) {
                 return $c;
