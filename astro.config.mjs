@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
+// Die Stellenseiten (/jobs, /jobs-vorlagen) gehören nicht in die Sitemap der Website: Stellen stehen in /jobs/sitemap-jobs.xml (CRM).
 // Statischer Build (output: static). Stylesheets bleiben eigene Dateien,
 // damit die Content-Security-Policy ohne 'unsafe-inline' für Skripte auskommt.
 export default defineConfig({
@@ -11,6 +12,6 @@ export default defineConfig({
   // Skripte nie inline einbetten (Content-Security-Policy erlaubt nur eigene Dateien und den einen gehashten Inline-Block)
   vite: { build: { assetsInlineLimit: 0 } },
   integrations: [
-    sitemap({ filter: (page) => !page.includes('/danke') && !page.includes('/fehler') && !page.includes('/404') }),
+    sitemap({ filter: (page) => !page.includes('/danke') && !page.includes('/fehler') && !page.includes('/404') && !page.includes('/jobs') }),
   ],
 });

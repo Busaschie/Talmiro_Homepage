@@ -18,6 +18,24 @@ RewriteRule ^ https://www.talmiro.de%{REQUEST_URI} [L,R=301]
 # ---- Fehlerseite -----------------------------------------------------------
 ErrorDocument 404 /404.html
 
+# ---- Stellenbörse /jobs/ -----------------------------------------------------
+# Die Stellenseiten legt das CRM per SFTP in /jobs/ und /jobs/en/ ab (nicht Teil dieses Uploads). Die Website liefert dort nur
+# vergeben.html (DE) und en/vergeben.html (EN): Ziel für entfernte oder unbekannte Stellen (404) und endgültig entfernte (410).
+<If "%{REQUEST_URI} =~ m#^/jobs/en/#">
+  ErrorDocument 404 /jobs/en/vergeben.html
+  ErrorDocument 410 /jobs/en/vergeben.html
+</If>
+<ElseIf "%{REQUEST_URI} =~ m#^/jobs/#">
+  ErrorDocument 404 /jobs/vergeben.html
+  ErrorDocument 410 /jobs/vergeben.html
+</ElseIf>
+# Listen und Sitemap ändern sich mit jeder Veröffentlichung: nur 5 Minuten cachen
+<IfModule mod_headers.c>
+  <If "%{REQUEST_URI} =~ m#^/jobs/(en/)?(index\.html)?$# || %{REQUEST_URI} == '/jobs/sitemap-jobs.xml'">
+    Header set Cache-Control "public, max-age=300"
+  </If>
+</IfModule>
+
 # ---- Nicht abrufbar: PHP-Konfiguration, Ratenlimit-Dateien, Versteckte -------
 <FilesMatch "^(kontakt\.config(\.example)?\.php|.*\.rl|\.htaccess|\.htpasswd)$">
   Require all denied
@@ -37,6 +55,7 @@ ErrorDocument 404 /404.html
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
   # Alles lokal (Schriften, Bilder, Skripte); Formular nur an die eigene Domain.
   # Keine Inline-Skripte und keine Inline-Styles: script-src und style-src bleiben bei 'self'.
+  # Gilt auch für /jobs/: die Stellenseiten laden CSS, Skripte, Schriften und Bilder nur von dieser Domain (JSON-LD ist ein Datenblock, kein Skript).
   Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
   Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
 </IfModule>

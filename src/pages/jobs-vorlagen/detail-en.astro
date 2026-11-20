@@ -1,0 +1,10 @@
+---
+import JobsLayout from '../../layouts/JobsLayout.astro';
+
+---
+<JobsLayout lang="en" vorlage>
+  <div class="wrap job-wrap">
+    <p class="job-zurueck"><a href="/jobs/en/">← All jobs</a></p>
+    <Fragment set:html="{{JOB_BODY}}" />
+  </div>
+</JobsLayout>

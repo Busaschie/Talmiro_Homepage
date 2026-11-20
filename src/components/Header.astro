@@ -1,37 +1,50 @@
 ---
 import logo from '../assets/logo-mark.webp';
+import { STELLEN_IN_NAVIGATION } from '../config';
+
+// lang: Sprache der Kopfzeile (Stellenseiten gibt es auch auf Englisch). stellen: Menüpunkt "Stellen" erzwingen (Stellenseiten).
+interface Props { lang?: 'de' | 'en'; stellen?: boolean }
+const { lang = 'de', stellen = false } = Astro.props;
+const T = lang === 'en'
+  ? { start: 'Talmiro – home page', dunkel: 'Switch to dark mode', hell: 'Switch to light mode', menueAuf: 'Open menu', menueZu: 'Close menu', nav: 'Main navigation',
+      funktionen: 'Features', ablauf: 'How it works', einblicke: 'Insights', kontrolle: 'Control', faq: 'FAQ', stellen: 'Jobs', cta: 'Request a pilot spot' }
+  : { start: 'Talmiro – zur Startseite', dunkel: 'Dunkles Design einschalten', hell: 'Helles Design einschalten', menueAuf: 'Menü öffnen', menueZu: 'Menü schließen', nav: 'Hauptnavigation',
+      funktionen: 'Funktionen', ablauf: 'So funktioniert es', einblicke: 'Einblicke', kontrolle: 'Kontrolle', faq: 'FAQ', stellen: 'Stellen', cta: 'Pilotplatz anfragen' };
+const zeigeStellen = STELLEN_IN_NAVIGATION || stellen;
+const stellenUrl = lang === 'en' ? '/jobs/en/' : '/jobs/';
 // Bildmarke (200x159) wird auf 50x40 px angezeigt.
 ---
-<header class="kopf">
+<header class="kopf" data-dunkel={T.dunkel} data-hell={T.hell} data-menue-auf={T.menueAuf} data-menue-zu={T.menueZu}>
   <div class="kopf-innen">
-    <a href="/" class="marke" aria-label="Talmiro – zur Startseite">
+    <a href="/" class="marke" aria-label={T.start}>
       <img src={logo.src} alt="" width="50" height="40" class="marke-bild" />
       <span class="wortmarke">TALMIRO</span>
     </a>
     <!-- Mobil (bis 1000 px): Design-Umschalter und Menü-Button. Beide nur mit JavaScript sichtbar, sonst bleibt die Navigation offen. -->
     <div class="kopf-aktionen">
-      <button type="button" class="theme-knopf" aria-label="Dunkles Design einschalten" aria-pressed="false">
+      <button type="button" class="theme-knopf" aria-label={T.dunkel} aria-pressed="false">
         <svg class="ic-mond" aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
         <svg class="ic-sonne" aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"></line><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"></line><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"></line></svg>
       </button>
       <button type="button" class="menue-knopf" id="menue-knopf" aria-expanded="false" aria-controls="hauptnavigation">
-        <span class="sr-only" id="menue-text">Menü öffnen</span>
+        <span class="sr-only" id="menue-text">{T.menueAuf}</span>
         <svg class="ic-auf" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></svg>
         <svg class="ic-zu" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
       </button>
     </div>
-    <nav aria-label="Hauptnavigation" class="nav" id="hauptnavigation">
-      <a href="/#funktionen">Funktionen</a>
-      <a href="/#ablauf">So funktioniert es</a>
-      <a href="/#einblicke">Einblicke</a>
-      <a href="/#kontrolle">Kontrolle</a>
-      <a href="/#faq">FAQ</a>
+    <nav aria-label={T.nav} class="nav" id="hauptnavigation">
+      <a href="/#funktionen">{T.funktionen}</a>
+      <a href="/#ablauf">{T.ablauf}</a>
+      <a href="/#einblicke">{T.einblicke}</a>
+      <a href="/#kontrolle">{T.kontrolle}</a>
+      <a href="/#faq">{T.faq}</a>
+      {zeigeStellen && <a href={stellenUrl}>{T.stellen}</a>}
       <!-- Desktop: Design-Umschalter rechts vor dem Pilot-Button -->
-      <button type="button" class="theme-knopf" aria-label="Dunkles Design einschalten" aria-pressed="false">
+      <button type="button" class="theme-knopf" aria-label={T.dunkel} aria-pressed="false">
         <svg class="ic-mond" aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
         <svg class="ic-sonne" aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"></line><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"></line><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"></line></svg>
       </button>
-      <a href="/#pilot" class="knopf">Pilotplatz anfragen</a>
+      <a href="/#pilot" class="knopf">{T.cta}</a>
     </nav>
   </div>
 </header>
@@ -59,7 +72,7 @@ import logo from '../assets/logo-mark.webp';
     const setze = (offen: boolean, fokus = false) => {
       kopf.classList.toggle('is-offen', offen);
       knopf.setAttribute('aria-expanded', String(offen));
-      text.textContent = offen ? 'Menü schließen' : 'Menü öffnen';
+      text.textContent = offen ? (kopf.dataset.menueZu ?? 'Menü schließen') : (kopf.dataset.menueAuf ?? 'Menü öffnen');
       if (!offen && fokus) knopf.focus();
       document.documentElement.style.setProperty('--kopf-h', `${kopf.offsetHeight}px`);
     };
@@ -86,7 +99,7 @@ import logo from '../assets/logo-mark.webp';
       const dunkel = wurzel.dataset.theme === 'dark';
       themeKnoepfe.forEach((k) => {
         k.setAttribute('aria-pressed', String(dunkel));
-        k.setAttribute('aria-label', dunkel ? 'Helles Design einschalten' : 'Dunkles Design einschalten');
+        k.setAttribute('aria-label', (dunkel ? kopf?.dataset.hell : kopf?.dataset.dunkel) ?? (dunkel ? 'Helles Design einschalten' : 'Dunkles Design einschalten'));
       });
     };
     zeige();

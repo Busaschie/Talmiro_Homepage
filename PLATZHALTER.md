@@ -33,6 +33,13 @@
 - **Einblicke:** sechs Screenshots (Weboberfläche hell/dunkel × Laptop/Handy, Verwaltung hell/dunkel) liegen unter `src/assets/einblicke/` (Testdaten). Bei neuen Screenshots in `_entwurf` ablegen und `npm run einblicke` ausführen. In den Verwaltungs-Screenshots ist der Vorname „Niko“ (angemeldeter Benutzer) sichtbar; vor dem Livegang entscheiden, ob das so bleiben soll.
 - Bildunterschriften und Alt-Texte der Einblicke (Kopf von `Einblicke.astro`) bei neuen Screenshots prüfen.
 
+## Stellenbörse
+
+- **Bewerbungsadresse:** `public/js/jobs.js` (`BEWERBEN_NAME`, `BEWERBEN_DOMAIN`) steht auf info@talmiro.de. Muss `JOBS_APPLY_EMAIL` im CRM entsprechen; bei einer eigenen Bewerbungsadresse beides ändern.
+- **Datenschutzerklärung:** Der Text sagt noch nichts zu Bewerbungen per E-Mail (Zweck, Speicherdauer, Empfänger). Erst nach rechtlicher Klärung ergänzen. Die Stellenseiten verlinken auf Datenschutz und Impressum (Einstellungen `JOBS_PRIVACY_URL`, `JOBS_IMPRINT_URL` im CRM).
+- **Texte der Stellenseiten:** Überschrift und Einleitung der Liste (DE/EN) in `src/pages/jobs-vorlagen/liste-*.astro`, Texte von `vergeben.html` in `src/pages/jobs/`: von Niko prüfen.
+- **Menüpunkt „Stellen“** in der Navigation: aus, bis die Stellenbörse live ist (`STELLEN_IN_NAVIGATION` in `src/config.ts`).
+
 ## Betrieb
 
 | Platzhalter | Ort |

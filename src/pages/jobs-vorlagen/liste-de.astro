@@ -1,0 +1,14 @@
+---
+import JobsLayout from '../../layouts/JobsLayout.astro';
+
+---
+<JobsLayout lang="de" vorlage>
+  <div class="wrap job-wrap">
+    <h1 class="titel-verlauf">Stellenangebote</h1>
+    <p class="einleitung">Aktuelle Stellen, die wir im Auftrag unserer Kunden besetzen.</p>
+    <p class="job-count">Offene Stellen: <strong><Fragment set:html="{{JOB_COUNT}}" /></strong></p>
+    <div class="job-list" data-job-list>
+      <Fragment set:html="{{JOB_LIST}}" />
+    </div>
+  </div>
+</JobsLayout>

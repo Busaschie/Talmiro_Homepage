@@ -11,6 +11,16 @@ $dist = Join-Path (Split-Path $PSScriptRoot -Parent) 'dist'
 if (-not (Test-Path (Join-Path $dist 'index.html'))) { throw 'dist\ fehlt: zuerst npm run build.' }
 if ($Host_ -like '[[]*' -or $Ziel -like '[[]*') { throw 'Platzhalter ausfüllen (Host, Benutzer, Pfad).' }
 
+# /jobs/ gehört dem CRM (Stellenseiten per SFTP). Hier werden nur vergeben.html und en/vergeben.html mitgeliefert, nie etwas anderes
+# aus jobs\ und nie gelöscht. Dieses Skript löscht auf dem Server grundsätzlich nichts (kein rm, kein "delete remote files").
+$erlaubt = @('jobs\vergeben.html', 'jobs\en\vergeben.html')
+$jobsDir = Join-Path $dist 'jobs'
+if (Test-Path $jobsDir) {
+    $fremd = Get-ChildItem $jobsDir -Recurse -File | ForEach-Object { $_.FullName.Substring($dist.Length + 1) } | Where-Object { $erlaubt -notcontains $_ }
+    if ($fremd) { throw "dist\jobs enthält mehr als vergeben.html: $($fremd -join ', '). Nicht hochladen, erst npm run build." }
+}
+if (Test-Path (Join-Path $dist 'jobs-vorlagen')) { throw 'dist\jobs-vorlagen darf nicht hochgeladen werden: npm run build (räumt auf).' }
+
 $batch = Join-Path ([IO.Path]::GetTempPath()) 'talmiro-sftp.txt'
 @"
 cd $Ziel

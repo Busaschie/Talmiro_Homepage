@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/make-vorlagen.mjs",
+    "vorlagen": "node scripts/make-vorlagen.mjs",
     "assets": "node scripts/make-assets.mjs",
     "video": "node scripts/make-video.mjs",
     "einblicke": "node scripts/make-einblicke.mjs",

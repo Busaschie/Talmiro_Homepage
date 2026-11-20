@@ -9,3 +9,7 @@ deploy.local.*
 
 # Design-Entwurf und Original-Logo bleiben lokal
 _entwurf/
+
+# Aus dem Build erzeugte Vorlagen für das CRM (npm run build) und ihre Sicherungen
+jobs/_vorlagen/
+jobs/_vorlagen.bak-*/

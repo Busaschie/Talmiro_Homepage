@@ -12,6 +12,7 @@ npm run build      # statischer Build nach dist/
 npm run preview    # dist/ lokal ansehen
 npm run assets     # Bildmarke und Favicons neu aus _entwurf/talmiro-logo.jpg erzeugen (nur bei neuem Logo)
 npm run video      # Demo-Video neu aufbereiten (braucht ffmpeg), siehe „Hero-Video“
+npm run vorlagen   # Vorlagen für die Stellenbörse aus dist/ nach jobs/_vorlagen (läuft auch bei npm run build), siehe „Stellenbörse“
 npm run einblicke  # Screenshots für „Einblicke“ aus _entwurf aufbereiten (Handy-Bilder zuschneiden)
 ```
 
@@ -113,3 +114,21 @@ räumt auf. Es bricht ab, wenn schon eine `kontakt.config.php` im Projektordner 
 - Neu erzeugen aus `_entwurf/ui-laptop-hell.webp`, `ui-laptop-dunkel.webp`, `ui-handy-hell.webp`, `ui-handy-dunkel.webp`, `admin-laptop-hell.webp`, `admin-laptop-dunkel.webp`: `npm run einblicke` (Skript `scripts/make-einblicke.mjs`). Bei den Handy-Bildern werden Systemstatusleiste oben (ca. 132 px) und Gestenleiste unten (ca. 63 px) abgeschnitten; die Grenzen werden am Bild gesucht, beide Bilder bekommen denselben Zuschnitt. Die Admin-Bilder werden nicht beschnitten.
 - Laptop-Rahmen: Weboberfläche 1918 / 930, Verwaltung 1918 / 1024; das Bild sitzt oben (`object-position: top`) und wird nicht verzerrt, ein übrig bleibender Streifen hat die Hintergrundfarbe des Screenshots. Der Handy-Rahmen hat das Format des zugeschnittenen Bildes (1080 / 2205).
 - Alt-Texte und Bildunterschriften stehen im Kopf der Komponente. **Nur Testdaten auf den Screenshots.**
+
+## Stellenbörse (/jobs/)
+
+Das CRM (crm_agenten) erzeugt aus freigegebenen Aufträgen Stellenseiten und lädt sie per SFTP nach `/jobs/` (DE) und `/jobs/en/` (EN) hoch, dazu `/jobs/sitemap-jobs.xml`.
+Die Website liefert dafür nur das Aussehen und `vergeben.html`. Vertrag mit dem CRM: `docs/technik.md` im CRM (Abschnitte Stellenbörse).
+
+- **Vorlagen aus dem Build:** Die Seiten `src/pages/jobs-vorlagen/{detail,liste}-{de,en}.astro` (Layout `src/layouts/JobsLayout.astro`, Stile `src/styles/jobs.css`) enthalten nur die Platzhalter `{{JOB_HEAD}}`, `{{JOB_BODY}}` bzw. `{{JOB_LIST}}` und `{{JOB_COUNT}}` als Rohtext. `npm run build` ruft danach `scripts/make-vorlagen.mjs` (einzeln: `npm run vorlagen`):
+  - schreibt `jobs/_vorlagen/_vorlage_detail.de.html`, `_vorlage_detail.en.html`, `_vorlage_liste.de.html`, `_vorlage_liste.en.html` (der Ordner steht in `.gitignore`; das CRM liest ihn über `JOBS_TEMPLATE_DIR` = `..\homepage\jobs\_vorlagen`),
+  - sichert vorhandene, abweichende Vorlagen vorher als `jobs/_vorlagen.bak-<Datum>`,
+  - macht alle Adressen absolut (`https://www.talmiro.de/…`, Umgebungsvariable `JOBS_SITE` ändert die Domain), prüft, dass jeder Platzhalter genau einmal vorkommt, und bricht bei Inline-Skript, `style`-Attribut oder fremden Platzhaltern mit Fehler ab,
+  - bündelt CSS und Skripte der Stellenseiten unter festen Namen (`/css/jobs.css`, `/js/jobs-site.js`; Schriften, Logo und Wasserzeichen unter `/stabil/`), damit bereits hochgeladene Stellenseiten nach einem neuen Website-Build nicht auf nicht mehr vorhandene Dateien mit Hash zeigen. Diese Dateien gehören zum normalen Website-Upload,
+  - entfernt `dist/jobs-vorlagen` (Vorlagen werden nicht hochgeladen).
+  - `public/js/jobs.js` (fester Name, von Hand) setzt den Bewerben-Link (E-Mail steht nicht im HTML) und baut den Filter der Liste. Die Adresse dort muss `JOBS_APPLY_EMAIL` im CRM entsprechen.
+- **vergeben.html:** `src/pages/jobs/vergeben.astro` und `jobs/en/vergeben.astro` werden zu `dist/jobs/vergeben.html` und `dist/jobs/en/vergeben.html`. Das sind die **einzigen Dateien unter `/jobs/`, die die Website liefert** und beim Website-Upload mit hochgeladen werden. `.htaccess` zeigt `ErrorDocument 404/410` unter `/jobs/` darauf (EN: `/jobs/en/vergeben.html`).
+- **Upload-Schutz:** `/jobs/` gehört dem CRM. Beim Hochladen nie löschen oder überschreiben (außer `vergeben*.html`). `scripts/upload.example.ps1` löscht nichts und bricht ab, wenn `dist\jobs` mehr als die vergeben-Dateien enthält. **WebStorm-Deployment:** unter Tools > Deployment > Mapping bei „Excluded Paths“ den Ordner `/jobs` eintragen (vergeben*.html dann einmal von Hand hochladen oder den Ausschluss auf `/jobs/index.html` usw. beschränken) und „Delete remote files not present locally“ nicht verwenden, jedenfalls nicht für `/jobs`.
+- **Menüpunkt „Stellen“:** Schalter `STELLEN_IN_NAVIGATION` in `src/config.ts` (Standard `false`). Auf den Stellenseiten selbst steht der Punkt immer in der Navigation.
+- **Sitemap:** `/jobs/sitemap-jobs.xml` kommt vom CRM; `robots.txt` nennt sie zusätzlich zur Website-Sitemap. Die Seiten unter `/jobs` stehen nicht in der Website-Sitemap (Filter in `astro.config.mjs`).
+- **Server (.htaccess):** Der Block „Stellenbörse“ nutzt `<If>`-Abschnitte (Apache 2.4). Er ist auf einem echten Apache noch nicht getestet.

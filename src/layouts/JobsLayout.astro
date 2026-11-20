@@ -1,0 +1,56 @@
+---
+// Layout der Stellenseiten (/jobs/, /jobs/en/). Zwei Verwendungen:
+//  - vorlage: Seitenvorlagen für das CRM. Hier stehen nur die Platzhalter {{JOB_HEAD}} (im <head>) und in der Seite {{JOB_BODY}} bzw.
+//    {{JOB_LIST}} / {{JOB_COUNT}}; das CRM ersetzt sie als Rohtext. Titel, Beschreibung, canonical, hreflang und robots kommen von dort/aus der Vorlage.
+//  - seite: normale Seite (vergeben.html) mit eigenem Titel; wird mit der Website hochgeladen.
+// scripts/make-vorlagen.mjs macht nach dem Build aus allen Adressen absolute und bündelt CSS/JS unter festen Namen (/css/jobs.css, /js/jobs-site.js).
+import '@fontsource/plus-jakarta-sans/latin-600.css';
+import '@fontsource/plus-jakarta-sans/latin-700.css';
+import '@fontsource/plus-jakarta-sans/latin-800.css';
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-500.css';
+import '@fontsource/inter/latin-600.css';
+import '../styles/global.css';
+import '../styles/jobs.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  lang: 'de' | 'en';
+  vorlage?: boolean;
+  title?: string;
+  description?: string;
+}
+const { lang, vorlage = false, title = '', description = '' } = Astro.props;
+const skip = lang === 'en' ? 'Skip to content' : 'Zum Inhalt springen';
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {vorlage ? <Fragment set:html="{{JOB_HEAD}}" /> : (
+      <>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+      </>
+    )}
+    <meta name="robots" content={vorlage ? 'index, follow' : 'noindex, follow'} />
+    <meta name="theme-color" content="#FBF8F3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#17140F" media="(prefers-color-scheme: dark)" />
+    <script is:inline src="/js/reveal-init.js"></script>
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  </head>
+  <body class="job-seite">
+    <a class="skip" href="#main">{skip}</a>
+    <Header lang={lang} stellen />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <script is:inline src="/js/jobs.js" defer></script>
+  </body>
+</html>
