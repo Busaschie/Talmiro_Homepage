@@ -175,7 +175,7 @@ for (const datei of ['robots.txt', '.htaccess']) {
   }).join('\n');
   writeFileSync(join(DIST, datei), text, 'utf8');
 }
-console.log(`Stellenbörse: ${istDemo ? 'DEMO (noindex, Disallow /jobs/, keine Sitemap-Zeile)' : 'ECHT (indexierbar, Sitemap-Zeile)'}`);
+console.log(`Stellenbörse: ${istDemo ? 'DEMO (noindex, keine Sitemap-Zeile)' : 'ECHT (indexierbar, Sitemap-Zeile)'}`);
 
 console.log(`Vorlagen erzeugt in ${VORLAGEN}: ${Object.keys(neu).join(', ')}`);
 console.log(`dist: css/jobs.css, js/jobs-site.js, ${[...erlaubt].join(', ')}`);

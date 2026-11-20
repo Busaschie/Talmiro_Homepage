@@ -132,7 +132,7 @@ Die Website liefert dafür nur das Aussehen und `vergeben.html`. Vertrag mit dem
 - **Stellenbörse als Demo (`STELLEN_DEMO` in `src/config.ts`, derzeit `true`):** Die Seiten unter `/jobs/` sind reine Beispielseiten (nicht verlinkt, nicht für Google). Bei `true` gilt nach `npm run build`:
   - `<meta name="robots" content="noindex, nofollow">` in allen vier Vorlagen und in `vergeben.html` (im Layout, außerhalb der Platzhalter),
   - `.htaccess`: für `/jobs/` zusätzlich `Header always set X-Robots-Tag "noindex, nofollow"`,
-  - `robots.txt`: `Disallow: /jobs/`, keine Sitemap-Zeile für `sitemap-jobs.xml` (Hinweis: wegen des Disallow sehen Suchmaschinen das noindex-Meta nicht; es ist der zweite Schutz für den Fall, dass die Adresse direkt verlinkt wird),
+  - `robots.txt`: keine Sitemap-Zeile für `sitemap-jobs.xml` und bewusst KEIN `Disallow: /jobs/`; der Ausschluss läuft nur über Meta-Tag und `X-Robots-Tag`, damit Suchmaschinen das noindex sehen können,
   - sichtbarer Hinweis „Beispielseite – Demonstration der Talmiro-Stellenbörse, keine echten Stellen“ (DE/EN) auf Liste und Detailseiten; der Satz „Aktuelle Stellen, die wir im Auftrag unserer Kunden besetzen“ erscheint nur bei `false`,
   - der Bewerben-Link führt zum Pilot-Formular der Startseite (`/#pilot`), keine Bewerbung an `info@talmiro.de` (`public/js/jobs.js`, erkennt `data-stellen-demo` am `body`).
   Die Auswahl in `robots.txt` und `.htaccess` treffen die Zeilen mit `#@demo ` bzw. `#@echt ` (`scripts/make-vorlagen.mjs` schreibt beide Dateien aus `public/` nach `dist/`).

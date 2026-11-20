@@ -2,7 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /danke
 Disallow: /fehler
-#@demo Disallow: /jobs/
 
 Sitemap: https://www.talmiro.de/sitemap-index.xml
 #@echt Sitemap: https://www.talmiro.de/jobs/sitemap-jobs.xml
