@@ -2,6 +2,28 @@
 
 > Sitzungsprotokoll des Planungs-Chats. Neue Einträge oben, alte nie überschreiben.
 
+## 2026-11-20 (Fr)
+
+### Erledigt
+- `7844aa5`: warmer heller Modus, dunkler Modus mit Umschalter, Farben als Variablen.
+- `41ecf83`: „So funktioniert es“ hell #0f4747 / dunkel #1a2524; h1/h2 der Startseite mit Logo-Verlauf (nicht in „So funktioniert es“); Datenschutz: Hosting (febas, Server-Logs 7 Tage, AVV) und „Externe Dienste und Schriftarten“ (kein Tracking, Schriften lokal).
+- `ea0f301`: Unterlängen bei Verlauf-Überschriften nicht mehr abgeschnitten (Polster + box-decoration-break, Hero line-height 1,1).
+- `23f06f5`: fremdes Platzhalter-Video (TikTok) aus der Historie entfernt; Demo-Video mit Ton im Hero (stumme Vorschau in Schleife, „Mit Ton ansehen“ lädt Vollfassung erst bei Klick); Logo-Wasserzeichen im Hero; Abschnitt „Einblicke“.
+- `e183368`: neues Demo-Video (626×1050, Handy-Bildschirm auf Videoformat), vier Screenshots in „Einblicke“ (Oberfläche hell/dunkel, Laptop/Handy; Statusleisten der Handy-Bilder abgeschnitten). Laut Niko funktioniert alles.
+
+### Entscheidungen
+- Video: Autoplay nur stumm; Ton nur auf Klick, Vollfassung mit `preload="none"`; Untertitel-Track erst ausliefern, wenn Text vorliegt.
+- „Einblicke“ zeigt die Weboberfläche in Hell und Dunkel statt Admin/Oberfläche; Screenshots und Video nur mit Testdaten.
+- Datenschutzseite in Ich-Form wie geliefert.
+
+### Offen
+- Uncommittet: Änderungen von Niko in `src/pages/datenschutz.astro` und `impressum.astro`.
+- Push-Stand prüfen (`main` hat kein Upstream eingerichtet); vor dem Push sicherstellen, dass kein fremdes Material im Repo liegt.
+- Untertitel (`public/media/demo-video.de.vtt`) mit dem gesprochenen Text füllen.
+- Oberfläche zeigt noch „CRM“ statt „Talmiro“ (Änderung in der Software, danach Screenshots/Video neu).
+- Performance mobil prüfen (Video + Rauch); Test auf echtem Handy, Firefox/Safari.
+- Weiterhin: PLATZHALTER.md (Impressum/Datenschutz rechtlich prüfen, Preis, Tarif-Empfehlung, Formular-Empfänger, Zielpfad febas), SVG-Logo, DNS/Upload/Formular-Test, CRM-Import (B-171).
+
 ## 2026-11-19 (Do) – Sitzung 2
 
 ### Erledigt
