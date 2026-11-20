@@ -1,10 +1,12 @@
 ---
 import JobsLayout from '../../layouts/JobsLayout.astro';
+import { STELLEN_DEMO } from '../../config';
 
 ---
 <JobsLayout lang="en" vorlage>
   <div class="wrap job-wrap">
     <p class="job-zurueck"><a href="/jobs/en/">← All jobs</a></p>
+    {STELLEN_DEMO && <p class="job-demo-hinweis" role="note">Example page – demonstration of the Talmiro job board, no real vacancies</p>}
     <Fragment set:html="{{JOB_BODY}}" />
   </div>
 </JobsLayout>

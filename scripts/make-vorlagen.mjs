@@ -163,5 +163,19 @@ const unerlaubt = [];
 })('jobs');
 if (unerlaubt.length) fehler(`dist/jobs enthält Dateien, die nicht hochgeladen werden dürfen: ${unerlaubt.join(', ')}`);
 
+// ---- 6. Demo-Schalter: robots.txt und .htaccess aus public/ nach dist/ (Zeilen mit "#@demo " bzw. "#@echt " je nach STELLEN_DEMO in src/config.ts)
+const demo = /export\s+const\s+STELLEN_DEMO\s*=\s*(true|false)\s*;/.exec(lesen('src/config.ts'))?.[1];
+if (!demo) fehler('STELLEN_DEMO in src/config.ts nicht gefunden (true oder false)');
+const istDemo = demo === 'true';
+for (const datei of ['robots.txt', '.htaccess']) {
+  const text = lesen(join('public', datei)).split('\n').flatMap((zeile) => {
+    const m = /^#@(demo|echt) ?(.*)$/.exec(zeile.replace(/\r$/, ''));
+    if (!m) return [zeile];
+    return (m[1] === 'demo') === istDemo ? [m[2]] : [];
+  }).join('\n');
+  writeFileSync(join(DIST, datei), text, 'utf8');
+}
+console.log(`Stellenbörse: ${istDemo ? 'DEMO (noindex, Disallow /jobs/, keine Sitemap-Zeile)' : 'ECHT (indexierbar, Sitemap-Zeile)'}`);
+
 console.log(`Vorlagen erzeugt in ${VORLAGEN}: ${Object.keys(neu).join(', ')}`);
 console.log(`dist: css/jobs.css, js/jobs-site.js, ${[...erlaubt].join(', ')}`);

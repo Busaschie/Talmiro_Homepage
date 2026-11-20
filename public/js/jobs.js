@@ -12,10 +12,17 @@
     ? { bereich: 'Area', ort: 'Location', alle: 'All', keine: 'No positions match your selection.' }
     : { bereich: 'Bereich', ort: 'Ort', alle: 'Alle', keine: 'Keine Stelle passt zu Ihrer Auswahl.' };
 
-  // 1. Bewerben: mailto mit Betreff aus data-subject setzen
+  // 1. Bewerben: mailto mit Betreff aus data-subject setzen.
+  // Demo (body[data-stellen-demo], gesetzt vom Build bei STELLEN_DEMO = true): keine Bewerbung per E-Mail, der Link führt zum Pilot-Formular der Startseite.
+  var demo = document.body && document.body.hasAttribute('data-stellen-demo');
   var links = document.querySelectorAll('a.job-apply-link');
   for (var i = 0; i < links.length; i++) {
     var a = links[i];
+    if (demo) {
+      a.setAttribute('href', 'https://www.talmiro.de/#pilot');
+      a.textContent = en ? 'Example page – to the pilot form' : 'Beispielseite – zum Pilot-Formular';
+      continue;
+    }
     var betreff = a.getAttribute('data-subject') || a.getAttribute('data-title') || '';
     a.setAttribute('href', 'mailto:' + BEWERBEN_NAME + '@' + BEWERBEN_DOMAIN + '?subject=' + encodeURIComponent(betreff));
   }

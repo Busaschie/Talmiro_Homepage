@@ -29,6 +29,12 @@ ErrorDocument 404 /404.html
   ErrorDocument 404 /jobs/vergeben.html
   ErrorDocument 410 /jobs/vergeben.html
 </ElseIf>
+# Demo (STELLEN_DEMO = true in src/config.ts): /jobs/ nie indexieren. Zeilen mit #@demo / #@echt wählt scripts/make-vorlagen.mjs beim Build.
+#@demo <IfModule mod_headers.c>
+#@demo   <If "%{REQUEST_URI} =~ m#^/jobs/#">
+#@demo     Header always set X-Robots-Tag "noindex, nofollow"
+#@demo   </If>
+#@demo </IfModule>
 # Listen und Sitemap ändern sich mit jeder Veröffentlichung: nur 5 Minuten cachen
 <IfModule mod_headers.c>
   <If "%{REQUEST_URI} =~ m#^/jobs/(en/)?(index\.html)?$# || %{REQUEST_URI} == '/jobs/sitemap-jobs.xml'">

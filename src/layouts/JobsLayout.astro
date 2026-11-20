@@ -14,6 +14,7 @@ import '../styles/global.css';
 import '../styles/jobs.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { STELLEN_DEMO } from '../config';
 
 interface Props {
   lang: 'de' | 'en';
@@ -35,7 +36,7 @@ const skip = lang === 'en' ? 'Skip to content' : 'Zum Inhalt springen';
         <meta name="description" content={description} />
       </>
     )}
-    <meta name="robots" content={vorlage ? 'index, follow' : 'noindex, follow'} />
+    <meta name="robots" content={STELLEN_DEMO ? 'noindex, nofollow' : vorlage ? 'index, follow' : 'noindex, follow'} />
     <meta name="theme-color" content="#FBF8F3" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#17140F" media="(prefers-color-scheme: dark)" />
     <script is:inline src="/js/reveal-init.js"></script>
@@ -44,7 +45,7 @@ const skip = lang === 'en' ? 'Skip to content' : 'Zum Inhalt springen';
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   </head>
-  <body class="job-seite">
+  <body class="job-seite" data-stellen-demo={STELLEN_DEMO ? '' : undefined}>
     <a class="skip" href="#main">{skip}</a>
     <Header lang={lang} stellen />
     <main id="main">
