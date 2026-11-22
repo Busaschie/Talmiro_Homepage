@@ -11,8 +11,6 @@ Impressum und Datenschutzhinweise sind mit der Fassung von Niko vom 20.11.2026 v
 
 | Platzhalter | Ort |
 |---|---|
-| `[ANGABEN ZU SERVERSTANDORT UND AUFTRAGSVERARBEITUNG – nach rechtlicher Klärung]` | `Kontrolle.astro` (Karte „Datenschutz und Hosting“) |
-| `[ANTWORT NACH KLÄRUNG HOSTING UND AUFTRAGSVERARBEITUNG]` | `Faq.astro` („Wo liegen meine Daten?“): ausgeblendet (auskommentiert), Antwort nach Klärung Hosting/AVV |
 | `[STATUS: Import in Vorbereitung]` | `Faq.astro` („Kann ich meine bestehenden Kontakte übernehmen?“) |
 
 ## Medien (Platzhalter)
