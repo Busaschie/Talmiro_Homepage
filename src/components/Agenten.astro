@@ -1,0 +1,39 @@
+---
+const heute = [
+  ['Nachfassen bei Kunden', 'Erkennt ausbleibende Rückmeldungen nach dem Profilversand und legt einen Nachfass-Entwurf vor.'],
+  ['Morgen-Briefing', 'Fasst Termine, Fälliges und Neues per E-Mail zusammen.'],
+  ['Kontaktpflege', 'Schlägt vor, wen Sie wieder ansprechen sollten.'],
+  ['Vertragserinnerungen', 'Erinnert Kunden an offene Unterschriften.'],
+  ['Stellenbörse im Blick', 'Hält Ihre Stellenseiten aktuell, entfernt besetzte Stellen und meldet Änderungen an Google.'],
+  ['Kontrollmail bei jedem Versand', 'Sie erfahren sofort, was wann rausgeht, und können es stoppen.'],
+];
+const geplant = [
+  'Passende Mandate bei neuem Lebenslauf vorschlagen',
+  'Gute Kandidaten nach einer Absage wieder ins Spiel bringen',
+  'Suchbericht für Ihre Kunden',
+  'Erinnerung an offene Honorare',
+];
+---
+<section id="agenten" class="agenten" aria-labelledby="agenten-titel">
+  <div class="wrap">
+    <div class="kopfzeile kopfzeile-breit" data-reveal>
+      <h2 id="agenten-titel" class="titel-verlauf">Agenten, die mitdenken</h2>
+      <p class="einleitung">Talmiro arbeitet auch, wenn Sie nicht fragen: Agenten behalten Fristen, Kontakte und offene Vorgänge im Blick und legen Ihnen fertige Vorschläge vor. Entscheiden tun Sie – nach außen geht nichts ohne Ihr Ja.</p>
+    </div>
+    <div class="agenten-gruppe">
+      <h3 id="agenten-heute" class="gruppen-titel" data-reveal>Schon heute</h3>
+      <ul class="raster-agenten" aria-labelledby="agenten-heute">
+        {heute.map(([t, x]) => (
+          <li class="agent" data-reveal><h4>{t}</h4><p>{x}</p></li>
+        ))}
+      </ul>
+    </div>
+    <div class="agenten-geplant" data-reveal>
+      <h3 id="agenten-geplant"><span class="marke-geplant">In Vorbereitung</span></h3>
+      <ul aria-labelledby="agenten-geplant">
+        {geplant.map((p) => <li>{p}</li>)}
+      </ul>
+    </div>
+    <p class="agenten-schluss" data-reveal>Agenten arbeiten selbstständig, entscheiden aber nicht allein.</p>
+  </div>
+</section>

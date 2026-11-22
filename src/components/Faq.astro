@@ -1,22 +1,43 @@
 ---
 const fragen = [
   ['Brauche ich ein Claude-Konto?', 'Ja, für die Sprachsteuerung und den Chat nutzen Sie die Claude-App von Anthropic mit Ihrem eigenen Konto; Talmiro wird dort als Konnektor eingebunden. Für den Arbeitsalltag empfehlen wir einen der beiden Tarife Pro oder Max. Für die Arbeit mit echten Kandidatendaten empfehlen wir den Team-Tarif mit Auftragsverarbeitung. Die Weboberfläche von Talmiro funktioniert auch ohne Claude-Konto.'],
-  // ausgeblendet bis Klärung Hosting/AVV
-  // ['Wo liegen meine Daten?', '[ANTWORT NACH KLÄRUNG HOSTING UND AUFTRAGSVERARBEITUNG]'],
+  ['Wo liegen meine Daten und wie sind sie geschützt?', [
+    ['Eigene Instanz', 'Jede Kundin und jeder Kunde bekommt ein eigenes Talmiro mit eigener Datenbank. Andere Kunden sehen Ihre Daten nicht.'],
+    ['Verschlüsselt', 'Zugriff nur über eine verschlüsselte Verbindung (HTTPS).'],
+    ['Tägliche Sicherung', 'Ihre Daten werden jede Nacht verschlüsselt gesichert. Der Schlüssel bleibt bei uns, der Speicheranbieter sieht nur verschlüsselte Daten. Die Wiederherstellung ist getestet.'],
+    ['KI nur auf Ihre Frage', 'Wenn Sie mit Claude arbeiten, gibt Talmiro nur das weiter, was Sie gerade abfragen. Die KI läuft über Ihr eigenes Claude-Konto bei Anthropic.'],
+    ['Betrieb', 'In der Pilotphase betreue ich Ihre Instanz persönlich. Vor dem regulären Betrieb ist der Umzug auf einen Server in einem deutschen Rechenzentrum geplant.'],
+  ], 'faq-daten'],
   ['Was kostet Talmiro?', 'Regulär 129 € im Monat für einen Einzelnutzer, einmalige Einrichtung 390 € (Instanz, Datenübernahme, Logo und Farben, Einrichtung in Claude). Pilotkunden zahlen keine Einrichtung, testen 3 Monate kostenlos und zahlen danach 79 € im Monat, für 12 Monate garantiert. Monatlich kündbar. Kein Erfolgshonorar pro Vermittlung. Das Claude-Konto ist nicht enthalten. Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.'],
   ['Sieht Talmiro aus wie mein Unternehmen?', 'Ja. Weboberfläche und Verwaltung erhalten Ihr Logo, Ihre Farben und Schriften, im hellen und im dunklen Modus. Die Stellenseiten erscheinen im Design Ihrer Website, auf Deutsch und Englisch. Die Anpassung übernehmen wir bei der Einrichtung.'],
   ['Kann ich meine bestehenden Kontakte übernehmen?', 'Ja. Lebensläufe lesen Sie einfach ein. Kandidaten, Firmen und Ansprechpartner aus Ihrem bisherigen System übernehmen wir bei der Einrichtung per CSV- oder Excel-Export, inklusive Dublettenprüfung. [STATUS: Import in Vorbereitung] Ein Import Ihrer LinkedIn-Kontakte folgt.'],
+  ['Was machen die Agenten – handeln sie ohne mich?', 'Nein. Agenten bereiten vor und schlagen vor. Versand, Änderungen und Absagen gibt es nur nach Ihrer Bestätigung, mit Stopp-Fenster.'],
   ['Verschickt Talmiro etwas von selbst?', 'Nein. Alles, was nach außen geht, braucht Ihre Bestätigung – und lässt sich im Stopp-Fenster noch zurückholen.'],
 ];
 ---
 <section id="faq" class="faq" aria-labelledby="faq-titel">
   <div class="wrap wrap-eng">
     <h2 id="faq-titel" class="titel-verlauf">Häufige Fragen</h2>
-    {fragen.map(([f, a]) => (
-      <details data-reveal>
+    {fragen.map(([f, a, anker]) => (
+      <details data-reveal id={anker}>
         <summary>{f}</summary>
-        <p>{a}</p>
+        {Array.isArray(a)
+          ? <ul class="faq-liste">{a.map(([t, x]) => <li><strong>{t}:</strong> {x}</li>)}</ul>
+          : <p>{a}</p>}
       </details>
     ))}
   </div>
 </section>
+
+<script>
+  // Kommt man über einen Anker (z. B. #faq-daten) auf einen FAQ-Eintrag, öffnet er sich.
+  const oeffneAnker = () => {
+    const el = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    if (el instanceof HTMLDetailsElement && !el.open) {
+      el.open = true;
+      el.scrollIntoView();
+    }
+  };
+  oeffneAnker();
+  window.addEventListener('hashchange', oeffneAnker);
+</script>

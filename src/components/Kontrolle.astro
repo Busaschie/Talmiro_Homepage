@@ -5,7 +5,7 @@ const regeln = [
   ['Keine geschützten Merkmale', 'Alter, Herkunft, Foto und Co. werden weder gespeichert noch bewertet.'],
   ['Nachvollziehbar', 'Jede Aktion wird protokolliert – ohne Inhalte, nur was wann geschah.'],
   ['Zustimmung des Kandidaten', 'Profile gehen nur an Kunden, wenn der Kandidat zugestimmt hat.'],
-  ['Datenschutz und Hosting', '[ANGABEN ZU SERVERSTANDORT UND AUFTRAGSVERARBEITUNG – nach rechtlicher Klärung]'],
+  ['Datenschutz und Hosting', 'Eigene Instanz je Kunde, verschlüsselte Verbindung und tägliche verschlüsselte Sicherung.', 'Details in den FAQ', '#faq-daten'],
 ];
 ---
 <section id="kontrolle" class="kontrolle" aria-labelledby="kontrolle-titel">
@@ -15,8 +15,8 @@ const regeln = [
       <p class="einleitung">Ein Assistent, der für Sie handelt, muss berechenbar sein. Deshalb gelten in Talmiro feste Regeln, die keine Eingabe aushebeln kann.</p>
     </div>
     <div class="kontrolle-raster" data-reveal>
-      {regeln.map(([t, x]) => (
-        <div class="regel"><h3>{t}</h3><p>{x}</p></div>
+      {regeln.map(([t, x, linkText, ziel]) => (
+        <div class="regel"><h3>{t}</h3><p>{x}{linkText && <> <a href={ziel}>{linkText}</a>.</>}</p></div>
       ))}
     </div>
   </div>
