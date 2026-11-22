@@ -3,10 +3,22 @@ import JobsLayout from '../../layouts/JobsLayout.astro';
 import { STELLEN_DEMO } from '../../config';
 
 ---
-<JobsLayout lang="en" vorlage>
-  <div class="wrap job-wrap">
-    <p class="job-zurueck"><a href="/jobs/en/">← All jobs</a></p>
+<JobsLayout lang="en" vorlage mainClass="job-page">
+  <div class="wrap job-page-inner">
+    <a class="job-back" href="/jobs/en/"><svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>All jobs</a>
     {STELLEN_DEMO && <p class="job-demo-hinweis" role="note">Example page – demonstration of the Talmiro job board, no real vacancies</p>}
-    <Fragment set:html="{{JOB_BODY}}" />
+    <article class="job-body" id="job-body" data-job-body>
+      <Fragment set:html="{{JOB_BODY}}" />
+      <section class="job-section job-contact-section">
+        <h2>Your contact</h2>
+        <div class="job-contact">
+          <p><strong>Your contact person</strong><br />Recruiter · your recruitment firm</p>
+        </div>
+      </section>
+      <section class="job-section">
+        <p class="job-note"><svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg><span>Sample text: on the live job board, this is where your recruitment firm’s notes appear, for example when the name of the company is disclosed and how applications are handled.</span></p>
+      </section>
+    </article>
+    <a class="job-back job-back-bottom" href="/jobs/en/"><svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>All open positions</a>
   </div>
 </JobsLayout>

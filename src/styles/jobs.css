@@ -58,3 +58,118 @@
   .job-facts dd { margin-bottom: 10px; }
   .job-card { padding: 18px; }
 }
+
+/* ---------- Liste mit Suche und Vorschau (zweispaltig ab 1024 px) ---------- */
+.job-wrap.job-wrap-breit { max-width: var(--breite); }
+.job-wrap h1.job-heading { font-size: clamp(28px, 4.5vw, 40px); }
+.job-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
+.job-form[hidden], .job-chips[hidden], .job-empty[hidden] { display: none; }
+.job-field { position: relative; flex: 1 1 240px; display: flex; align-items: center; }
+.job-field svg { position: absolute; left: 14px; color: var(--text-3); pointer-events: none; }
+.job-field input { width: 100%; min-height: 48px; padding: 10px 14px 10px 42px; border: 1px solid var(--feld-rand); border-radius: 10px; background: var(--karte); color: var(--text); font: inherit; }
+.job-field input::placeholder { color: var(--text-3); opacity: 1; }
+.job-submit { min-height: 48px; }
+
+.job-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.job-chip { min-height: 36px; padding: 6px 14px; border: 1px solid var(--linie-stark); border-radius: 999px; background: transparent; color: var(--text-2); font: inherit; font-size: 14px; cursor: pointer; }
+.job-chip:hover { border-color: var(--link); color: var(--titel); }
+.job-chip[aria-pressed='true'] { background: var(--knopf-bg); border-color: var(--knopf-bg); color: var(--knopf-text); }
+
+.job-empty { padding: 28px; text-align: center; background: var(--flaeche); border-radius: 16px; color: var(--text-2); }
+.job-empty strong { display: block; margin-bottom: 6px; color: var(--titel); }
+
+.job-card { position: relative; }
+.job-card h2 { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.job-new { display: inline-block; padding: 2px 10px; border-radius: 999px; background: var(--mint); color: var(--icon); font-size: 12px; font-weight: 700; letter-spacing: 0.3px; line-height: 1.5; }
+.job-card[aria-current='true'] { border-color: var(--link); box-shadow: 0 0 0 1px var(--link); }
+
+.job-pane { display: none; }
+.job-pane[hidden] { display: none !important; }
+/* Mit JavaScript (html.js, früh gesetzt von reveal-init.js) steht das Formular schon beim ersten Zeichnen da: keine Layoutverschiebung */
+html.js .job-form { display: flex; }
+html.js .job-chips { min-height: 36px; }
+.job-pane-hint { margin: 0; color: var(--text-2); }
+.job-built { display: flex; flex-direction: column; gap: 24px; }
+.job-open { display: inline-block; padding: 11px 20px; border: 1px solid var(--knopf-rand-text); border-radius: 12px; color: var(--knopf-rand-text); text-decoration: none; font-weight: 600; }
+.job-open:hover { background: var(--knopf-rand-hover-bg); color: var(--knopf-rand-hover-text); }
+.job-facts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.job-fact { display: flex; align-items: flex-start; gap: 12px; padding: 14px; border: 1px solid var(--linie); border-radius: 12px; background: var(--flaeche); }
+.job-fact-icon { flex: none; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; background: var(--mint); color: var(--icon); }
+.job-fact-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-3); }
+.job-fact-value { display: block; font-size: 15px; line-height: 1.35; color: var(--text); font-weight: 600; }
+.job-intro p { margin: 0 0 12px; line-height: 1.65; color: var(--text); }
+.job-built .job-section { border-top: 1px solid var(--linie); padding-top: 16px; }
+.job-built .job-section h2 { margin: 0 0 10px; font-size: 20px; color: var(--titel); }
+.job-built .job-section ul { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; line-height: 1.55; }
+.job-built .job-section p { margin: 0; line-height: 1.6; }
+
+@media (min-width: 1024px) {
+  html.js .job-split { display: grid; grid-template-columns: minmax(340px, 420px) minmax(0, 1fr); gap: 24px; align-items: start; }
+  html.js .job-split .job-list,
+  html.js .job-split .job-pane { position: sticky; top: calc(var(--kopf-h, 73px) + 16px); max-height: calc(100vh - var(--kopf-h, 73px) - 32px); overflow-y: auto; }
+  html.js .job-split .job-list { gap: 14px; padding: 2px; }
+  html.js .job-split .job-card { cursor: pointer; padding: 20px; }
+  html.js .job-split .job-card h2 { font-size: 19px; }
+  html.js .job-split .job-pane { display: block; padding: 0 28px 28px; background: var(--karte); border: 1px solid var(--linie); border-radius: 16px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .job-built { animation: job-pane-ein 0.18s ease-out; }
+  @keyframes job-pane-ein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+}
+
+/* ---------- Detailseite und Vorschau: Kopf, Kacheln, Abschnitte ---------- */
+.job-page { background: var(--seite); }
+.job-page-inner { padding-block: 32px 80px; max-width: 920px; display: flex; flex-direction: column; gap: 20px; }
+.job-back { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; font-weight: 600; text-decoration: none; color: var(--link); }
+.job-back:hover { color: var(--link-hover); text-decoration: underline; }
+.job-back-bottom { margin-top: 8px; }
+.job-body { display: flex; flex-direction: column; gap: 24px; }
+.job-built { display: flex; flex-direction: column; gap: 24px; }
+.job-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; padding: 14px 0; background: var(--seite); border-bottom: 1px solid var(--linie); }
+.job-title { margin: 0; flex: 1 1 320px; font-size: clamp(24px, 4vw, 34px); line-height: 1.18; font-weight: 800; color: var(--titel); }
+.job-header-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.job-header-actions .job-apply-link.button { padding: 11px 20px; font-size: 16px; }
+.job-copy, .job-open { display: inline-block; padding: 10px 18px; border: 1px solid var(--knopf-rand-text); border-radius: 12px; background: transparent; color: var(--knopf-rand-text); font: inherit; font-weight: 600; font-size: 16px; text-decoration: none; cursor: pointer; }
+.job-copy:hover, .job-open:hover { background: var(--knopf-rand-hover-bg); color: var(--knopf-rand-hover-text); }
+.job-head-meta { display: flex; flex-direction: column; gap: 8px; }
+.job-head-meta p { margin: 0; }
+.job-meta-line { color: var(--text); font-weight: 600; }
+.job-glance { display: flex; flex-direction: column; gap: 12px; }
+.job-built .job-glance-titel { margin: 0; font-size: 20px; color: var(--titel); }
+.job-built .job-salary { margin: 0; color: var(--text-2); }
+.job-contact-section h2, .job-body > .job-section h2 { margin: 0 0 10px; font-size: 20px; color: var(--titel); }
+.job-body > .job-section { border-top: 1px solid var(--linie); padding-top: 16px; }
+.job-contact { display: flex; align-items: center; gap: 16px; }
+.job-contact p { margin: 0; line-height: 1.5; color: var(--text-2); }
+.job-contact strong { color: var(--text); }
+.job-contact img { border-radius: 50%; flex: none; }
+.job-note { display: flex; align-items: flex-start; gap: 12px; margin: 0; padding: 14px 16px; background: var(--flaeche); border-radius: 12px; color: var(--text-2); line-height: 1.55; }
+.job-note svg { flex: none; margin-top: 2px; color: var(--icon); }
+.job-built .job-legal { margin: 0; }
+.job-back:focus-visible, .job-copy:focus-visible, .job-open:focus-visible, .job-chip:focus-visible { outline: 3px solid var(--fokus); outline-offset: 3px; }
+@media (min-width: 700px) {
+  /* Titel läuft mit, die Knöpfe bleiben unter dem Seitenkopf sichtbar */
+  .job-page .job-header { display: contents; }
+  .job-page .job-title { flex: none; margin-bottom: -8px; }
+  .job-page .job-header-actions { position: sticky; top: var(--kopf-h, 73px); z-index: 5; padding: 10px 0; background: var(--seite); border-bottom: 1px solid var(--linie); }
+}
+@media (max-width: 699px) {
+  .job-page-inner { padding-block: 20px 56px; }
+  .job-header-actions { width: 100%; }
+  .job-header-actions > * { flex: 1 1 auto; text-align: center; }
+}
+@media (min-width: 1024px) {
+  html.js .job-split .job-pane .job-header { position: sticky; top: 0; z-index: 2; padding: 20px 0 12px; background: var(--karte); }
+  html.js .job-split .job-pane-hint { padding-top: 28px; }
+  html.js .job-split .job-pane .job-title { font-size: 26px; }
+}
+
+/* Detailseite: das CRM-Markup bleibt mit JavaScript unsichtbar (Platz bleibt stabil), bis jobs.js den fertigen Aufbau eingesetzt hat.
+   Fällt das Skript aus, wird es nach 2,5 s sichtbar; ohne JavaScript (kein html.js) bleibt es immer lesbar. */
+html.js [data-job-body]:not(.is-enhanced),
+html.js article.job:not(.is-enhanced) { visibility: hidden; animation: job-notfall 0s linear 2.5s forwards; }
+@keyframes job-notfall { to { visibility: visible; } }
+/* Schmal: Platz für zwei Chip-Zeilen vorhalten, damit die Kacheln beim Einfügen der Chips nicht springen */
+@media (max-width: 559px) {
+  html.js .job-chips { min-height: 80px; align-content: flex-start; }
+}

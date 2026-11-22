@@ -4,14 +4,38 @@ import { STELLEN_DEMO } from '../../config';
 
 ---
 <JobsLayout lang="en" vorlage>
-  <div class="wrap job-wrap">
-    <h1 class="titel-verlauf">Job openings</h1>
+  <div class="wrap job-wrap job-wrap-breit">
+    <h1 class="titel-verlauf job-heading"><span id="job-count" aria-live="polite"><Fragment set:html="Open positions ({{JOB_COUNT}})" /></span></h1>
     {STELLEN_DEMO
       ? <p class="einleitung job-demo-hinweis" role="note">Example page – demonstration of the Talmiro job board, no real vacancies</p>
       : <p class="einleitung">Current positions we are recruiting for on behalf of our clients.</p>}
-    <p class="job-count">Open positions: <strong><Fragment set:html="{{JOB_COUNT}}" /></strong></p>
-    <div class="job-list" data-job-list>
-      <Fragment set:html="{{JOB_LIST}}" />
+    <form class="job-form" id="job-form" role="search" hidden>
+      <div class="job-field">
+        <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <label class="sr-only" for="job-q">What</label>
+        <input id="job-q" name="q" type="search" placeholder="Job title, keyword, area" autocomplete="off" />
+      </div>
+      <div class="job-field">
+        <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <label class="sr-only" for="job-l">Where</label>
+        <input id="job-l" name="l" type="search" placeholder="City or region" autocomplete="off" />
+      </div>
+      <button class="knopf job-submit" type="submit">Find jobs</button>
+    </form>
+    <div class="job-chips" id="job-chips" role="group" aria-label="Filter by area"></div>
+    <div class="job-split">
+      <div class="job-list" id="job-list" data-job-list aria-label="Job list">
+        <Fragment set:html="{{JOB_LIST}}" />
+        <div class="job-empty" id="job-empty" hidden>
+          <strong>No matching position found</strong>
+          Change your search or the filter.
+        </div>
+        <div class="job-empty" id="job-none" hidden>
+          <strong>No open positions at the moment</strong>
+          Please check back later.
+        </div>
+      </div>
+      <div class="job-pane" id="job-pane" role="region" aria-label="Job preview"></div>
     </div>
   </div>
 </JobsLayout>

@@ -20,9 +20,10 @@ interface Props {
   lang: 'de' | 'en';
   vorlage?: boolean;
   title?: string;
+  mainClass?: string;
   description?: string;
 }
-const { lang, vorlage = false, title = '', description = '' } = Astro.props;
+const { lang, vorlage = false, title = '', description = '', mainClass } = Astro.props;
 const skip = lang === 'en' ? 'Skip to content' : 'Zum Inhalt springen';
 ---
 <!doctype html>
@@ -48,7 +49,7 @@ const skip = lang === 'en' ? 'Skip to content' : 'Zum Inhalt springen';
   <body class="job-seite" data-stellen-demo={STELLEN_DEMO ? '' : undefined}>
     <a class="skip" href="#main">{skip}</a>
     <Header lang={lang} stellen />
-    <main id="main">
+    <main id="main" class={mainClass}>
       <slot />
     </main>
     <Footer lang={lang} />

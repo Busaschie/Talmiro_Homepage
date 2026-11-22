@@ -4,14 +4,38 @@ import { STELLEN_DEMO } from '../../config';
 
 ---
 <JobsLayout lang="de" vorlage>
-  <div class="wrap job-wrap">
-    <h1 class="titel-verlauf">Stellenangebote</h1>
+  <div class="wrap job-wrap job-wrap-breit">
+    <h1 class="titel-verlauf job-heading"><span id="job-count" aria-live="polite"><Fragment set:html="Offene Stellen ({{JOB_COUNT}})" /></span></h1>
     {STELLEN_DEMO
       ? <p class="einleitung job-demo-hinweis" role="note">Beispielseite – Demonstration der Talmiro-Stellenbörse, keine echten Stellen</p>
       : <p class="einleitung">Aktuelle Stellen, die wir im Auftrag unserer Kunden besetzen.</p>}
-    <p class="job-count">Offene Stellen: <strong><Fragment set:html="{{JOB_COUNT}}" /></strong></p>
-    <div class="job-list" data-job-list>
-      <Fragment set:html="{{JOB_LIST}}" />
+    <form class="job-form" id="job-form" role="search" hidden>
+      <div class="job-field">
+        <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <label class="sr-only" for="job-q">Was</label>
+        <input id="job-q" name="q" type="search" placeholder="Jobtitel, Stichwort, Bereich" autocomplete="off" />
+      </div>
+      <div class="job-field">
+        <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <label class="sr-only" for="job-l">Wo</label>
+        <input id="job-l" name="l" type="search" placeholder="Ort oder Region" autocomplete="off" />
+      </div>
+      <button class="knopf job-submit" type="submit">Jobs finden</button>
+    </form>
+    <div class="job-chips" id="job-chips" role="group" aria-label="Nach Bereich filtern"></div>
+    <div class="job-split">
+      <div class="job-list" id="job-list" data-job-list aria-label="Stellenliste">
+        <Fragment set:html="{{JOB_LIST}}" />
+        <div class="job-empty" id="job-empty" hidden>
+          <strong>Keine passende Stelle gefunden</strong>
+          Ändern Sie die Suche oder den Filter.
+        </div>
+        <div class="job-empty" id="job-none" hidden>
+          <strong>Aktuell keine ausgeschriebenen Stellen</strong>
+          Schauen Sie später noch einmal vorbei.
+        </div>
+      </div>
+      <div class="job-pane" id="job-pane" role="region" aria-label="Vorschau der Stelle"></div>
     </div>
   </div>
 </JobsLayout>

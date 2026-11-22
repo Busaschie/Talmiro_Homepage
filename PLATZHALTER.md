@@ -34,6 +34,9 @@ Impressum und Datenschutzhinweise sind mit der Fassung von Niko vom 20.11.2026 v
 | `[PFAD]` (Zielordner bei febas) | `README.md`, `scripts/upload.example.ps1` |
 | `[EMPFAENGER-ADRESSE]`, `[ABSENDER-ADRESSE@talmiro.de]`, `[ZUFALLSWERT]` | `kontakt.config.php` (aus `kontakt.config.example.php`, nicht im Repository) |
 
+- **Detailseite, Abschnitt „Ihr Kontakt“:** Name, Rolle und Antwortzeit sind neutral (Ihre Ansprechperson); eine Antwortzeit ist nicht angegeben, weil es keinen freigegebenen Wert gibt. Foto nur, wenn Talmiro ein freigegebenes Bild liefert. Texte in `src/pages/jobs-vorlagen/detail-*.astro`.
+- **Detailseite, Hinweistext (p.job-note):** Vorschlag, Wortlaut von Niko bestätigen lassen („Beispieltext: Hier stehen in der echten Stellenbörse die Hinweise Ihrer Personalberatung …“). Der Kohlweg-Text zum Firmennamen ist bewusst nicht übernommen.
+
 ## Logo
 
 - **Logo als SVG mit transparentem Hintergrund nachliefern.** Bisher ist die Bildmarke ein aus dem JPG ausgeschnittenes WebP Status: wartet, evtl. geändertes Logo.

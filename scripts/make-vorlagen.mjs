@@ -129,6 +129,10 @@ Die Vorlagen setzen das robots-Meta-Tag selbst; das CRM liefert in {{JOB_HEAD}} 
 
 CSS-Klassen des CRM-Markups: job, job-company, job-facts, job-text, job-section, job-salary, job-apply, job-apply-link, button, job-apply-noscript,
 job-legal, job-card, job-card-company, job-meta, job-tags, job-card-snippet, job-date, job-more, job-none (Stile in src/styles/jobs.css).
+
+Liste mit Vorschau: Die Listenvorlage enthält #job-form, #job-q, #job-l, #job-chips, #job-count, #job-list (mit {{JOB_LIST}}, #job-empty, #job-none) und #job-pane.
+/js/jobs.js liest data-bereich, data-bereich-label und data-ort der Kacheln (article.job-card) und holt die Vorschau am Desktop (ab 1024 px) per fetch aus dem Element
+[data-job-body] der Detailseite (Rückfall: article.job). Auf dem Handy öffnen die Kacheln die Detailseite.
 `;
 
 if (VORLAGEN_MODUS) {
