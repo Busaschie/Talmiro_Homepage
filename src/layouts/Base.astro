@@ -22,7 +22,7 @@ interface Props {
 const { title, description, path = '/', noindex = false, structuredData = false } = Astro.props;
 const SITE = 'https://www.talmiro.de';
 const canonical = SITE + path;
-const ogImage = SITE + '/og-image.png';
+const ogImage = SITE + '/og-image.png?v=2';
 
 const ld = [
   {
@@ -61,10 +61,10 @@ const ld = [
     <!-- Scroll-Reveal aktivieren (ohne defer/async: js-reveal muss vor dem ersten Rendern gesetzt sein) -->
     <script is:inline src="/js/reveal-init.js"></script>
 
-    <link rel="icon" href="/favicon.ico" sizes="48x48" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon.ico?v=2" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png?v=2" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Talmiro" />

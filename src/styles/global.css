@@ -239,7 +239,7 @@ html.js .nav .theme-knopf { display: inline-flex; }
 @media (prefers-reduced-motion: reduce) { .kopf { transition: none; } }
 .kopf-innen { max-width: var(--breite); margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
 .marke { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.marke-bild { display: block; width: 50px; height: 40px; border-radius: 8px; }
+.marke-bild { display: block; width: 55px; height: 40px; border-radius: 8px; }
 .wortmarke { font-family: var(--font-h); font-weight: 800; font-size: 22px; letter-spacing: 2px; color: var(--titel); background: var(--grad-logo); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; font-size: 15px; }
 .nav a { color: var(--text); text-decoration: none; padding: 6px 0; }
@@ -261,7 +261,7 @@ html.js .nav .theme-knopf { display: inline-flex; }
 /* Wasserzeichen: dekoratives Logo links hinter dem Text; kein Inhalt, kein Einfluss auf Lesbarkeit */
 .hero::before {
   content: ''; position: absolute; z-index: 0; pointer-events: none;
-  left: -6%; top: 50%; width: min(62vw, 760px); aspect-ratio: 1015 / 808; transform: translateY(-50%);
+  left: -6%; top: 50%; width: min(62vw, 760px); aspect-ratio: 800 / 584; transform: translateY(-50%);
   background: url('../assets/logo-2_gross.webp') center / contain no-repeat;
   opacity: var(--wz-deckkraft);
 }

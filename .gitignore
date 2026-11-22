@@ -13,3 +13,6 @@ _entwurf/
 # Aus dem Build erzeugte Vorlagen für das CRM (npm run build) und ihre Sicherungen
 jobs/_vorlagen/
 jobs/_vorlagen.bak-*/
+
+# Angelieferte Logo-Dateien (Quelle), nicht im Repo
+logo_neu/
