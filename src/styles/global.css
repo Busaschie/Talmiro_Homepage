@@ -4,9 +4,9 @@
 :root {
   color-scheme: light;
 
-  /* Marke */
-  --navy: #14305e;
-  --petrol: #0f7c7c;
+  /* Marke (warm & seriös statt Blau-Petrol) */
+  --navy: #2B1E16;
+  --petrol: #B84A27;
 
   /* Flächen und Text (hell, warm) */
   --seite: #fbf8f3;
@@ -15,14 +15,14 @@
   --text: #2a241f;
   --text-2: #4f463e;
   --text-3: #6a6057;
-  --titel: #14305e; /* Überschriften und Markenakzente */
+  --titel: #2B1E16; /* Überschriften und Markenakzente */
   --linie: #e6ddd0;
   --linie-stark: #cfc4b4;
   --feld-rand: #857c72; /* >= 3:1 auf Feld und Formular */
-  --mint: #e8f2ee;
-  --icon: #0b6b6b;
-  --link: #0b6b6b; /* Petrol für kleinen Text, >= 4.5:1 auf --flaeche */
-  --link-hover: #14305e;
+  --mint: #EFE5D8;
+  --icon: #9E3B1C;
+  --link: #9E3B1C; /* Terrakotta für kleinen Text, >= 4.5:1 auf --flaeche */
+  --link-hover: #2B1E16;
 
   /* Kopfzeile, Schatten */
   --kopf-bg: rgba(251, 248, 243, 0.78);
@@ -31,38 +31,38 @@
   --schatten-gross: rgba(60, 40, 20, 0.22);
 
   /* Knöpfe */
-  --knopf-bg: #0f7c7c;
-  --knopf-hover: #14305e;
+  --knopf-bg: #B84A27;
+  --knopf-hover: #96381A;
   --knopf-text: #ffffff;
-  --knopf-rand-text: #14305e;
-  --knopf-rand-hover-bg: #14305e;
+  --knopf-rand-text: #2B1E16;
+  --knopf-rand-hover-bg: #2B1E16;
   --knopf-rand-hover-text: #ffffff;
 
   /* Telefon-Mockup */
-  --telefon-rahmen: #14305e;
+  --telefon-rahmen: #2B1E16;
   --wz-deckkraft: 0.05; /* Logo-Wasserzeichen im Hero */
 
   /* Abschnitt „So funktioniert es“ und Footer */
-  --ablauf-bg: #0f4747; /* nur „So funktioniert es“ */
+  --ablauf-bg: #2A1F18; /* nur „So funktioniert es“ */
   --sektion-titel: #ffffff;
-  --sektion-text: #d3dce8;
-  --sektion-linie: #7ab5b1; /* Rahmen der Schritte, 4,5:1 auf --ablauf-bg */
-  --sektion-nr: #7fd3cf;
-  --footer-bg: #14305e;
-  --footer-text: #d3dce8;
-  --footer-link: #7fd3cf;
+  --sektion-text: #EAE1D6;
+  --sektion-linie: #8C6D58; /* Rahmen der Schritte, >= 4,5:1 auf --ablauf-bg */
+  --sektion-nr: #E69A78;
+  --footer-bg: #1E1611;
+  --footer-text: #E5DCD0;
+  --footer-link: #E69A78;
   --footer-hover: #ffffff;
 
   /* Fokus */
-  --fokus: #0b6b6b;
-  --fokus-dunkel: #7fd3cf; /* auf dunklen Abschnitten */
-  --skip-bg: #14305e;
+  --fokus: #9E3B1C;
+  --fokus-dunkel: #E69A78; /* auf dunklen Abschnitten */
+  --skip-bg: #2B1E16;
   --skip-text: #ffffff;
 
   /* Logo-Schriftzug */
-  --grad-logo: linear-gradient(90deg, #14305e 0%, #1f5c8a 45%, #1aa3a3 100%);
-  --grad-titel: linear-gradient(90deg, #14305e 0%, #1f5c8a 45%, #148f8f 100%); /* wie Logo, Ende etwas dunkler (>= 3:1 auf --flaeche) */
-  --grad-footer: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
+  --grad-logo: linear-gradient(90deg, #2B1E16 0%, #7D361E 48%, #C85A32 100%);
+  --grad-titel: linear-gradient(90deg, #2B1E16 0%, #7D361E 50%, #B84A27 100%);
+  --grad-footer: linear-gradient(90deg, #ffffff 0%, #E6C7B2 55%, #E69A78 100%);
 
   /* Hinweis- und Fehlerboxen (bleiben in beiden Modi hell) */
   --hinweis-bg: #fff7e0;
@@ -73,11 +73,11 @@
   --meldung-text: #6b1f1f;
 
   /* Geräte-Rahmen (Handy-Schirm, Laptop), Video-Knopf, Bild-Dialog */
-  --geraet-rahmen: #2b2f36;
-  --geraet-schirm: #10151b;
-  --geraet-fuss: #c9ced6;
-  --geraet-kerbe: #aab1bb;
-  --video-knopf-bg: rgba(16, 21, 27, 0.66);
+  --geraet-rahmen: #2b2623;
+  --geraet-schirm: #14110f;
+  --geraet-fuss: #c9c2b8;
+  --geraet-kerbe: #aba296;
+  --video-knopf-bg: rgba(20, 17, 15, 0.68);
   --video-knopf-text: #ffffff;
   --dialog-backdrop: rgba(18, 14, 10, 0.72);
 
@@ -159,7 +159,7 @@
     --knopf-rand-hover-bg: #f3ede5;
     --knopf-rand-hover-text: #17140f;
     --telefon-rahmen: #14305e;
-  --wz-deckkraft: 0.08;
+    --wz-deckkraft: 0.08;
     --ablauf-bg: #1a2524;
     --sektion-linie: #6f908c;
     --footer-bg: #101a2b;
@@ -167,9 +167,9 @@
     --grad-logo: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
     --grad-titel: linear-gradient(90deg, #ffffff 0%, #a9e3e0 55%, #4cc7c2 100%);
     --geraet-rahmen: #3a3f47;
-  --geraet-fuss: #4c515a;
-  --geraet-kerbe: #3a3f47;
-  --rauch-blend: screen;
+    --geraet-fuss: #4c515a;
+    --geraet-kerbe: #3a3f47;
+    --rauch-blend: screen;
   }
 }
 
@@ -240,6 +240,32 @@ html.js .nav .theme-knopf { display: inline-flex; }
 .kopf-innen { max-width: var(--breite); margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
 .marke { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .marke-bild { display: block; width: 55px; height: 40px; border-radius: 8px; }
+/* Logo-Umschaltung Hell / Dunkel */
+.marke-dunkel { display: none; }
+.marke-hell { display: block; }
+
+:root[data-theme='dark'] .marke-hell { display: none; }
+:root[data-theme='dark'] .marke-dunkel { display: block; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .marke-hell { display: none; }
+  :root:not([data-theme='light']) .marke-dunkel { display: block; }
+}
+
+/* Hero-Wasserzeichen im Hell-Modus auf das warme Logo umstellen */
+.hero::before {
+  background-image: url('../assets/logo-talmiro-hell.svg');
+}
+
+:root[data-theme='dark'] .hero::before {
+  background-image: url('../assets/logo-2_gross.webp');
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .hero::before {
+    background-image: url('../assets/logo-2_gross.webp');
+  }
+}
 .wortmarke { font-family: var(--font-h); font-weight: 800; font-size: 22px; letter-spacing: 2px; color: var(--titel); background: var(--grad-logo); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; font-size: 15px; }
 .nav a { color: var(--text); text-decoration: none; padding: 6px 0; }
@@ -259,11 +285,35 @@ html.js .nav .theme-knopf { display: inline-flex; }
 /* Hero */
 .hero { position: relative; overflow: hidden; background: var(--flaeche); }
 /* Wasserzeichen: dekoratives Logo links hinter dem Text; kein Inhalt, kein Einfluss auf Lesbarkeit */
+/* Basis-.hero::before */
 .hero::before {
-  content: ''; position: absolute; z-index: 0; pointer-events: none;
-  left: -6%; top: 50%; width: min(62vw, 760px); aspect-ratio: 800 / 584; transform: translateY(-50%);
-  background: url('../assets/logo-2_gross.webp') center / contain no-repeat;
+  content: '';
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  left: -6%;
+  top: 50%;
+  width: min(62vw, 760px);
+  aspect-ratio: 800 / 584;
+  transform: translateY(-50%);
+  background: var(--wz-bild, url('../assets/logo-talmiro-hell.svg')) center / contain no-repeat;
   opacity: var(--wz-deckkraft);
+}
+
+/* Hell (Standard): warmes SVG */
+:root {
+  --wz-bild: url('../assets/logo-talmiro-hell.svg');
+}
+
+/* Dunkel: blaues WebP */
+:root[data-theme='dark'] {
+  --wz-bild: url('../assets/logo-2_gross.webp');
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --wz-bild: url('../assets/logo-2_gross.webp');
+  }
 }
 .hero .wrap { position: relative; z-index: 1; }
 @media (max-width: 640px) { .hero::before { width: 90vw; left: -25%; top: 30%; } }
@@ -453,8 +503,8 @@ html:has(dialog[open]) { overflow: hidden; }
 }
 .js-reveal :is(.card, [data-reveal]) {
   transition:
-    opacity 1.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms),
-    transform 1.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms);
+          opacity 1.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms),
+          transform 1.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms);
 }
 @media (prefers-reduced-motion: reduce) {
   .js-reveal :is(.card, [data-reveal]):not(.is-visible) { opacity: 1; transform: none; }

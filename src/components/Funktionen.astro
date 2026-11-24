@@ -81,7 +81,7 @@ const gruppen = [
     punkte: [
       'Weboberfläche und Verwaltung mit Ihrem Logo, Ihren Farben und Schriften',
       'Hell und dunkel, jeweils in Ihren Farben',
-      'Stellenseiten im Design Ihrer Website, Deutsch und Englisch',
+      { text: 'Stellenseiten im Design Ihrer Website', href: '/jobs/', rest: ', Deutsch und Englisch' },
       'Anpassung ist Teil der Einrichtung',
     ],
   },
@@ -109,7 +109,11 @@ const gruppen = [
             <span class="funk-icon"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={g.icon}></svg></span>
             <h3>{g.titel}</h3>
           </div>
-          <ul>{g.punkte.map((p) => <li>{p}</li>)}</ul>
+          <ul>{g.punkte.map((p) => (
+              typeof p === 'string'
+                  ? <li>{p}</li>
+                  : <li><a href={p.href}>{p.text}</a>{p.rest}</li>
+          ))}</ul>
         </div>
       ))}
     </div>

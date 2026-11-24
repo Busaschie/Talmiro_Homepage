@@ -2,6 +2,49 @@
 
 > Sitzungsprotokoll des Planungs-Chats. Neue Einträge oben, alte nie überschreiben.
 
+## 2026-11-20 (Fr) – Sitzung 3
+
+### Erledigt
+- `1e0cf0c`: `kontakt.php` sucht die Konfiguration zuerst in `/var/www/<kunde>/priv/talmiro/` (febas), dann wie bisher. Formular live eingerichtet und getestet (PHP 8.4, `mail()` erlaubt, `log_errors` an, Config in `priv/talmiro`, Testskripte vom Server entfernt).
+- Upload mit neuer Struktur: Weiterleitung `/jobs/…` → `/stelle-vergeben/` bzw. `/en/position-filled/` live geprüft, alte `vergeben.html` auf dem Server gelöscht.
+- `7f556cc`: Funktionsgruppe „In Ihrem Design“ (Weboberfläche/Verwaltung mit Logo, Farben, Schriften; Stellenseiten im Design der Kunden-Website); Pilot „Einrichtung in Ihrem Design …“; FAQ: Claude-Tarife (Pro/Max, mit echten Daten Team mit Auftragsverarbeitung), neue Frage „Sieht Talmiro aus wie mein Unternehmen?“, „Wo liegen meine Daten?“ ausgeblendet; littlewebman.de in Impressum/Datenschutz verlinkt (neuer Tab). Gepusht.
+- febas hat Server-Logs 7 Tage bestätigt.
+
+### Entscheidungen
+- Konfiguration des Formulars liegt in `priv/talmiro` (nicht im gemeinsamen `htdocs`); `ratelimit_dir` leer (Temp-Ordner).
+- FAQ in Wir-Form; Rechtstexte in Ich-Form.
+
+### Offen
+- `7f556cc` bauen und hochladen (falls noch nicht geschehen), live ansehen.
+- FAQ „Wo liegen meine Daten?“ nach Klärung Hosting/AVV wieder einblenden.
+- Untertitel: wartet auf evtl. neues Video; SVG-Logo: wartet auf evtl. geändertes Logo.
+- CRM-Seite: Demo-Stelle auf talmiro.de (B-184); Logo „almiro“ im hellen Admin, „CRM“ → „Talmiro“, danach Screenshots/Video neu; `BLOCKED` mit `jobs/vergeben.html`.
+- Rechtliche Prüfung von Impressum/Datenschutz (empfohlen).
+
+## 2026-11-20 (Fr) – Sitzung 2
+
+### Erledigt
+- `6764b1f`: Einblicke mit neuen Screenshots, neue Gruppe „Verwaltung“ (Admin hell/dunkel); Preise in Pilot und FAQ (129 €/Monat, Einrichtung 390 €; Pilot: Einrichtung frei, 3 Monate kostenlos, danach 79 €/Monat für 12 Monate, monatlich kündbar; Hinweis § 19 UStG).
+- `9d0ad4f`: Impressum und Datenschutz in der verbindlichen Fassung (Ich-Form; Postfach bei febas, kein Drittland, localStorage-Hinweis, Ratenlimit korrekt beschrieben, Art. 22); Checkbox „zur Kenntnis genommen“; Kontakt-E-Mail auf der Fehlerseite.
+- Stellenbörse `/jobs/` als Demo (`ea426ad`, `3686f4d`, `057301e`, andere Sitzung).
+- `c08a2a4`: `npm run build` fasst `/jobs` nicht mehr an (Vorlagen nur mit `npm run vorlagen`); vergeben-Seiten nach `/stelle-vergeben/` und `/en/position-filled/`; Einblicke-Dialog mit unscharfem Vorschaubild und Vorladen; Preload für zwei Schriften. Alles gepusht.
+- Langsame Live-Seite untersucht: Code in Ordnung, Ursache war Nikos Leitung/WLAN (mobil schnell).
+- Formular-Voraussetzungen geklärt: PHP 8.4 passt (ab 8.1), `mail()` erlaubt, Konfiguration über dem Webroot.
+
+### Entscheidungen
+- Kleinunternehmer: keine USt.
+- Upload mit WebStorm „Sync with Deployed“; Remote-Ordner `/jobs` ausgeschlossen; „Delete target items…“ bleibt aus, „Confirm deleting“ an.
+- `/jobs/` gehört dem CRM; die Website liefert dort nichts mehr.
+
+### Offen
+- Nach dem Upload: `/jobs/gibt-es-nicht.html` und `/jobs/en/gibt-es-nicht.html` prüfen (Apache-`<If>`), danach alte `/jobs/vergeben.html` und `/jobs/en/vergeben.html` auf dem Server löschen.
+- `kontakt.config.example.php` aus `public/` in den Projektstamm verschieben (Auftrag geschrieben, noch nicht umgesetzt); WebStorm: `dist` nicht mehr ausgeschlossen, Mapping auf `dist`.
+- Kundenseiten und Stellenseiten im Design des Kunden: auf der Seite aufnehmen – Niko klärt, welche Seiten und was angepasst wird.
+- Formular live: `kontakt.config.php` anlegen, SPF/DKIM prüfen, Testversand.
+- Server-Logs 7 Tage bei febas bestätigen; Impressum/Datenschutz rechtlich prüfen lassen (empfohlen).
+- CRM: Logo im hellen Admin („almiro“), Oberfläche „CRM“ → „Talmiro“, danach Screenshots/Video neu (Demo-Benutzer statt „Niko“); Sperrliste `BLOCKED` enthält noch `jobs/vergeben.html`.
+- Weiterhin: Untertitel `demo-video.de.vtt`, SVG-Logo, CRM-Import (B-171).
+
 ## 2026-11-20 (Fr)
 
 ### Erledigt

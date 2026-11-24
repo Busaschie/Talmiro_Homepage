@@ -1,5 +1,7 @@
 ---
-import logo from '../assets/logo-mark.webp';
+//import logo from '../assets/logo-mark.webp';
+import logoHell from '../assets/logo-talmiro-hell.svg';
+import logoDunkel from '../assets/logo-mark.webp';
 import { STELLEN_IN_NAVIGATION } from '../config';
 
 // lang: Sprache der Kopfzeile (Stellenseiten gibt es auch auf Englisch). stellen: Menüpunkt "Stellen" erzwingen (Stellenseiten).
@@ -16,8 +18,26 @@ const stellenUrl = lang === 'en' ? '/jobs/en/' : '/jobs/';
 ---
 <header class="kopf" data-dunkel={T.dunkel} data-hell={T.hell} data-menue-auf={T.menueAuf} data-menue-zu={T.menueZu}>
   <div class="kopf-innen">
-    <a href="/" class="marke" aria-label={T.start}>
+    <!--a href="/" class="marke" aria-label={T.start}>
       <img src={logo.src} alt="" width="55" height="40" class="marke-bild" />
+      <span class="wortmarke">TALMIRO</span>
+    </a-->
+
+    <a href="/" class="marke" aria-label={T.start}>
+      <img
+          src={logoHell.src}
+          alt=""
+          width="55"
+          height="40"
+          class="marke-bild marke-hell"
+      />
+      <img
+          src={logoDunkel.src}
+          alt=""
+          width="55"
+          height="40"
+          class="marke-bild marke-dunkel"
+      />
       <span class="wortmarke">TALMIRO</span>
     </a>
     <!-- Mobil (bis 1000 px): Design-Umschalter und Menü-Button. Beide nur mit JavaScript sichtbar, sonst bleibt die Navigation offen. -->
