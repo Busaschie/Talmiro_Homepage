@@ -3,11 +3,9 @@
 Produktseite von Talmiro. Astro, rein statisch (`output: static`), eigenes CSS, Schriften lokal (kein Google-Fonts-CDN),
 kein Tracking, keine Cookies. Das Kontaktformular läuft über `public/kontakt.php` (PHP `mail()`).
 
-| Talmiro Web interface (light) | Talmiro Web interface (dark) |
+| Talmiro Web interface (hell) | Talmiro Web interface (dunkel) |
 |---|---|
-| ![Web interface, light](docs/screenshots/web-light.webp) | ![Web interface, dark](docs/screenshots/web-dark.webp) |
-
-<img src="docs/screenshots/phone-light.webp" alt="Phone, light" width="210"> <img src="docs/screenshots/phone-dark.webp" alt="Phone, dark" width="210">
+| ![Web interface, light](public/media/web-hell.webp) | ![Web interface, dark](public/media/web-dunkel.webp) |
 
 ## Befehle
 
